@@ -6,7 +6,7 @@ const Login = () => {
     return (
         <>
             <Head>
-                <title>登入 | UR's Blog</title>
+                <title>登入 &#124; UR&#39;s Blog</title>
                 <meta name="description" content="UR的施鹽小天地" />
             </Head>
 

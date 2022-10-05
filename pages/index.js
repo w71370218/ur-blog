@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>首頁 | UR's Blog</title>
+        <title>首頁 &#124; UR&#39;s Blog</title>
         <meta name="description" content="UR的施鹽小天地" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
