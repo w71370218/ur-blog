@@ -1,0 +1,33 @@
+.loginPage {
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.formSignin {
+    max-width: 330px;
+    padding: 15px;
+}
+
+.mAuto {
+    margin: auto !important;
+}
+
+.formFloating {
+    display: flex;
+    justify-content: space-between
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+}
+
+.label {
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0;
+}
