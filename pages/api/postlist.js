@@ -7,7 +7,7 @@ connect();
 
 export default async function handler(req, res) {
     try {
-        const posts = await Posts.find({}).lean();
+        const posts = await Posts.find({}).sort({ 'publishedTime': -1 }).lean();
         for (let i = 0; i < posts.length; i++) {
             posts[i]._id = posts[i]._id.toString();
             const author = await Users.findOne({ _id: posts[i].author }).select('id username').lean();
@@ -20,6 +20,7 @@ export default async function handler(req, res) {
             }
 
         }
+
         res.status(200).json(posts)
     } catch (e) {
         console.error(e)

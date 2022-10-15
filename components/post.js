@@ -1,20 +1,30 @@
-
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from "rehype-raw";
+import Link from 'next/link'
+import styles from '../styles/PostList.module.css'
+import TagGroup from './TagGroup';
 
 const Post = ({ post }) => {
     return (
-        <>
-            <h1>{post.title}</h1>
-            <div>{post.author.username}</div>
-            <div>{post.updatedTime}</div>
-            <div>{post.content}</div>
-            <div>
-                {post.tags.map(tag => (
-                    <div key={tag._id}>
-                        <div>{tag.name}</div>
-                    </div>
-                ))}
+        <div className={styles['blog-post']}>
+            <div className={styles['shadow']}></div>
+            <div className="copy">
+                <Link href={`post/${post.id}`} >
+                    <a>
+                        <h1>{post.title}</h1>
+                    </a>
+                </Link>
+                <TagGroup tags={post.tags} />
+                <p>
+
+                    <span>發表於 {new Date(post.publishedTime).toLocaleString()}</span>
+                    <span className="blog-post-meta"> by {post.author.username}</span>
+                </p>
+                <hr />
+                <div className={styles['blog-post-content']}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{post.content}</ReactMarkdown></div>
+
             </div>
-        </>
+        </div >
     );
 }
 

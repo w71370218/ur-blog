@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import Welcome from '../components/Welcome';
 import PostList from '../components/PostList';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
   return (
@@ -18,7 +19,11 @@ export default function Home() {
           <h1 className={styles.title}>
             <Welcome />
           </h1>
-          <PostList />
+          <div className='container d-md-flex align-items-stretch'>
+            <PostList />
+            <Sidebar />
+          </div>
+
         </div>
       </main>
 

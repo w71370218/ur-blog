@@ -1,0 +1,6 @@
+.tag-group {
+    min-height: 1.5em;
+    max-height: 1.5em;
+    align-items: center;
+    overflow: hidden;
+}

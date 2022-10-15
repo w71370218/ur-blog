@@ -9,7 +9,7 @@ connect();
 
 export default async function handler(req, res) {
     try {
-        const { title, content, tags, author } = req.body;
+        const { id, title, content, tags, user } = req.body;
         var now_time = new Date().toString();
 
         let tagRecord = await findRecord("tags")
@@ -35,28 +35,21 @@ export default async function handler(req, res) {
         };
         updateRecord(tagRecord);
 
-        const user = await Users.findOne({ id: author });
-        console.log(user)
-        let postRecord = await findRecord("posts")
-        const post_q = {
-            _id: new mongoose.Types.ObjectId(),
-            id: ++postRecord.count,
+        const filter = { id: id };
+        let post = await Posts.findOne(filter)
+        const author = await Users.findOne({ _id: post.author }).select("id").lean();
+        if (author.id != user) {
+            res.status(500).json({ message: "沒有權限可以更改" });
+        }
+
+        await Posts.updateOne(filter, {
             title: title,
             content: content,
-            author: mongoose.Types.ObjectId(user._id),
-            publishedTime: now_time,
             updatedTime: now_time,
             tags: post_tags
+        });
 
-        }
-        console.log(post_q)
-        const post = new Posts(
-            post_q,
-            { runValidators: true }
-        )
         await post.save();
-        console.log(post)
-        updateRecord(postRecord)
 
         res.status(200).json({ message: "succeed", id: post.id })
     }

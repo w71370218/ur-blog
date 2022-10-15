@@ -1,20 +1,23 @@
-import Head from 'next/head'
 import { getSession, getCsrfToken } from "next-auth/react";
-import Image from 'next/image'
 import { useState } from "react";
 import { useSession } from "next-auth/react"
-import style from '../../styles/TagInput.module.css'
-import postStyle from '../../styles/NewPost.module.css'
 import Router from 'next/router';
+import Head from 'next/head'
+import style from '../../../styles/TagInput.module.css'
+import postStyle from '../../../styles/NewPost.module.css'
+import Posts from '../../../models/posts'
+import Users from '../../../models/users'
+import Tags from '../../../models/tags'
 
 let selectedTags = []
 
-export default function NewPost({ csrfToken }) {
+export default function EditPost({ csrfToken, post }) {
     const { data: session } = useSession();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [title, setTitle] = useState(post.title);
+    const [content, setContent] = useState(post.content);
     const [message, setMessage] = useState(null);
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState(post.tags);
+
     const removeTags = indexToRemove => {
         setTags([...tags.filter((_, index) => index !== indexToRemove)]);
     };
@@ -33,16 +36,17 @@ export default function NewPost({ csrfToken }) {
 
     }
 
-    const publishPost = async (e) => {
+    const updatePost = async (e) => {
         e.preventDefault();
-        const author = session.user.id
+        const user = session.user.id
+        const id = post.id
         setMessage(null)
-        const res = await fetch('/api/post/new', {
+        const res = await fetch('/api/post/update', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ title, content, tags, author }),
+            body: JSON.stringify({ id, title, content, tags, user }),
         })
         let data = await res.json()
         if (data.message) {
@@ -101,7 +105,7 @@ export default function NewPost({ csrfToken }) {
                                 </div>
                             </div>
                             <p style={{ color: 'red' }}>{message}</p>
-                            <button type="submit" className="save btn btn-dark" onClick={(e) => publishPost(e)}>新增</button>
+                            <button type="submit" className="save btn btn-dark" onClick={(e) => updatePost(e)}>送出</button>
                         </form>
                     </div>
                 </main>
@@ -123,10 +127,29 @@ export async function getServerSideProps(context) {
             redirect: { destination: "/" }
         }
     }
+
+
+    const post = await Posts.findOne({ id: context.query.id }).lean();
+    if (post) {
+        post._id = post._id.toString();
+    }
+    const author = await Users.findOne({ _id: post.author }).select("id").lean();
+
+    if (session.user.id != author.id) {
+        return {
+            redirect: { destination: "/" }
+        }
+    }
+    post.author = post.author.toString()
+    for (let i = 0; i < post.tags.length; i++) {
+        const tag = await Tags.findOne({ _id: post.tags[i] }).select("name").lean();
+        post.tags[i] = tag.name;
+    }
+
     const csrfToken = await getCsrfToken(context);
 
     return {
-        props: { csrfToken: csrfToken },
+        props: { csrfToken: csrfToken, post: post },
 
     }
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import Link from 'next/link'
+import styles from '../styles/PostList.module.css'
+
 import Post from "./post"
 
 const PostList = () => {
@@ -19,13 +20,11 @@ const PostList = () => {
     }, []);
     if (!isLoading && data) {
         return (
-            <div>
+            <div className={`${styles['post-list']} p-1 p-md-5 pt-5`} >
                 {data.map(post => (
-                    <Link key={post.id} href={`post/${post.id}`} >
-                        <a>
-                            <Post post={post} />
-                        </a>
-                    </Link>
+                    <div key={post.id} >
+                        <Post post={post} />
+                    </div>
                 ))
                 }
             </div >
@@ -33,14 +32,5 @@ const PostList = () => {
     }
 
 }
-/*
-export async function getStaticProps() {
-    console.log(123)
-    const res = await fetch('/api/post/postlist')
-    const posts = await res.json();
-    console.log(posts)
-    return { props: { posts: posts } }
-}
-*/
 
 export default PostList;
