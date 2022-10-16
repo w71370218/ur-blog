@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
+import gfm from 'remark-gfm';
 import connect from "../../lib/connect"
 import Posts from "../../models/posts"
 import Tags from "../../models/tags";
@@ -10,9 +11,36 @@ import TagGroup from '../../components/TagGroup';
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
+import Router from 'next/router';
 
 const PostDetails = (props) => {
     const { data: session } = useSession();
+    const deletePost = async (e) => {
+        if (confirm("是否要刪除這篇文章?")) {
+            e.preventDefault();
+            const user = session.user.id
+            const id = props.post.id
+            const res = await fetch('/api/post/delete', {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({ id, user }),
+            })
+            let data = await res.json()
+            if (data.message == "succeed") {
+                alert("刪除成功!")
+                return Router.push("/")
+            }
+            else {
+                if (data.message) {
+                    alert(data.message)
+
+                }
+            }
+        }
+    }
+
     if (props.message) {
         return (
             <main>
@@ -24,7 +52,12 @@ const PostDetails = (props) => {
         <>
             <Head>
                 <title> {props.post.title} &#124; UR&#39;s Blog</title>
-                <meta name="description" content="UR的施鹽小天地" />
+                <meta name="description" content={`${props.post.content.substring(0, 30)}...`} />
+                <meta name="Author" content={`${props.post.author.username}`} />
+                <meta name="keyword" content={props.post.tags.map(tag => (`${tag.name} `))} />
+                <meta property="og:title" content={`${props.post.title} ${'&#124;'} UR${'&#39;'}s Blog`} />
+                <meta property="og:description" content={`${props.post.content.substring(0, 30)}...`} />
+                <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
                 <div className='container  d-md-flex align-items-stretch'>
@@ -60,10 +93,15 @@ const PostDetails = (props) => {
                                     </div>
                                 </div>
                                 {session ?
-                                    ((session.user.id === props.post.author.id) ? (<Link href={`/post/edit/${props.post.id}`}><a>編輯</a></Link>) : (<></>)) : (<></>)
+                                    ((session.user.id === props.post.author.id) ?
+                                        (<div>
+                                            <Link href={`/post/edit/${props.post.id}`}><a>編輯</a></Link>
+                                            <a href="" onClick={e => { deletePost(e) }}>刪除</a>
+                                        </div>)
+                                        : (<></>)) : (<></>)
                                 }
                                 <hr />
-                                <div className={styles['content']}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{props.post.content}</ReactMarkdown></div>
+                                <div className={styles['content']}><ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}>{props.post.content}</ReactMarkdown></div>
                             </div>
                         </div>
                     </div>

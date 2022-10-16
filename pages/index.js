@@ -11,6 +11,10 @@ export default function Home() {
       <Head>
         <title>首頁 &#124; UR&#39;s Blog</title>
         <meta name="description" content="UR的施鹽小天地" />
+        <meta name="Author" content="UR" />
+        <meta property="og:title" content={`首頁 ${'&#124;'} UR${'&#39;'}s Blog`} />
+        <meta property="og:description" content="UR的施鹽小天地" />
+        <meta name="referrer" content="no-referrer" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

@@ -69,7 +69,7 @@ export default function EditPost({ csrfToken, post }) {
                 </Head>
                 <main>
                     <div className='container '>
-                        <h1>新增貼文</h1>
+                        <h1>編輯貼文</h1>
                         <p style={{ color: 'red' }}>{message}</p>
                         <form method="POST" className="post-form" encType="multipart/form-data" onKeyDown={e => { dontSubmit(e) }}>
                             <input name="csrfToken" type="hidden" defaultValue={csrfToken} />

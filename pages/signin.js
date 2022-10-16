@@ -23,7 +23,6 @@ export default function SignIn({ csrfToken, providers }) {
         }
 
     }
-    /* 目前不開放註冊
     const signupUser = async (e) => {
         e.preventDefault();
         setMessage(null)
@@ -44,7 +43,6 @@ export default function SignIn({ csrfToken, providers }) {
             return Router.push("/")
         }
     }
-    */
     return (
         <>
             <Head>
@@ -81,8 +79,8 @@ export default function SignIn({ csrfToken, providers }) {
                                 <>
                                     <input type="submit" className="w-100 btn btn-lg btn-primary" value="登入"
                                         onClick={(e) => signinUser(e)} />
-                                    <a className="dropdown-item">註冊</a>
-                                </>
+                                    <a className="dropdown-item" /*onClick={e => setAuthmode(0)}*/>註冊</a>
+                                </>//目前不開放註冊
                             ) : (
                                 <>
                                     <input type="submit" className="w-100 btn btn-lg btn-primary" value="註冊"
