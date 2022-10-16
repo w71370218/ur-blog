@@ -7,20 +7,26 @@ connect();
 
 export default async function handler(req, res) {
     try {
-        const posts = await Posts.find({}).sort({ 'publishedTime': -1 }).lean();
-        for (let i = 0; i < posts.length; i++) {
-            posts[i]._id = posts[i]._id.toString();
-            const author = await Users.findOne({ _id: posts[i].author }).select('id username').lean();
+        //const user = req.body.user;
+        const postsQ = await Posts.find({}).sort({ 'id': -1 }).lean();
+        const posts = [];
+        for (let i = 0; i < postsQ.length; i++) {
+            postsQ[i]._id = postsQ[i]._id.toString();
+            const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
             author._id = author._id.toString();
-            posts[i].author = author;
-            for (let j = 0; j < posts[i].tags.length; j++) {
-                const tag = await Tags.findOne({ _id: posts[i].tags[j] }).select('id name').lean();
+            postsQ[i].author = author;
+            //if (user) {
+            //if (postsQ[i].access != "self") {
+            //if (user.id === author.id || postsQ[i].access != "self") {
+            for (let j = 0; j < postsQ[i].tags.length; j++) {
+                const tag = await Tags.findOne({ _id: postsQ[i].tags[j] }).select('id name').lean();
                 tag._id = tag._id.toString()
-                posts[i].tags[j] = tag;
+                postsQ[i].tags[j] = tag;
             }
-
+            posts.push(postsQ[i])
+            //}
+            //}
         }
-
         res.status(200).json(posts)
     } catch (e) {
         console.error(e)

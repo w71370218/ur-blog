@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from "rehype-raw";
+import gfm from 'remark-gfm';
 import Link from 'next/link'
 import styles from '../styles/PostList.module.css'
 import TagGroup from './TagGroup';
@@ -21,7 +22,7 @@ const Post = ({ post }) => {
                     <span className="blog-post-meta"> by {post.author.username}</span>
                 </p>
                 <hr />
-                <div className={styles['blog-post-content']}><ReactMarkdown rehypePlugins={[rehypeRaw]}>{post.content}</ReactMarkdown></div>
+                <div className={styles['blog-post-content']}><ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}>{post.content}</ReactMarkdown></div>
 
             </div>
         </div >

@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
+import styles from '../styles/Navbar.module.css'
 
 const Navbar = () => {
     const { data: session } = useSession();
     return (
-        <nav className="">
+        <nav className={styles.nav}>
             <div className="p-3 mb-3 border-bottom bg-dark">
                 <div className="container">
                     <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -13,7 +14,9 @@ const Navbar = () => {
                         </a></Link>
 
                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                            <li><a href="#" className="nav-link px-2 link-dark text-light">敬請期待</a></li>
+                            <li><a href="#" className="nav-link px-2 link-dark text-light">文章</a></li>
+                            <li><a href="#" className="nav-link px-2 link-dark text-light">圖文</a></li>
+                            <li><a href="http://ur-want-to-go.herokuapp.com/" className="nav-link px-2 link-dark text-light">想要去玩的地點</a></li>
                             <li><a href="#" className="nav-link px-2 link-secondary">
                                 敬請期待</a></li>
                         </ul>

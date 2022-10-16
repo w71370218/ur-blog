@@ -29,7 +29,11 @@ const postSchema = new mongoose.Schema({
         type: String,
         default: new Date().toString()
     },
-    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tags' }]
+    tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'tags' }],
+    access: {
+        type: String,
+        default: "any"
+    }
 })
 
 export default mongoose.models['posts'] || mongoose.model('posts', postSchema);
