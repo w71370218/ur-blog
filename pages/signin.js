@@ -3,6 +3,7 @@ import styles from '../styles/Login.module.css'
 import { getCsrfToken, signIn, getSession, getProviders } from "next-auth/react";
 import { useState } from "react";
 import Router from 'next/router';
+import Title from '../components/Title';
 
 export default function SignIn({ csrfToken, providers }) {
     const [authmode, setAuthmode] = useState(1);
@@ -45,8 +46,8 @@ export default function SignIn({ csrfToken, providers }) {
     }
     return (
         <>
+            <Title title={authmode ? ("登入") : ("註冊")} />
             <Head>
-                <title> 登入 &#124; UR&#39;s Blog</title>
                 <meta name="description" content="UR的施鹽小天地" />
             </Head>
 

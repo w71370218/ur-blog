@@ -1,11 +1,13 @@
 import Head from 'next/head'
 import { getSession, getCsrfToken } from "next-auth/react";
 import Image from 'next/image'
+import Router from 'next/router';
 import { useState } from "react";
 import { useSession } from "next-auth/react"
+import Title from '../../components/Title';
 import style from '../../styles/TagInput.module.css'
 import postStyle from '../../styles/NewPost.module.css'
-import Router from 'next/router';
+
 
 let selectedTags = []
 
@@ -59,8 +61,8 @@ export default function NewPost({ csrfToken }) {
     if (session) {
         return (
             <>
+                <Title title={"新增貼文"} />
                 <Head>
-                    <title> 新增貼文 &#124; UR&#39;s Blog</title>
                     <meta name="description" content="UR的施鹽小天地" />
                 </Head>
                 <main>

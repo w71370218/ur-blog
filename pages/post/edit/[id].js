@@ -8,6 +8,7 @@ import postStyle from '../../../styles/NewPost.module.css'
 import Posts from '../../../models/posts'
 import Users from '../../../models/users'
 import Tags from '../../../models/tags'
+import Title from '../../../components/Title'
 
 let selectedTags = []
 
@@ -63,8 +64,8 @@ export default function EditPost({ csrfToken, post }) {
     if (session) {
         return (
             <>
+                <Title title={"編輯貼文"} />
                 <Head>
-                    <title> 新增貼文 &#124; UR&#39;s Blog</title>
                     <meta name="description" content="UR的施鹽小天地" />
                 </Head>
                 <main>

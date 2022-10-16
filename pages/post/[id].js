@@ -8,6 +8,7 @@ import Tags from "../../models/tags";
 import Users from "../../models/users";
 import Sidebar from '../../components/Sidebar';
 import TagGroup from '../../components/TagGroup';
+import Title from '../../components/Title'
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
 import Link from 'next/link'
@@ -50,12 +51,11 @@ const PostDetails = (props) => {
     }
     return (
         <>
+            <Title title={props.post.title} />
             <Head>
-                <title> {props.post.title} &#124; UR&#39;s Blog</title>
                 <meta name="description" content={`${props.post.content.substring(0, 30)}...`} />
                 <meta name="Author" content={`${props.post.author.username}`} />
                 <meta name="keyword" content={props.post.tags.map(tag => (`${tag.name} `))} />
-                <meta property="og:title" content={`${props.post.title} ${'&#124;'} UR${'&#39;'}s Blog`} />
                 <meta property="og:description" content={`${props.post.content.substring(0, 30)}...`} />
                 <meta name="referrer" content="no-referrer" />
             </Head>
