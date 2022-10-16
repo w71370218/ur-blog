@@ -22,7 +22,7 @@ export default function Home() {
           <h1 className={styles.title}>
             <Welcome />
           </h1>
-          <div className='container d-md-flex align-items-stretch'>
+          <div className='container d-md-flex align-items-stretch h-100'>
             <PostList />
             <Sidebar />
           </div>

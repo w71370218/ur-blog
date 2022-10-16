@@ -52,7 +52,7 @@ export default function SignIn({ csrfToken, providers }) {
             </Head>
 
             <div className={`text-center ${styles.loginPage}`}>
-                <main className={`${styles.formSignin} w-100 ${styles.mAuto}`}>
+                <main className={`${styles.formSignin} w-100 h-100 ${styles.mAuto}`}>
                     <h1>{authmode ? (`Login`) : (`Sign Up`)}</h1>
                     <br /><br />
                     <p style={{ color: 'red' }}>{message}</p>
