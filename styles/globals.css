@@ -35,6 +35,15 @@ td {
   padding: 0.5rem;
 }
 
-iframe {
+iframe,
+pre,
+code {
   max-width: 100%;
+}
+
+pre,
+code {
+  overflow: auto;
+  word-break: break-all;
+  white-space: pre-wrap;
 }
