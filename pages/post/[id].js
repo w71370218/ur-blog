@@ -60,8 +60,8 @@ const PostDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <div className='container  d-md-flex align-items-stretch'>
-                    <div className='row w-100'>
+                <div className='container d-md-flex align-items-stretch'>
+                    <div className='w-100'>
                         <div className='col-md-12'>
                             <div className={`${styles['post-list']} p-1 p-md-5 pt-5 w-100`}>
                                 <h1>{props.post.title}</h1>

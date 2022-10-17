@@ -34,3 +34,7 @@ td {
   border-collapse: collapse;
   padding: 0.5rem;
 }
+
+iframe {
+  max-width: 100%;
+}
