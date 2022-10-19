@@ -6,7 +6,7 @@ const seriesSchema = new mongoose.Schema({
         require: true,
         uniquired: true
     },
-    title: {
+    name: {
         type: String,
         required: true,
     },

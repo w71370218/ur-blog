@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react"
 import PostEdit from "../../components/PostEdit"
 
-let selectedTags = []
+
 
 export default function NewPost({ csrfToken }) {
     const { data: session } = useSession({ required: true });
@@ -13,22 +13,11 @@ export default function NewPost({ csrfToken }) {
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState([]);
     const [series, setSeries] = useState('');
-    const removeTags = indexToRemove => {
-        setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-    };
-    const addTags = event => {
-        if (event.target.value !== "") {
-            setTags([...tags, event.target.value]);
-            selectedTags = [...tags, event.target.value];
-            event.target.value = "";
-        }
-    };
 
     const dontSubmit = (event) => {
         if (event.key === "Enter" && event.target.id !== "content") {
             event.preventDefault();
         }
-
     }
 
     const publishPost = async (e) => {
@@ -54,8 +43,6 @@ export default function NewPost({ csrfToken }) {
         }
     }
     const functions = {
-        removeTags: removeTags,
-        addTags: addTags,
         dontSubmit: dontSubmit,
         publishPost: publishPost
     }
@@ -65,7 +52,7 @@ export default function NewPost({ csrfToken }) {
             <>
                 <PostEdit titlename="新增" title={title} content={content} message={message} csrfToken={csrfToken}
                     series={series} tags={tags}
-                    set={{ setTitle: setTitle, setContent: setContent, setSeries: setSeries }}
+                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries }}
                     functions={functions} />
             </>
         )
