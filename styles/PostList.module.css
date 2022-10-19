@@ -24,3 +24,8 @@
 .content {
     margin-top: 1.5rem;
 }
+
+.container {
+    display: flex;
+    flex: 1 0 auto;
+}

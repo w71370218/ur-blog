@@ -1,0 +1,35 @@
+.reactMarkDown {
+    box-sizing: border-box;
+    outline: none;
+}
+
+.reactMarkDown img {
+    max-width: 100%;
+    max-height: 50vh;
+    margin: 0.1em;
+}
+
+.reactMarkDown table,
+.reactMarkDown th,
+.reactMarkDown td {
+    border: 1px solid var(--bs-dark);
+    border-collapse: collapse;
+    padding: 0.5rem;
+}
+
+.reactMarkDown iframe,
+.reactMarkDown pre,
+.reactMarkDown code {
+    max-width: 100%;
+    box-shadow: 0 5px 50px rgba(30, 20, 10, 0.1);
+    margin: 0 !important;
+}
+
+.reactMarkDown a {
+    color: var(--bs-info);
+}
+
+.reactMarkDown a:hover {
+    color: var(--bs-blue);
+    text-decoration: none;
+}

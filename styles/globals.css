@@ -20,30 +20,3 @@ a:hover {
 * {
   box-sizing: border-box;
 }
-
-img {
-  max-width: 100%;
-  max-height: 50vh;
-  margin: 0.1em;
-}
-
-table,
-th,
-td {
-  border: 1px solid var(--bs-dark);
-  border-collapse: collapse;
-  padding: 0.5rem;
-}
-
-iframe,
-pre,
-code {
-  max-width: 100%;
-}
-
-pre,
-code {
-  overflow: auto;
-  word-break: break-all;
-  white-space: pre-wrap;
-}

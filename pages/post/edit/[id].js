@@ -2,17 +2,11 @@ import { getSession, getCsrfToken } from "next-auth/react";
 import { useState } from "react";
 import { useSession } from "next-auth/react"
 import Router from 'next/router';
-import Head from 'next/head'
-import ReactMarkdown from 'react-markdown'
-import rehypeRaw from "rehype-raw";
-import gfm from 'remark-gfm';
-import tagStyle from '../../../styles/TagInput.module.css'
-import postStyle from '../../../styles/NewPost.module.css'
-import styles from '../../../styles/Post_edit.module.css'
 import Posts from '../../../models/posts'
 import Users from '../../../models/users'
 import Tags from '../../../models/tags'
-import Title from '../../../components/Title'
+import PostEdit from "../../../components/PostEdit"
+
 
 let selectedTags = []
 
@@ -64,64 +58,19 @@ export default function EditPost({ csrfToken, post }) {
             })
         }
     }
+    const functions = {
+        removeTags: removeTags,
+        addTags: addTags,
+        dontSubmit: dontSubmit,
+        updatePost: updatePost
+    }
 
     if (session) {
         return (
             <>
-                <Title title={"編輯貼文"} />
-                <Head>
-                    <meta name="description" content="UR的施鹽小天地" />
-                </Head>
-                <main>
-                    <div className='container '>
-                        <h1>編輯貼文</h1>
-                        <p style={{ color: 'red' }}>{message}</p>
-                        <div className='container d-md-flex align-items-stretch h-100'>
-                            <form method="POST" className="post-form me-3" encType="multipart/form-data" onKeyDown={e => { dontSubmit(e) }}>
-                                <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-                                <div className="">
-                                    <label className="form-label">標題</label>
-                                    <input className={[postStyle['text-input'], postStyle['sm-input']].join(" ")} name="title" type="text" value={title} onChange={e => setTitle(e.target.value)} />
-                                </div>
-                                <div className="">
-                                    <label className="form-label">內文</label>
-                                    <textarea id="content" className={[postStyle['text-input'], postStyle['lg-input']].join(" ")} name="content" type="text" value={content} onChange={e => setContent(e.target.value)}></textarea>
-                                </div>
-
-                                <div className="">
-                                    <label className="form-label">標籤</label>
-                                    <div className={tagStyle["tags-input"]}>
-                                        <ul id={tagStyle["tags"]}>
-                                            {tags.map((tag, index) => (
-                                                <li key={index} className={tagStyle["tag"]}>
-                                                    <span className={tagStyle['tag-title']}>{tag}</span>
-                                                    <span className={tagStyle['tag-close-icon']}
-                                                        onClick={() => removeTags(index)}
-                                                    >
-                                                        x
-                                                    </span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <input
-                                            type="text"
-                                            onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
-                                            placeholder="以 Enter 新增標籤"
-                                        />
-                                    </div>
-                                </div>
-                                <p style={{ color: 'red' }}>{message}</p>
-                                <button type="submit" className="save btn btn-dark" onClick={(e) => updatePost(e)}>送出</button>
-                            </form>
-                            <div className="me-md-3">
-                                <h3>預覽</h3>
-                                <div className={`${styles.preview}`}>
-                                    <ReactMarkdown rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}>{content}</ReactMarkdown>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+                <PostEdit titlename="編輯" title={title} content={content} message={message} tags={tags} csrfToken={csrfToken}
+                    set={{ setTitle: setTitle, setContent: setContent }}
+                    functions={functions} />
             </>
         )
     }

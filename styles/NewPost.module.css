@@ -33,3 +33,8 @@
 .text-input input:focus {
     outline: transparent;
 }
+
+.preview {
+    max-height: 80vh;
+    overflow: auto;
+}
