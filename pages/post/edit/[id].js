@@ -11,7 +11,7 @@ import PostEdit from "../../../components/PostEdit"
 let selectedTags = []
 
 export default function EditPost({ csrfToken, post }) {
-    const { data: session } = useSession();
+    const { data: session } = useSession({ required: true });
     const [title, setTitle] = useState(post.title);
     const [content, setContent] = useState(post.content);
     const [message, setMessage] = useState(null);

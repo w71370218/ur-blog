@@ -7,7 +7,7 @@ import PostEdit from "../../components/PostEdit"
 let selectedTags = []
 
 export default function NewPost({ csrfToken }) {
-    const { data: session } = useSession();
+    const { data: session } = useSession({ required: true });
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [message, setMessage] = useState(null);
