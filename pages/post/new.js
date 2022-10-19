@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useSession } from "next-auth/react"
 import PostEdit from "../../components/PostEdit"
 
-
-
 export default function NewPost({ csrfToken }) {
     const { data: session } = useSession({ required: true });
     const [title, setTitle] = useState('');

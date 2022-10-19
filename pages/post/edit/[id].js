@@ -7,9 +7,6 @@ import Users from '../../../models/users'
 import Tags from '../../../models/tags'
 import PostEdit from "../../../components/PostEdit"
 
-
-let selectedTags = []
-
 export default function EditPost({ csrfToken, post }) {
     const { data: session } = useSession({ required: true });
     const [title, setTitle] = useState(post.title);
@@ -17,17 +14,6 @@ export default function EditPost({ csrfToken, post }) {
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState(post.tags);
     const [series, setSeries] = useState('');
-
-    const removeTags = indexToRemove => {
-        setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-    };
-    const addTags = event => {
-        if (event.target.value !== "") {
-            setTags([...tags, event.target.value]);
-            selectedTags = [...tags, event.target.value];
-            event.target.value = "";
-        }
-    };
 
     const dontSubmit = (event) => {
         if (event.key === "Enter" && event.target.id !== "content") {
@@ -60,8 +46,6 @@ export default function EditPost({ csrfToken, post }) {
         }
     }
     const functions = {
-        removeTags: removeTags,
-        addTags: addTags,
         dontSubmit: dontSubmit,
         updatePost: updatePost
     }
@@ -70,7 +54,7 @@ export default function EditPost({ csrfToken, post }) {
         return (
             <>
                 <PostEdit titlename="編輯" title={title} content={content} message={message} series={series} tags={tags} csrfToken={csrfToken}
-                    set={{ setTitle: setTitle, setContent: setContent, setSeries: setSeries }}
+                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries }}
                     functions={functions} />
             </>
         )
