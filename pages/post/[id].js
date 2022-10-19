@@ -47,6 +47,24 @@ const PostDetails = (props) => {
             </main>
         )
     }
+    if (session) {
+        if (props.post.author.id != session.user.id && props.post.access === "self") {
+            return (<>
+                <main>
+                    <h1>此篇文章不存在或已經刪除了</h1>
+                </main>
+            </>)
+        }
+    }
+    else {
+        if (props.post.access === "self") {
+            return (<>
+                <main>
+                    <h1>此篇文章不存在或已經刪除了</h1>
+                </main>
+            </>)
+        }
+    }
     return (
         <>
             <Title title={props.post.title} />

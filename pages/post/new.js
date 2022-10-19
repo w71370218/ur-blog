@@ -12,6 +12,7 @@ export default function NewPost({ csrfToken }) {
     const [content, setContent] = useState('');
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState([]);
+    const [series, setSeries] = useState('');
     const removeTags = indexToRemove => {
         setTags([...tags.filter((_, index) => index !== indexToRemove)]);
     };
@@ -62,8 +63,9 @@ export default function NewPost({ csrfToken }) {
     if (session) {
         return (
             <>
-                <PostEdit titlename="新增" title={title} content={content} message={message} tags={tags} csrfToken={csrfToken}
-                    set={{ setTitle: setTitle, setContent: setContent }}
+                <PostEdit titlename="新增" title={title} content={content} message={message} csrfToken={csrfToken}
+                    series={series} tags={tags}
+                    set={{ setTitle: setTitle, setContent: setContent, setSeries: setSeries }}
                     functions={functions} />
             </>
         )

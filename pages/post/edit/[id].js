@@ -16,6 +16,7 @@ export default function EditPost({ csrfToken, post }) {
     const [content, setContent] = useState(post.content);
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState(post.tags);
+    const [series, setSeries] = useState('');
 
     const removeTags = indexToRemove => {
         setTags([...tags.filter((_, index) => index !== indexToRemove)]);
@@ -68,8 +69,8 @@ export default function EditPost({ csrfToken, post }) {
     if (session) {
         return (
             <>
-                <PostEdit titlename="編輯" title={title} content={content} message={message} tags={tags} csrfToken={csrfToken}
-                    set={{ setTitle: setTitle, setContent: setContent }}
+                <PostEdit titlename="編輯" title={title} content={content} message={message} series={series} tags={tags} csrfToken={csrfToken}
+                    set={{ setTitle: setTitle, setContent: setContent, setSeries: setSeries }}
                     functions={functions} />
             </>
         )

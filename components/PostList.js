@@ -26,17 +26,19 @@ const PostList = () => {
             setLoading(false)
         }
     }
+
     useEffect(() => {
-        if (session) {
-            user = session.user
+        if (!data) {
+            if (session) {
+                user = session.user
+            }
+            fetchProduct();
         }
-        fetchProduct();
     }, [session]);
 
     if (isLoading) {
-
         return (
-            <Loading />
+            <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
         )
     }
     return (

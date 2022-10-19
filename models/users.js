@@ -22,10 +22,12 @@ const userSchema = new mongoose.Schema({
     createdTime: {
         type: String,
         required: true,
+        default: new Date().toString()
     },
     lastLoginTime: {
         type: String,
         required: true,
+        default: new Date().toString()
     }
 
 });

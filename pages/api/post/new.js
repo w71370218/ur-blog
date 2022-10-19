@@ -21,7 +21,6 @@ export default async function handler(req, res) {
                     {
                         id: ++tagRecord.count,
                         name: tags[index],
-                        createdTime: now_time,
                         updatedTime: now_time
                     }
                 )
@@ -44,7 +43,6 @@ export default async function handler(req, res) {
             title: title,
             content: content,
             author: mongoose.Types.ObjectId(user._id),
-            publishedTime: now_time,
             updatedTime: now_time,
             tags: post_tags
 

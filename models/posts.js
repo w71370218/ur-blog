@@ -33,7 +33,20 @@ const postSchema = new mongoose.Schema({
     access: {
         type: String,
         default: "any"
+    },
+    cover: {
+        url: {
+            type: String,
+        },
+        alt: {
+            type: String,
+        }
+    },
+    siries: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'siries'
     }
+
 })
 
 export default mongoose.models['posts'] || mongoose.model('posts', postSchema);

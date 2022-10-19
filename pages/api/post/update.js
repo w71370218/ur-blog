@@ -21,7 +21,6 @@ export default async function handler(req, res) {
                     {
                         id: ++tagRecord.count,
                         name: tags[index],
-                        createdTime: now_time,
                         updatedTime: now_time
                     }
                 )

@@ -38,14 +38,3 @@ const Markdown = ({ children }) => {
     )
 }
 export default Markdown
-
-/*
-const Component = ({ value, language }) => {
-    console.log(value, language)
-    return (
-        <SyntaxHighlighter language={language ?? null} style={dark}>
-            {value ?? ''}
-        </SyntaxHighlighter >
-    );
-}
-*/
