@@ -6,34 +6,32 @@ import rehypeRaw from "rehype-raw";
 import gfm from 'remark-gfm';
 import reactMarkDownStyle from '../styles/markdown-styles.module.css'
 
-const code = ({ node, inline, className, children, ...props }) => {
-    const match = /language-(\w+)/.exec(className || '')
-    return !inline && match ? (
-        <SyntaxHighlighter
-            children={String(children).replace(/\n$/, '')}
-            style={a11yDark}
-            language={match[1]}
-            PreTag="div"
-
-            showLineNumbers={true}
-            wrapLines={true}
-            lineProps={lineNumber => ({
-                style: { display: 'block' }
-            })}
-            {...props}
-        />
-    ) : (
-        <code className={className} style={a11yDark} {...props}>
-            {children}
-        </code>
-    )
-}
-
 const Markdown = ({ children }) => {
-
     return (
         <ReactMarkdown className={reactMarkDownStyle.reactMarkDown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
-            components={{ code }}>
+            components={{
+                code({ node, inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || '')
+                    return !inline && match ? (
+                        <SyntaxHighlighter
+                            style={a11yDark}
+                            language={match[1]}
+                            PreTag="div"
+
+                            showLineNumbers={true}
+                            wrapLines={true}
+                            lineProps={lineNumber => ({
+                                style: { display: 'block' }
+                            })}
+                            {...props}
+                        > {String(children).replace(/\n$/, '')}</SyntaxHighlighter>
+                    ) : (
+                        <code className={className} style={a11yDark} {...props}>
+                            {children}
+                        </code>
+                    )
+                }
+            }}>
             {children}
         </ReactMarkdown>
     )
