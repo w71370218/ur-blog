@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import styles from '../../styles/PostList.module.css'
 import Loading from '../Loading'
-import Series from "./series"
+import Series from "./Series"
 
 const SeriesList = () => {
     const { data: session } = useSession();
