@@ -79,7 +79,9 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
             }
             if (fetchedData[t]) {
                 const result = data[t].filter((o) => o.name.includes(value))
-                e.setPredictData[t](result)
+                if (result.length !== 0) {
+                    e.setPredictData[t](result)
+                }
             }
         }
     }
@@ -133,7 +135,7 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
                                     }
                                 </ul>
                                 )
-                                : (<ul className={`${postStyle['words-menu']}`}></ul>)
+                                : (<></>)
                             }
                         </div>
                     </div>
@@ -150,7 +152,7 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
                                 }
                             </ul>
                             )
-                            : (<ul className={`${postStyle['words-menu']}`}></ul>)
+                            : (<></>)
                         }
                     </div>
 
