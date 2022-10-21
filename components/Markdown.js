@@ -8,7 +8,7 @@ import reactMarkDownStyle from '../styles/markdown-styles.module.css'
 
 const Markdown = ({ children }) => {
     return (
-        <ReactMarkdown children={children} className={reactMarkDownStyle.reactMarkDown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
+        <ReactMarkdown className={reactMarkDownStyle.reactMarkDown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
             components={{
                 code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '')
@@ -33,7 +33,7 @@ const Markdown = ({ children }) => {
                     )
                 }
             }}>
-
+            {children}
         </ReactMarkdown>
     )
 }
