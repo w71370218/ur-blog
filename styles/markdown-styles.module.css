@@ -33,3 +33,34 @@
     color: var(--bs-blue);
     text-decoration: none;
 }
+
+
+.reactMarkDown p,
+.reactMarkDown li {
+    font-size: 18px;
+}
+
+.reactMarkDown h1,
+.reactMarkDown h2,
+.reactMarkDown h3,
+.reactMarkDown h4,
+.reactMarkDown h5 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.reactMarkDown h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+}
+
+.reactMarkDown h3 {
+    font-size: 1.25em;
+}
+
+.reactMarkDown h4 {
+    font-size: 1em;
+}
