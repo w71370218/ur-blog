@@ -27,7 +27,7 @@ export default async function handler(req, res) {
                         id: ++seriesRecord.count,
                         name: series,
                         description: '',
-                        createdTime: now_time,
+                        publishedTime: now_time,
                         updatedTime: now_time
                     }
                 )
