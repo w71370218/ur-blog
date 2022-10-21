@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import connect from "../../../lib/connect";
 import clientPromise from "../../../lib/mongodb";
 import Users from "../../../models/users";

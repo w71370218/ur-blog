@@ -15,7 +15,6 @@ const PostList = ({ query }) => {
         setLoading(true)
         if (query) {
             setQuery(query)
-            console.log(new_query)
         }
         const res = await fetch('/api/postlist', {
             method: 'POST',
@@ -34,12 +33,10 @@ const PostList = ({ query }) => {
     useEffect(() => {
         if (query) {
             setQuery(query)
-            console.log(new_query)
         }
         if (!data) {
             if (query) {
                 setQuery(query)
-                console.log(new_query)
             }
             if (session) {
                 user = session.user
@@ -47,7 +44,6 @@ const PostList = ({ query }) => {
             fetchProduct();
         }
     }, [session]);
-    console.log(data)
     if (isLoading) {
         return (
             <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
