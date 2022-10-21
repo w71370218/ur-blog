@@ -1,41 +1,31 @@
 import { getSession, getCsrfToken } from "next-auth/react";
 import Router from 'next/router';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react"
-import { useRouter } from 'next/router'
-import PostEdit from "../../components/PostEdit"
+import SeriesEdit from "../../components/series/SeriesEdit"
 
-export default function NewPost({ csrfToken }) {
-    const router = useRouter()
+export default function NewSeries({ csrfToken }) {
     const { data: session } = useSession({ required: true });
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
     const [message, setMessage] = useState(null);
-    const [tags, setTags] = useState([]);
-    const [series, setSeries] = useState('');
-
-    useEffect(() => {
-        if (router.query.series_name) {
-            setSeries(router.query.series_name)
-        }
-    }, [])
 
     const dontSubmit = (event) => {
-        if (event.key === "Enter" && event.target.id !== "content") {
+        if (event.key === "Enter" && event.target.id !== "description") {
             event.preventDefault();
         }
     }
 
-    const publishPost = async (e) => {
+    const publishSeries = async (e) => {
         e.preventDefault();
-        const author = session.user.id
         setMessage(null)
-        const res = await fetch('/api/post/new', {
+        const req = { name: name, description: description };
+        const res = await fetch('/api/series/new', {
             method: 'POST',
             headers: {
-                "Content-type": "application/json",
+                "content-type": "application/json",
             },
-            body: JSON.stringify({ title, content, tags, series, author }),
+            body: JSON.stringify(req),
         })
         let data = await res.json()
         if (data.message) {
@@ -43,22 +33,21 @@ export default function NewPost({ csrfToken }) {
         }
         if (data.message == "succeed") {
             return Router.push({
-                pathname: '/post/[id]',
+                pathname: '/series/[id]',
                 query: { id: data.id },
             })
         }
     }
     const functions = {
         dontSubmit: dontSubmit,
-        publishPost: publishPost
+        publishSeries: publishSeries
     }
 
     if (session) {
         return (
             <>
-                <PostEdit titlename="新增" title={title} content={content} message={message} csrfToken={csrfToken}
-                    series={series} tags={tags}
-                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries }}
+                <SeriesEdit titlename="新增" name={name} description={description} message={message} csrfToken={csrfToken}
+                    set={{ setName: setName, setDescription: setDescription }}
                     functions={functions} />
             </>
         )
@@ -72,7 +61,6 @@ export default function NewPost({ csrfToken }) {
 
 export async function getServerSideProps(context) {
     const { req } = context;
-
     const session = await getSession({ req })
     if (!session) {
         return {

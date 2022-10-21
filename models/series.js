@@ -9,6 +9,7 @@ const seriesSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        uniquired: true,
     },
     description: {
         type: String,
@@ -20,7 +21,15 @@ const seriesSchema = new mongoose.Schema({
     updatedTime: {
         type: String,
         default: new Date().toString()
-    }
+    },
+    cover: {
+        url: {
+            type: String,
+        },
+        alt: {
+            type: String,
+        }
+    },
 })
 
 export default mongoose.models['series'] || mongoose.model('series', seriesSchema);

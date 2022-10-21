@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
-import Welcome from '../../components/Welcome';
-import PostList from '../../components/PostList';
+import SeriesList from '../../components/series/SeriesList';
 import SidebarLayout from '../../components/layout/SidebarLayout';
 import Title from '../../components/Title';
 
@@ -17,7 +16,7 @@ export default function Home() {
 
             <main className={styles.main}>
                 <SidebarLayout>
-                    <h1>敬請期待</h1>
+                    <SeriesList className="p-1 p-md-5 pt-5"></SeriesList>
                 </SidebarLayout>
             </main>
         </>

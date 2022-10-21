@@ -5,17 +5,16 @@ import Markdown from './Markdown';
 
 const Post = ({ post }) => {
     return (
-        <div className={styles['blog-post']}>
+        <div className={`${styles['blog-post']} pointer w-100`}>
             <div className={styles['shadow']}></div>
             <div className="copy">
-                <Link href={`post/${post.id}`} >
+                <Link href={`/post/${post.id}`} >
                     <a>
                         <h1>{post.title}</h1>
                     </a>
                 </Link>
                 <TagGroup tags={post.tags} />
-                <p>
-
+                <p className="text-secondary">
                     <span>發表於 {new Date(post.publishedTime).toLocaleString()}</span>
                     <span className="blog-post-meta"> by {post.author.username}</span>
                 </p>

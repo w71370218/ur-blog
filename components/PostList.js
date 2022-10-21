@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import styles from '../styles/PostList.module.css'
-import Loading from '../components/Loading'
-
+import Loading from './Loading'
 import Post from "./post"
 
-const PostList = () => {
+const PostList = ({ query }) => {
     const { data: session } = useSession();
     const [data, setData] = useState(null)
+    const [new_query, setQuery] = useState(query)
     const [isLoading, setLoading] = useState(true)
     let user = null
 
     async function fetchProduct() {
         setLoading(true)
+        if (query) {
+            setQuery(query)
+            console.log(new_query)
+        }
         const res = await fetch('/api/postlist', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ user: user }),
+            body: JSON.stringify({ user: user, query: new_query }),
         })
         if (res.ok) {
             const posts = await res.json()
@@ -28,21 +32,29 @@ const PostList = () => {
     }
 
     useEffect(() => {
+        if (query) {
+            setQuery(query)
+            console.log(new_query)
+        }
         if (!data) {
+            if (query) {
+                setQuery(query)
+                console.log(new_query)
+            }
             if (session) {
                 user = session.user
             }
             fetchProduct();
         }
     }, [session]);
-
+    console.log(data)
     if (isLoading) {
         return (
             <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
         )
     }
     return (
-        <div className={`${styles['post-list']} p-1 p-md-5 pt-5`} >
+        <div className={`${styles['post-list']} `} >
             {data.map(post => (
                 <div key={post.id} >
                     <Post post={post} />
@@ -51,6 +63,11 @@ const PostList = () => {
             }
         </div >
     )
+}
+
+export async function getServerSideProps(context) {
+    connect();
+    return { props: { id: context.query.id } }
 }
 
 export default PostList;

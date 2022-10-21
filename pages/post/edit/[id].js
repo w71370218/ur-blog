@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Posts from '../../../models/posts'
 import Users from '../../../models/users'
 import Tags from '../../../models/tags'
+import Series from '../../../models/series'
 import PostEdit from "../../../components/PostEdit"
 
 export default function EditPost({ csrfToken, post }) {
@@ -32,7 +33,7 @@ export default function EditPost({ csrfToken, post }) {
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ id, title, content, tags, user }),
+            body: JSON.stringify({ id, title, content, tags, series, user }),
         })
         let data = await res.json()
         if (data.message) {
@@ -75,11 +76,13 @@ export async function getServerSideProps(context) {
         }
     }
 
-
+    //post
     const post = await Posts.findOne({ id: context.query.id }).lean();
     if (post) {
         post._id = post._id.toString();
     }
+
+    //author
     const author = await Users.findOne({ _id: post.author }).select("id").lean();
 
     if (session.user.id != author.id) {
@@ -88,9 +91,16 @@ export async function getServerSideProps(context) {
         }
     }
     post.author = post.author.toString()
+    //tags
     for (let i = 0; i < post.tags.length; i++) {
         const tag = await Tags.findOne({ _id: post.tags[i] }).select("name").lean();
         post.tags[i] = tag.name;
+    }
+    //series
+    if (post["series.id"]) {
+        const series = await Series.findOne({ _id: post["series.id"] }).lean();
+        post["series.id"] = series;
+        post.series.id._id = post.series.id._id.toString();
     }
 
     const csrfToken = await getCsrfToken(context);

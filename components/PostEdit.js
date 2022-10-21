@@ -11,9 +11,10 @@ let selectedTags = []
 const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
     set, functions }) => {
     const [tag_predict_data, setTagPredictData] = useState(null)
+    const [series_predict_data, setSeriesPredictData] = useState(null)
     const [tag_input, setTagIpunt] = useState('')
-    const fetchedData = false;
-    let tag_data;
+    const fetchedData = [false, false];
+    const data = [null, null]
 
     const removeTags = indexToRemove => {
         set.setTags([...tags.filter((_, index) => index !== indexToRemove)]);
@@ -41,28 +42,44 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
         }
     };
 
-    const predictSearch = async (value) => {
-        setTagIpunt(value)
+    const predictSearch = async (type, value) => {
+        let t;
+        const e = {
+            predict_data: [tag_predict_data, series_predict_data],
+            input: [tag_input, series],
+            setInput: [setTagIpunt, set.setSeries],
+            setPredictData: [setTagPredictData, setSeriesPredictData,]
+        }
+        switch (type) {
+            case "tags":
+                t = 0
+                break;
+            case "series":
+                t = 1
+                break;
+        }
+
+        e.setInput[t](value)
         if (value === '') {
-            setTagPredictData(null)
+            e.setPredictData[t](null)
         }
         else {
-            if (!fetchedData) {
+            if (!fetchedData[t]) {
                 const res = await fetch('/api/predictSearch', {
                     method: 'POST',
                     headers: {
                         "Content-type": "application/json",
                     },
-                    body: JSON.stringify({ schema: "tags" }),
+                    body: JSON.stringify({ schema: type }),
                 })
-                tag_data = await res.json()
+                data[t] = await res.json()
                 if (res.ok) {
-                    fetchedData = true;
+                    fetchedData[t] = true;
                 }
             }
-            if (fetchedData) {
-                const result = tag_data.filter((tag) => tag.name.includes(value))
-                setTagPredictData(result)
+            if (fetchedData[t]) {
+                const result = data[t].filter((o) => o.name.includes(value))
+                e.setPredictData[t](result)
             }
         }
     }
@@ -105,13 +122,13 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
                             <input className={`form-control`} type="text" id="tags"
                                 onKeyUp={(e) => { if (e.key === "Enter") { addTags(e) } }}
                                 placeholder="以 Enter 新增標籤"
-                                onChange={(e) => predictSearch(e.target.value)} value={tag_input}
+                                onChange={(e) => { predictSearch("tags", e.target.value) }} value={tag_input}
                             />
                             <label className="form-label" for="tags">標籤</label>
                             {tag_predict_data ?
                                 (<ul className={`${postStyle['words-menu']} ${postStyle['show']}`}>
                                     {tag_predict_data.map((tag_p, index) => (
-                                        <li key={index} ><a href='#' onClick={(e) => predictAddTags(e)} className={`${postStyle['words-item']}`}>{tag_p.name}</a></li>
+                                        <li key={index} onClick={(e) => predictAddTags(e)} className={`${postStyle['words-item']}`} ><span>{tag_p.name}</span></li>
                                     ))
                                     }
                                 </ul>
@@ -123,8 +140,18 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
 
                     <div className="form-floating mb-3 w-100">
                         <input className={`form-control`} name="series" type="text" id="series"
-                            value={series} onChange={e => { set.setSeries(e.target.value) }} />
+                            value={series} onChange={e => { set.setSeries(e.target.value); predictSearch("series", e.target.value) }} />
                         <label className="form-label" for="series">系列</label>
+                        {series_predict_data ?
+                            (<ul className={`${postStyle['words-menu']} ${postStyle['show']}`}>
+                                {series_predict_data.map((series_p, index) => (
+                                    <li key={index} onClick={(e) => predictAddSeries(e)} className={`${postStyle['words-item']}`} ><span>{series_p.name}</span></li>
+                                ))
+                                }
+                            </ul>
+                            )
+                            : (<ul className={`${postStyle['words-menu']}`}></ul>)
+                        }
                     </div>
 
                     <p style={{ color: 'red' }}>{message}</p>

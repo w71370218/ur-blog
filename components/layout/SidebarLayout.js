@@ -4,7 +4,7 @@ import postStyles from '../../styles/PostList.module.css';
 const SidebarLayout = ({ children }) => {
     return (
         <div className='container'>
-            <div className={`${postStyles.container} row`}>
+            <div className={`${postStyles.container} row mb-5`}>
                 <div className='col-sm-8'>
                     {children}
                 </div>

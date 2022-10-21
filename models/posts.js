@@ -42,9 +42,16 @@ const postSchema = new mongoose.Schema({
             type: String,
         }
     },
-    siries: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'siries'
+    series: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'siries'
+        },
+        order: {
+            type: Number,
+            default: 1
+        }
+
     }
 
 })

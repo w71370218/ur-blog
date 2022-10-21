@@ -29,7 +29,18 @@ const Navbar = () => {
                                 session ? (
                                     <>
                                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                            <li><Link href="/post/new"><a className="nav-link link-dark text-light">新增</a></Link></li>
+
+                                            <li className='d-flex justify-content-center align-self-center me-3'>
+                                                <a href="/post/new" className="nav-link link-dark text-light">新增</a>
+
+                                                <a className="pointer text-light dropdown-toggle d-flex justify-content-center align-self-center" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                                                </a>
+                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                                    <li><Link href="/post/new"><a className="dropdown-item">新增貼文</a></Link></li>
+                                                    <li><Link href="/series/new"><a className="dropdown-item">新增系列</a></Link></li>
+                                                </ul>
+                                            </li>
+
                                             <li>
                                                 <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signOut({ callbackUrl: "/" })}>
                                                     <a>登出</a>

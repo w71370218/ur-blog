@@ -3,6 +3,7 @@ import connect from "../../lib/connect"
 import Posts from "../../models/posts"
 import Tags from "../../models/tags";
 import Users from "../../models/users";
+import Series from '../../models/series'
 import SidebarLayout from '../../components/layout/SidebarLayout'
 import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
@@ -130,14 +131,25 @@ export async function getServerSideProps(context) {
     const post = await Posts.findOne({ id: context.query.id }).lean();
     if (post !== null) {
         post._id = post._id.toString()
+        //author
         const author = await Users.findOne({ _id: post.author }).select("id username").lean();
         author._id = author._id.toString()
         post.author = author;
+        //tags
         for (let i = 0; i < post.tags.length; i++) {
             const tag = await Tags.findOne({ _id: post.tags[i] }).select("id name").lean();
             tag._id = tag._id.toString()
             post.tags[i] = tag;
         }
+        //series
+        if (post.hasOwnProperty("series") && post.series) {
+            if (post.series.hasOwnProperty("id")) {
+                const series = await Series.findOne({ _id: post.series.id }).lean();
+                post.series.id = series;
+                post.series.id._id = post.series.id._id.toString();
+            }
+        }
+
         return { props: { post: post } }
     }
     return { props: { message: "此篇文章不存在或已經刪除了" } }

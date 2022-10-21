@@ -22,7 +22,9 @@ export default function Home() {
           <Welcome />
         </h1>
         <SidebarLayout>
-          <PostList />
+          <div className="px-md-5">
+            <PostList />
+          </div>
         </SidebarLayout>
       </main>
     </>

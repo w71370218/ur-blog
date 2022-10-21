@@ -59,6 +59,7 @@
 }
 
 .words-item {
+    min-width: 100%;
     width: 100%;
     padding: 0.25rem 1rem;
     clear: both;
@@ -71,8 +72,9 @@
     border: 0;
 }
 
-.word-item:hover {
-    background-color: #9daebe
+.words-item:hover {
+    background-color: #e4e9ee;
+    cursor: pointer;
 }
 
 .show {
