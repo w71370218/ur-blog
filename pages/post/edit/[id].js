@@ -14,7 +14,7 @@ export default function EditPost({ csrfToken, post }) {
     const [content, setContent] = useState(post.content);
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState(post.tags);
-    const [series, setSeries] = useState('');
+    const [series, setSeries] = useState(post.series);
 
     const dontSubmit = (event) => {
         if (event.key === "Enter" && event.target.id !== "content") {
@@ -97,16 +97,17 @@ export async function getServerSideProps(context) {
         post.tags[i] = tag.name;
     }
     //series
-    if (post["series.id"]) {
-        const series = await Series.findOne({ _id: post["series.id"] }).lean();
-        post["series.id"] = series;
-        post.series.id._id = post.series.id._id.toString();
+    if (post.hasOwnProperty("series") && post.series) {
+        if (post.series.hasOwnProperty("id")) {
+            const series = await Series.findOne({ _id: post.series.id }).lean();
+            post.series = series.name;
+        }
     }
+    console.log(post)
 
     const csrfToken = await getCsrfToken(context);
 
     return {
         props: { csrfToken: csrfToken, post: post },
-
     }
 }
