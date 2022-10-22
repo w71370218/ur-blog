@@ -27,7 +27,7 @@ export default async function handler(req, res) {
                         id: ++seriesRecord.count,
                         name: series,
                         description: '',
-                        publishedTime: now_time,
+                        createdTime: now_time,
                         updatedTime: now_time
                     }
                 )
@@ -51,7 +51,8 @@ export default async function handler(req, res) {
                     {
                         id: ++tagRecord.count,
                         name: tags[index],
-                        updatedTime: now_time
+                        updatedTime: now_time,
+                        publishedTime: now_time
                     }
                 )
                 await tag.save();
