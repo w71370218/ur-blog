@@ -52,7 +52,7 @@ export default async function handler(req, res) {
                         id: ++tagRecord.count,
                         name: tags[index],
                         updatedTime: now_time,
-                        publishedTime: now_time
+                        createdTime: now_time
                     }
                 )
                 await tag.save();
@@ -75,7 +75,10 @@ export default async function handler(req, res) {
             content: content,
             author: mongoose.Types.ObjectId(user._id),
             updatedTime: now_time,
+            publishedTime: now_time,
             tags: post_tags,
+
+            access: "any",
             "series.id": post_series
 
         }
