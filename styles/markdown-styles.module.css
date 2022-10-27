@@ -25,6 +25,11 @@
     margin: 0 !important;
 }
 
+.reactMarkDown pre {
+    padding: 0.5em;
+    border: 1px solid rgba(30, 20, 10, 0.1);
+}
+
 .reactMarkDown a {
     color: var(--bs-info);
 }

@@ -26,7 +26,7 @@ const Markdown = ({ children }) => {
                             {...props}
                         >{String(children).replace(/\n$/, '')}</SyntaxHighlighter>
                     ) : (
-                        <code className={className} style={a11yDark} {...props}>
+                        <code className={className} {...props}>
                             {children}
                         </code>
                     )
