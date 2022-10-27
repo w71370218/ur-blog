@@ -123,13 +123,13 @@ const PostDetails = (props) => {
                                 </div>
                             </div>
                         </div>
-                        {props.post.series.id &&
-                            <div className='series bg-light'>
+                        {props.post.series && props.post.series.id ?
+                            (<div className='series bg-light'>
                                 <Link href={`/series/${props.post.series.id}`}>
                                     <div className='series-name pointer border p-4 pb-5'>
                                         <div className='text-secondary'><h3>系列</h3></div>
                                         <div className='mt-3 '><h4>{props.post.series.name}</h4></div>
-                                        <div>總共 {props.post.series.postCount} 篇文章</div>
+                                        <div className='text-secondary'>總共 {props.post.series.postCount} 篇文章</div>
                                     </div>
                                 </Link>
                                 <div className='series-page d-flex '>
@@ -151,6 +151,7 @@ const PostDetails = (props) => {
                                     }
                                 </div>
                             </div>
+                            ) : (<></>)
                         }
                     </div>
                 </SidebarLayout >
