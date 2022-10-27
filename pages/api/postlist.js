@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         } else {
             query = {};
         }
-        console.log(query)
+        //console.log(query)
 
         const postsQ = await Posts.find(query)
             .sort({ 'id': -1 }).lean();
@@ -29,6 +29,7 @@ export default async function handler(req, res) {
         const posts = [];
         for (let i = 0; i < postsQ.length; i++) {
             postsQ[i]._id = postsQ[i]._id.toString();
+            postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ').substring(0, 300);
             //author
             const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
             author._id = author._id.toString();
