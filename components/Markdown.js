@@ -28,12 +28,12 @@ const Markdown = ({ children }) => {
                     ) : (
                         <code className={`${reactMarkDownStyle.code}`} {...props}>
                             {children}
-                        </code>
+                        </code >
                     )
                 }
             }}>
             {children}
-        </ReactMarkdown>
+        </ReactMarkdown >
     )
 }
 export default Markdown

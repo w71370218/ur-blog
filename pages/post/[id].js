@@ -112,7 +112,7 @@ const PostDetails = (props) => {
                                 {session ?
                                     ((session.user.id === props.post.author.id) ?
                                         (<div>
-                                            <Link href={`/ post / edit / ${props.post.id}`}><a>編輯</a></Link>
+                                            <Link href={`/post/edit/${props.post.id}`}><a>編輯</a></Link>
                                             <a href="" onClick={e => { deletePost(e) }}>刪除</a>
                                         </div>)
                                         : (<></>)) : (<></>)

@@ -1,5 +1,5 @@
 import { getSession, getCsrfToken } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react"
 import Router from 'next/router';
 import Posts from '../../../models/posts'
@@ -50,6 +50,12 @@ export default function EditPost({ csrfToken, post }) {
         dontSubmit: dontSubmit,
         updatePost: updatePost
     }
+
+    useEffect(() => {
+        if (typeof (post.series) !== 'string') {
+            setSeries('')
+        }
+    }, [])
 
     if (session) {
         return (
