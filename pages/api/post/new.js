@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         var now_time = new Date().toString();
 
         let post_series;
-        if (series !== '') {
+        if (series !== '' && series) {
             const seriesExist = await Series.findOne({ name: series });
             if (seriesExist) {
                 post_series = mongoose.Types.ObjectId(seriesExist._id)
@@ -77,7 +77,6 @@ export default async function handler(req, res) {
             updatedTime: now_time,
             publishedTime: now_time,
             tags: post_tags,
-
             access: "any",
             "series.id": post_series
 

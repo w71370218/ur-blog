@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         var now_time = new Date().toString();
 
         let post_series;
-        if (series !== '') {
+        if (series !== '' && series) {
             const seriesExist = await Series.findOne({ name: series });
             if (seriesExist) {
                 post_series = mongoose.Types.ObjectId(seriesExist._id)
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
             updatedTime: now_time,
             tags: post_tags,
             "series.id": post_series
-        });
+        }, { setDefaultsOnInsert: true });
 
         await post.save();
 

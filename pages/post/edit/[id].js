@@ -103,7 +103,6 @@ export async function getServerSideProps(context) {
             post.series = series.name;
         }
     }
-    console.log(post)
 
     const csrfToken = await getCsrfToken(context);
 
