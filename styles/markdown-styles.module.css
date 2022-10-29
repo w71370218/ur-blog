@@ -19,7 +19,8 @@
 
 .reactMarkDown iframe,
 .reactMarkDown pre,
-.reactMarkDown code {
+.reactMarkDown code,
+.reactMarkDown video {
     max-width: 100%;
     margin: 0 !important;
     background-color: #f4f4f4;
