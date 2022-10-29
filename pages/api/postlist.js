@@ -21,10 +21,12 @@ export default async function handler(req, res) {
         } else {
             query = {};
         }
-        //console.log(query)
+        console.log(query)
 
         const postsQ = await Posts.find(query)
-            .sort({ 'id': -1 }).lean();
+            .sort({ 'id': -1 })
+            .lean();
+
         //console.log(postsQ)
         const posts = [];
         for (let i = 0; i < postsQ.length; i++) {
@@ -67,7 +69,12 @@ export default async function handler(req, res) {
                 }
             }
         }
-        res.status(200).json(posts)
+
+        let post_list = posts;
+        if (Object.keys(query).length === 0) {
+            post_list = post_list.slice(0, 5)
+        }
+        res.status(200).json(post_list)
     } catch (e) {
         console.error(e)
         res.status(500).json({ message: e })
