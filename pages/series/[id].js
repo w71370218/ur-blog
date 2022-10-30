@@ -1,7 +1,4 @@
 import Head from 'next/head'
-import connect from "../../lib/connect"
-import Series from "../../models/series"
-//import Posts from "../../models/posts"
 import SidebarLayout from '../../components/layout/SidebarLayout'
 import PostList from '../../components/PostList'
 import Title from '../../components/Title'
@@ -101,23 +98,14 @@ export async function getServerSideProps(context) {
     if (session) {
         user = session.user
     }
-    connect();
-    const series = await Series.findOne({ id: context.query.id }).lean();
-    if (series !== null) {
-        const query = { "series.id": series.id }
-        const res = await handler(user, query)
-        series._id = series._id.toString()
+    const query = { "series.id": context.query.id }
+    const res = await handler(user, query)
 
-        if (res.message) {
-            return { props: { message: res.message, series: series } }
-        }
-        else {
-            return { props: { posts: res.posts, series: series } }
-        }
+    if (res.message) {
+        return { props: { message: res.message, series: series } }
     }
     else {
-
-        return { props: { message: "此系列不存在或已經刪除了" } }
+        return { props: { posts: res.posts, series: res.posts[0].series } }
     }
 }
 

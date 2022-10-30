@@ -69,11 +69,11 @@ export default async function handler(user, query) {
         }
 
         let post_list = posts;
-        /*
+
         if (Object.keys(r_query).length === 0) {
             post_list = post_list.slice(0, 5)
         }
-        */
+
         return { posts: post_list }
         //res.status(200).json(post_list)
     } catch (e) {
