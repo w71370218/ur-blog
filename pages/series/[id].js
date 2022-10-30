@@ -7,6 +7,8 @@ import PostList from '../../components/PostList'
 import Title from '../../components/Title'
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
+import { getSession } from "next-auth/react";
+import handler from '../api/postlist'
 import Link from 'next/link'
 import Router from 'next/router';
 
@@ -58,7 +60,9 @@ const SeriesDetails = (props) => {
                 <SidebarLayout>
                     <div className={`${styles['post-list']} px-md-5 w-100`}>
                         {
-                            props.series.cover && <div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>
+                            props.series.cover ?
+                                (<div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>)
+                                : (<></>)
                         }
                         <h1>{props.series.name}</h1>
                         <p className="text-secondary">
@@ -82,7 +86,7 @@ const SeriesDetails = (props) => {
                                 </div>
                             </div >
                         </a></Link>
-                        <PostList query={{ "series.id": props.series._id }} />
+                        <PostList posts={props.posts} message={props.message} />
                     </div>
                 </SidebarLayout>
             </main >
@@ -91,24 +95,30 @@ const SeriesDetails = (props) => {
 }
 
 export async function getServerSideProps(context) {
+    const { req } = context;
+    const session = await getSession({ req })
+    let user = null;
+    if (session) {
+        user = session.user
+    }
     connect();
     const series = await Series.findOne({ id: context.query.id }).lean();
     if (series !== null) {
+        const query = { "series.id": series.id }
+        const res = await handler(user, query)
         series._id = series._id.toString()
-        /*
-        const postsQ = await Posts.find({
-            $or: [{ "series.id": series._id, }]
-        }).lean();
-        for (let i = 0; i < postsQ.length; i++) {
-            postsQ[i]._id = postsQ[i]._id.toString();
-            postsQ[i].author = postsQ[i].author.toString();
-            postsQ[i].series.id = postsQ[i].series.id.toString();
+
+        if (res.message) {
+            return { props: { message: res.message, series: series } }
         }
-        series.posts = postsQ
-        */
-        return { props: { series: series } }
+        else {
+            return { props: { posts: res.posts, series: series } }
+        }
     }
-    return { props: { message: "此系列不存在或已經刪除了" } }
+    else {
+
+        return { props: { message: "此系列不存在或已經刪除了" } }
+    }
 }
 
 export default SeriesDetails;

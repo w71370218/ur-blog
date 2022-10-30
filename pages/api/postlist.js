@@ -6,32 +6,30 @@ import Series from '../../models/series';
 
 connect();
 
-export default async function handler(req, res) {
+export default async function handler(user, query) {
     try {
-        const user = req.body.user;
-        const r_query = req.body.query;
+        let r_query;
         let series;
-        let query;
-        if (r_query) {
-            query = { $or: [] }
-            if (r_query.hasOwnProperty("series.id")) {
-                series = await Series.findOne({ _id: r_query["series.id"] }).lean();
-                query["$or"].push({ "series.id": series });
+        if (query) {
+            r_query = { $or: [] }
+            if (query.hasOwnProperty("series.id")) {
+                series = await Series.findOne({ id: query["series.id"] }).lean();
+                r_query["$or"].push({ "series.id": series });
             }
         } else {
-            query = {};
+            r_query = {};
         }
-        console.log(query)
 
-        const postsQ = await Posts.find(query)
+        const postsQ = await Posts.find(r_query)
             .sort({ 'id': -1 })
             .lean();
 
-        //console.log(postsQ)
         const posts = [];
         for (let i = 0; i < postsQ.length; i++) {
             postsQ[i]._id = postsQ[i]._id.toString();
-            postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ').substring(0, 300);
+            postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
+                .replace(/<video.+<\/video>/g, ' ')
+                .substring(0, 300);
             //author
             const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
             author._id = author._id.toString();
@@ -45,14 +43,14 @@ export default async function handler(req, res) {
             }
             // series
             if (series) {
-                postsQ[i].series.id = series;
-                postsQ[i].series.id._id = postsQ[i].series.id._id.toString()
+                postsQ[i].series = series;
+                postsQ[i].series._id = postsQ[i].series._id.toString()
             }
             else {
-                if (postsQ[i].hasOwnProperty("series.id")) {
-                    series = await Series.findOne({ _id: postsQ[i]["series.id"] }).lean();
-                    postsQ[i]["series.id"] = series;
-                    postsQ[i].series.id._id = postsQ[i].series.id._id.toString();
+                if (postsQ[i].series.hasOwnProperty("id")) {
+                    series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
+                    postsQ[i].series = series;
+                    postsQ[i].series._id = postsQ[i].series._id.toString();
                 }
             }
 
@@ -71,13 +69,17 @@ export default async function handler(req, res) {
         }
 
         let post_list = posts;
-        if (Object.keys(query).length === 0) {
+        /*
+        if (Object.keys(r_query).length === 0) {
             post_list = post_list.slice(0, 5)
         }
-        res.status(200).json(post_list)
+        */
+        return { posts: post_list }
+        //res.status(200).json(post_list)
     } catch (e) {
         console.error(e)
-        res.status(500).json({ message: e })
+        return { message: "500 伺服器內部錯誤 Server-side error occurred" }
+        //res.status(500).json({ message: e })
     }
 
 }
