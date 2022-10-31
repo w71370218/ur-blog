@@ -5,7 +5,8 @@ import Title from '../../components/Title'
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
 import { getSession } from "next-auth/react";
-import handler from '../api/postlist'
+import connect from '../../lib/connect'
+import Series from '../../models/series'
 import Link from 'next/link'
 import Router from 'next/router';
 
@@ -83,7 +84,7 @@ const SeriesDetails = (props) => {
                                 </div>
                             </div >
                         </a></Link>
-                        <PostList posts={props.posts} message={props.message} />
+                        <PostList query={props.query} />
                     </div>
                 </SidebarLayout>
             </main >
@@ -99,7 +100,18 @@ export async function getServerSideProps(context) {
         user = session.user
     }
     const query = { "series.id": context.query.id }
+
+    connect();
+    const series = await Series.findOne({ id: context.query.id }).lean();
+    if (series !== null) {
+        series._id = series._id.toString()
+        return { props: { query: query, series: series } }
+    }
+    return { props: { message: "此系列不存在或已經刪除了" } }
+
+    /*
     const res = await handler(user, query)
+    
 
     if (res.message) {
         return { props: { message: res.message, series: series } }
@@ -107,6 +119,7 @@ export async function getServerSideProps(context) {
     else {
         return { props: { posts: res.posts, series: res.posts[0].series } }
     }
+    */
 }
 
 export default SeriesDetails;

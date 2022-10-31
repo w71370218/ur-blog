@@ -4,19 +4,37 @@ import styles from '../styles/PostList.module.css'
 import Loading from './Loading'
 import Post from "./post"
 
-const PostList = ({ posts, message }) => {
-    /*
+const PostList = ({ query }) => {
     const { data: session } = useSession();
-    const [data, setData] = useState(null)
+    const [posts, setData] = useState(null)
     const [new_query, setQuery] = useState(query)
     const [isLoading, setLoading] = useState(true)
     let user = null
+
+    async function fetchProduct() {
+        setLoading(true)
+        if (query) {
+            setQuery(query)
+        }
+        const res = await fetch('/api/postlist', {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({ user: user, query: new_query }),
+        })
+        if (res.ok) {
+            const posts = await res.json()
+            setData(posts)
+            setLoading(false)
+        }
+    }
 
     useEffect(() => {
         if (query) {
             setQuery(query)
         }
-        if (!data) {
+        if (!posts) {
             if (query) {
                 setQuery(query)
             }
@@ -31,26 +49,17 @@ const PostList = ({ posts, message }) => {
             <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
         )
     }
-    */
-    if (!message) {
-        return (
-            <div className={`${styles['post-list']} `} >
-                {posts.map(post => (
-                    <div key={post.id} >
-                        <Post post={post} />
-                    </div>
-                ))
-                }
-            </div >
-        )
-    }
-    else {
-        return (
-            <>
-                <h1>{message}</h1>
-            </>
-        )
-    }
+
+    return (
+        <div className={`${styles['post-list']} `} >
+            {posts.map(post => (
+                <div key={post.id} >
+                    <Post post={post} />
+                </div>
+            ))
+            }
+        </div >
+    )
 }
 
 export default PostList;

@@ -6,8 +6,10 @@ import Series from '../../models/series';
 
 connect();
 
-export default async function handler(user, query) {
+export default async function handler(req, res) { //user, query
     try {
+        const query = req.body.query
+        const user = req.body.user
         let r_query;
         let series;
         if (query) {
@@ -78,12 +80,12 @@ export default async function handler(user, query) {
             post_list = post_list.slice(0, 5)
         }
 
-        return { posts: post_list }
-        //res.status(200).json(post_list)
+        //return { posts: post_list }
+        res.status(200).json(post_list)
     } catch (e) {
         console.error(e)
-        return { message: "500 伺服器內部錯誤 Server-side error occurred" }
-        //res.status(500).json({ message: e })
+        //return { message: "500 伺服器內部錯誤 Server-side error occurred" }
+        res.status(500).json({ message: e })
     }
 
 }
