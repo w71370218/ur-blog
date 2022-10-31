@@ -37,14 +37,14 @@ export default async function handler(req, res) { //user, query
                 if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
                     posts.push(postsQ[i])
                 } else {
-                    break;
+                    continue;
                 }
             }
             else {
                 if (postsQ[i].access === "any") {
                     posts.push(postsQ[i])
                 } else {
-                    break;
+                    continue;
                 }
             }
 
@@ -72,13 +72,15 @@ export default async function handler(req, res) { //user, query
                     postsQ[i].series._id = postsQ[i].series._id.toString();
                 }
             }
+
+            if (Object.keys(r_query).length === 0 && posts.length < 3) {
+                break;
+            }
         }
 
         let post_list = posts;
 
-        if (Object.keys(r_query).length === 0) {
-            post_list = post_list.slice(0, 3)
-        }
+
 
         //return { posts: post_list }
         res.status(200).json(post_list)
