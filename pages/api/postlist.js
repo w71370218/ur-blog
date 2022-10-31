@@ -73,7 +73,7 @@ export default async function handler(req, res) { //user, query
                 }
             }
 
-            if (Object.keys(r_query).length === 0 && posts.length == 5) {
+            if (Object.keys(r_query).length === 0 && posts.length == 3) {
                 break;
             }
         }

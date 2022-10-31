@@ -13,15 +13,18 @@ const PostList = ({ query }) => {
 
     async function fetchProduct() {
         setLoading(true)
+        let req = { user: user }
         if (query) {
             setQuery(query)
+            req.query = new_query
         }
+
         const res = await fetch('/api/postlist', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ user: user, query: new_query }),
+            body: JSON.stringify(req),
         })
         if (res.ok) {
             const posts = await res.json()
@@ -31,9 +34,6 @@ const PostList = ({ query }) => {
     }
 
     useEffect(() => {
-        if (query) {
-            setQuery(query)
-        }
         if (!posts) {
             if (query) {
                 setQuery(query)
