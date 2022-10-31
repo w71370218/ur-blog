@@ -4,20 +4,28 @@ import styles from '../styles/PostList.module.css'
 import Loading from './Loading'
 import Post from "./post"
 
-const PostList = ({ query }) => {
+const PostList = ({ query, c_allPostNum }) => {
     const { data: session } = useSession();
     const [posts, setData] = useState(null)
     const [new_query, setQuery] = useState(query)
     const [isLoading, setLoading] = useState(true)
+    const [postNum, setPostNum] = useState(0)
+    const [allPostNum, setallPostNum] = useState(c_allPostNum)
     let user = null
 
     async function fetchProduct() {
-        setLoading(true)
         let req = { user: user }
-        if (query) {
-            setQuery(query)
-            req.query = new_query
+        if (posts === null) {
+            if (query) {
+                setQuery(query)
+                req.query = new_query
+            }
+            req.postNum = 0
         }
+        else {
+            req.postNum = posts.length
+        }
+        req.allPostNum = allPostNum
 
         const res = await fetch('/api/postlist', {
             method: 'POST',
@@ -27,14 +35,23 @@ const PostList = ({ query }) => {
             body: JSON.stringify(req),
         })
         if (res.ok) {
-            const posts = await res.json()
-            setData(posts)
+            const response = await res.json()
+            const new_posts = response.posts
+            if (posts === null) {
+                setData(new_posts)
+            }
+            else {
+                setData(posts => [...posts, ...new_posts])
+            }
+            setPostNum(postNum + new_posts.length)
+            setallPostNum(response.allPostNum)
             setLoading(false)
         }
     }
 
     useEffect(() => {
         if (!posts) {
+            setLoading(true)
             if (query) {
                 setQuery(query)
             }
@@ -43,7 +60,12 @@ const PostList = ({ query }) => {
             }
             fetchProduct();
         }
-    }, [session]);
+        else {
+            if (posts.length < allPostNum) {
+                fetchProduct();
+            }
+        }
+    }, [session, postNum]);
     if (isLoading) {
         return (
             <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />

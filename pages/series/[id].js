@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react"
 import { getSession } from "next-auth/react";
 import connect from '../../lib/connect'
 import Series from '../../models/series'
+import Posts from '../../models/posts'
 import Link from 'next/link'
 import Router from 'next/router';
 
@@ -84,7 +85,7 @@ const SeriesDetails = (props) => {
                                 </div>
                             </div >
                         </a></Link>
-                        <PostList query={props.query} />
+                        <PostList query={props.query} c_allPostNum={props.allPostNum} />
                     </div>
                 </SidebarLayout>
             </main >
@@ -105,7 +106,8 @@ export async function getServerSideProps(context) {
     const series = await Series.findOne({ id: context.query.id }).lean();
     if (series !== null) {
         series._id = series._id.toString()
-        return { props: { query: query, series: series } }
+        const allPostNum = await Posts.countDocuments({ '$or': [{ "series.id": series }] });
+        return { props: { query: query, series: series, allPostNum: allPostNum } }
     }
     return { props: { message: "此系列不存在或已經刪除了" } }
 

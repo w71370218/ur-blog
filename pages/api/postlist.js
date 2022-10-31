@@ -8,11 +8,15 @@ connect();
 
 export default async function handler(req, res) { //user, query
     try {
-        const query = req.body.query
         const user = req.body.user
+        const postNum = req.body.postNum
+        const req_allPostNum = req.body.allPostNum
+
+        let allPostCount = req_allPostNum;
         let r_query;
         let series;
-        if (query) {
+        if (req.body.query) {
+            const query = req.body.query
             r_query = { $or: [] }
             if (query.hasOwnProperty("series.id")) {
                 series = await Series.findOne({ id: query["series.id"] }).lean();
@@ -21,10 +25,20 @@ export default async function handler(req, res) { //user, query
         } else {
             r_query = {};
         }
+        let allPostNum;
+        let skip_postNum;
 
-        const postsQ = await Posts.find(r_query)
+        const count = await Posts.countDocuments(r_query)
+        allPostNum = count
+        skip_postNum = postNum + (allPostNum - req_allPostNum)
+
+        let postsQ = await Posts.find(r_query)
+            .skip(skip_postNum)
+            //.limit(3)
             .sort({ 'id': -1 })
             .lean();
+
+
 
         const posts = [];
         for (let i = 0; i < postsQ.length; i++) {
@@ -37,6 +51,7 @@ export default async function handler(req, res) { //user, query
                 if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
                     posts.push(postsQ[i])
                 } else {
+                    allPostCount--;
                     continue;
                 }
             }
@@ -44,9 +59,11 @@ export default async function handler(req, res) { //user, query
                 if (postsQ[i].access === "any") {
                     posts.push(postsQ[i])
                 } else {
+                    allPostCount--;
                     continue;
                 }
             }
+
 
             //post
             postsQ[i]._id = postsQ[i]._id.toString();
@@ -61,21 +78,25 @@ export default async function handler(req, res) { //user, query
                 postsQ[i].tags[j] = tag;
             }
             // series
-            if (series) {
-                postsQ[i].series = series;
-                postsQ[i].series._id = postsQ[i].series._id.toString()
-            }
-            else {
-                if (postsQ[i].series.hasOwnProperty("id")) {
-                    series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
+            if (postsQ[i].series && postsQ[i].series !== null) {
+                if (series) {
                     postsQ[i].series = series;
-                    postsQ[i].series._id = postsQ[i].series._id.toString();
+                    postsQ[i].series._id = postsQ[i].series._id.toString()
+                }
+                else {
+                    if (postsQ[i].series.hasOwnProperty("id")) {
+                        series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
+                        postsQ[i].series = series;
+                        postsQ[i].series._id = postsQ[i].series._id.toString();
+                    }
                 }
             }
+
 
             if (Object.keys(r_query).length === 0 && posts.length == 3) {
                 break;
             }
+
         }
 
         let post_list = posts;
@@ -83,7 +104,7 @@ export default async function handler(req, res) { //user, query
 
 
         //return { posts: post_list }
-        res.status(200).json(post_list)
+        res.status(200).json({ posts: post_list, allPostNum: allPostCount })
     } catch (e) {
         console.error(e)
         //return { message: "500 伺服器內部錯誤 Server-side error occurred" }

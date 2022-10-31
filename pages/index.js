@@ -4,8 +4,10 @@ import Welcome from '../components/Welcome';
 import PostList from '../components/PostList';
 import SidebarLayout from '../components/layout/SidebarLayout';
 import Title from '../components/Title';
+import connect from '../lib/connect';
+import Posts from '../models/posts'
 
-export default function Home() {
+export default function Home(props) {
   return (
     <>
       <Title title={"首頁"} />
@@ -22,16 +24,21 @@ export default function Home() {
         </h1>
         <SidebarLayout>
           <div className="px-md-5">
-            <PostList />
+            <PostList c_allPostNum={props.allPostNum} />
           </div>
         </SidebarLayout>
       </main>
     </>
   )
 }
-  /*
-export async function getServerSideProps(context) {
 
+export async function getServerSideProps(context) {
+  connect();
+  let allPostNum = await Posts.countDocuments({});
+  return { props: { allPostNum: allPostNum } }
+
+
+  /*
 const { req } = context;
 const session = await getSession({ req })
 let user = null;
@@ -45,6 +52,5 @@ return { props: { message: res.message } }
 }
 
 return { props: { posts: res.posts } }
-
-}  
 */
+}  
