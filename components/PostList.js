@@ -14,6 +14,7 @@ const PostList = ({ query, c_allPostNum }) => {
     let user = null
 
     async function fetchProduct() {
+        setLoading(true)
         let req = { user: user }
         if (posts === null) {
             if (query) {
@@ -51,7 +52,7 @@ const PostList = ({ query, c_allPostNum }) => {
 
     useEffect(() => {
         if (!posts) {
-            setLoading(true)
+
             if (query) {
                 setQuery(query)
             }
@@ -66,19 +67,26 @@ const PostList = ({ query, c_allPostNum }) => {
             }
         }
     }, [session, postNum]);
-    if (isLoading) {
-        return (
-            <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
-        )
-    }
+
 
     return (
         <div className={`${styles['post-list']} `} >
-            {posts.map(post => (
-                <div key={post.id} >
-                    <Post post={post} />
-                </div>
-            ))
+            {
+                posts ?
+                    (
+                        posts.map(post => (
+                            <div key={post.id} >
+                                <Post post={post} />
+                            </div>
+                        ))
+                    ) : (<></>)
+            }
+            {
+                isLoading ?
+                    (
+                        <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
+                    )
+                    : (<></>)
             }
         </div >
     )
