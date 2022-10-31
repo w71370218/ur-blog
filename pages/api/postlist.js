@@ -26,14 +26,31 @@ export default async function handler(user, query) {
 
         const posts = [];
         for (let i = 0; i < postsQ.length; i++) {
-            postsQ[i]._id = postsQ[i]._id.toString();
-            postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
-                .replace(/<video.+<\/video>/g, ' ')
-                .substring(0, 300);
             //author
             const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
             author._id = author._id.toString();
             postsQ[i].author = author;
+            //access
+            if (user) {
+                if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
+                    posts.push(postsQ[i])
+                } else {
+                    break;
+                }
+            }
+            else {
+                if (postsQ[i].access === "any") {
+                    posts.push(postsQ[i])
+                } else {
+                    break;
+                }
+            }
+
+            //post
+            postsQ[i]._id = postsQ[i]._id.toString();
+            postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
+                .replace(/<video.+<\/video>/g, ' ')
+                .substring(0, 300);
 
             //tags
             for (let j = 0; j < postsQ[i].tags.length; j++) {
@@ -51,19 +68,6 @@ export default async function handler(user, query) {
                     series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
                     postsQ[i].series = series;
                     postsQ[i].series._id = postsQ[i].series._id.toString();
-                }
-            }
-
-            //access
-            if (user) {
-                //if (postsQ[i].access != "self") {
-                if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
-                    posts.push(postsQ[i])
-                }
-            }
-            else {
-                if (postsQ[i].access === "any") {
-                    posts.push(postsQ[i])
                 }
             }
         }
