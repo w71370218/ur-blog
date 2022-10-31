@@ -77,7 +77,7 @@ export default async function handler(req, res) { //user, query
         let post_list = posts;
 
         if (Object.keys(r_query).length === 0) {
-            post_list = post_list.slice(0, 5)
+            post_list = post_list.slice(0, 3)
         }
 
         //return { posts: post_list }
