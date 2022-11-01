@@ -40,6 +40,9 @@ const postSchema = new mongoose.Schema({
         },
         alt: {
             type: String,
+        },
+        deleteHash: {
+            type: String,
         }
     },
     series: {

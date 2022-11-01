@@ -7,6 +7,7 @@ import Users from '../../../models/users'
 import Tags from '../../../models/tags'
 import Series from '../../../models/series'
 import PostEdit from "../../../components/PostEdit"
+import onFileUpload from "../../../lib/imgur"
 
 export default function EditPost({ csrfToken, post }) {
     const { data: session } = useSession({ required: true });
@@ -15,6 +16,20 @@ export default function EditPost({ csrfToken, post }) {
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState(post.tags);
     const [series, setSeries] = useState(post.series);
+
+    var post_cover_alt = ''
+    var post_cover_url = null
+    if (post.cover) {
+        if (post.cover.hasOwnProperty('alt')) {
+            post_cover_alt = post.cover.alt
+        }
+        if (post.cover.hasOwnProperty('url')) {
+            post_cover_url = post.cover.url
+        }
+    }
+    const [alt, setAlt] = useState(post_cover_alt)
+    const [coverImage, setCoverImage] = useState(post_cover_url)
+    const [changedImage, setChangedImage] = useState(false)
 
     const dontSubmit = (event) => {
         if (event.key === "Enter" && event.target.id !== "content") {
@@ -28,12 +43,21 @@ export default function EditPost({ csrfToken, post }) {
         const user = session.user.id
         const id = post.id
         setMessage(null)
+
+        let imgur_url;
+        let deletehash;
+        if (coverImage && coverImage !== null && coverImage !== '') {
+            const response = await onFileUpload(coverImage)
+            imgur_url = response.data.link
+            deletehash = response.data.deletehash
+        }
+
         const res = await fetch('/api/post/update', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ id, title, content, tags, series, user }),
+            body: JSON.stringify({ id, title, content, tags, series, user, coverImage, alt, changedImage, imgur_url, deletehash }),
         })
         let data = await res.json()
         if (data.message) {
@@ -60,8 +84,8 @@ export default function EditPost({ csrfToken, post }) {
     if (session) {
         return (
             <>
-                <PostEdit titlename="編輯" title={title} content={content} message={message} series={series} tags={tags} csrfToken={csrfToken}
-                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries }}
+                <PostEdit titlename="編輯" title={title} content={content} message={message} series={series} tags={tags} csrfToken={csrfToken} alt={alt} coverImage={coverImage} changedImage={changedImage}
+                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries, setAlt: setAlt, setCoverImage: setCoverImage, setChangedImage: setChangedImage }}
                     functions={functions} />
             </>
         )

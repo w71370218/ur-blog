@@ -1,16 +1,18 @@
 import connect from "../../../lib/connect";
+import findRecord from "../../../lib/record/findRecord";
+import updateRecord from "../../../lib/record/updateRecord";
 import Posts from "../../../models/posts";
-import clientPromise from "../../../lib/mongodb";
 import Tags from "../../../models/tags";
 import Users from "../../../models/users";
 import Series from "../../../models/series";
 import mongoose from "mongoose";
+import deleteImgurImage from "../../../lib/deleteImgurImage"
 
 connect();
 
 export default async function handler(req, res) {
     try {
-        const { id, title, content, tags, series, user } = req.body;
+        const { id, title, content, tags, series, user, coverImage, alt, changedImage, imgur_url, deletehash } = req.body;
         var now_time = new Date().toString();
 
         let post_series;
@@ -76,8 +78,27 @@ export default async function handler(req, res) {
             content: content,
             updatedTime: now_time,
             tags: post_tags,
-            "series.id": post_series
+            "series.id": post_series,
         }, { setDefaultsOnInsert: true });
+
+
+        if (changedImage && coverImage && coverImage !== null && coverImage !== '') {
+            post.cover = {
+                url: imgur_url,
+                alt: alt,
+                deleteHash: deletehash
+            }
+            if (!alt || alt === null || alt === '') {
+                post.cover.alt = title;
+            }
+        }
+        else if (changedImage && (!coverImage || coverImage === null || coverImage === '')) {
+            deleteImgurImage(post.cover.deleteHash)
+            delete post.cover
+        }
+        else if (!changedImage && (alt && alt !== null && alt !== '')) {
+            post.cover.alt = alt;
+        }
 
         await post.save();
 
@@ -87,31 +108,4 @@ export default async function handler(req, res) {
         console.error(e)
         res.status(500).json({ message: e });
     }
-}
-
-const findRecord = async (category) => {
-
-    const mongoClient = await clientPromise
-
-    const db = mongoClient.db("ur-blog");
-    const records = db.collection("records");
-
-    var myquery = { name: category };
-    const result = await records.findOne(myquery);
-    return result
-}
-
-const updateRecord = async (record) => {
-    const mongoClient = await clientPromise
-
-    const db = mongoClient.db("ur-blog");
-    const records = db.collection("records");
-
-
-    var now_time = new Date().toString();
-    var newvalues = { $set: { count: record.count, updateTime: now_time } };
-    records.updateOne({ name: record.name }, newvalues, function (err, res) {
-        if (err) throw err;
-        console.log(`Record: ${record.name} document updated`);
-    });
 }

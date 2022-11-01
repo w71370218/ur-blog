@@ -13,6 +13,8 @@ export default function NewPost({ csrfToken }) {
     const [message, setMessage] = useState(null);
     const [tags, setTags] = useState([]);
     const [series, setSeries] = useState('');
+    const [alt, setAlt] = useState('')
+    const [coverImage, setCoverImage] = useState(null)
 
     useEffect(() => {
         if (router.query.series_name) {
@@ -30,12 +32,21 @@ export default function NewPost({ csrfToken }) {
         e.preventDefault();
         const author = session.user.id
         setMessage(null)
+
+        let imgur_url;
+        let deletehash;
+        if (coverImage && coverImage !== null && coverImage !== '') {
+            const response = await onFileUpload(coverImage)
+            imgur_url = response.data.link
+            deletehash = response.data.deletehash
+        }
+
         const res = await fetch('/api/post/new', {
             method: 'POST',
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ title, content, tags, series, author }),
+            body: JSON.stringify({ title, content, tags, series, author, alt, coverImage, imgur_url, deletehash }),
         })
         let data = await res.json()
         if (data.message) {
@@ -57,8 +68,8 @@ export default function NewPost({ csrfToken }) {
         return (
             <>
                 <PostEdit titlename="新增" title={title} content={content} message={message} csrfToken={csrfToken}
-                    series={series} tags={tags}
-                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries }}
+                    series={series} tags={tags} alt={alt} coverImage={coverImage}
+                    set={{ setTitle: setTitle, setContent: setContent, setTags: setTags, setSeries: setSeries, setAlt: setAlt, setCoverImage: setCoverImage }}
                     functions={functions} />
             </>
         )

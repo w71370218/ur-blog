@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Markdown from './Markdown';
 import PostEditLayout from './layout/PostEditLayout'
 import Title from './Title';
@@ -8,13 +8,14 @@ import postStyle from '../styles/Post_edit.module.css'
 
 let selectedTags = []
 
-const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
+const PostEdit = ({ titlename, title, content, message, tags, series, alt, coverImage, csrfToken, changedImage,
     set, functions }) => {
     const [tag_predict_data, setTagPredictData] = useState(null)
     const [series_predict_data, setSeriesPredictData] = useState(null)
     const [tag_input, setTagIpunt] = useState('')
     const fetchedData = [false, false];
     const data = [null, null]
+    const imageInput = useRef();
 
     const removeTags = indexToRemove => {
         set.setTags([...tags.filter((_, index) => index !== indexToRemove)]);
@@ -85,6 +86,28 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
             }
         }
     }
+    /*
+    const uploadImage = (file) => {
+        onFileUpload(file)
+    }
+     <button className="btn btn-secondary" type="button" id="inputGroupFile" onClick={e => { uploadImage(coverImage) }}>上傳</button>
+    */
+
+    const uploadcoverImage = (files) => {
+        if (files) {
+            set.setCoverImage(files[0])
+            if (titlename === "編輯") {
+                set.setChangedImage(true)
+            }
+        }
+    }
+    const cleancoverImage = () => {
+        imageInput.current.value = null
+        set.setCoverImage(null)
+        if (titlename === "編輯") {
+            set.setChangedImage(true)
+        }
+    }
 
     return (
         <>
@@ -96,6 +119,19 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
                 <form method="POST" className="post-form mb-3" encType="multipart/form-data" onKeyDown={e => { { functions.dontSubmit(e) } }}>
                     <p style={{ color: 'red' }}>{message}</p>
                     <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                    <div>
+                        <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>封面圖片</label>
+                        <div className="input-group mb-1 my-1">
+                            {coverImage && coverImage !== null && <button className="btn border" type="button" id="inputGroupFile" onClick={e => cleancoverImage()}>X</button>}
+                            <input type="file" className="form-control" id="inputGroupFile" accept="image/png, image/jpeg" ref={imageInput} onChange={e => { uploadcoverImage(e.target.files); }} />
+                            <div className="mb-3 w-100 ">
+                                <label className='border bg-light w-100 text-center py-1'>圖片替代文字</label>
+                                <input id="floatingAlt" className={`form-control w-100 border rounded-bottom my-1`} name="alt" type="text"
+                                    value={alt} onChange={e => { set.setAlt(e.target.value) }} />
+
+                            </div>
+                        </div>
+                    </div>
                     <div className="form-floating mb-3 w-100">
                         <input id="floatingTitle" className={`form-control `} name="title" type="text"
                             value={title} onChange={e => { set.setTitle(e.target.value) }} required />
@@ -166,8 +202,23 @@ const PostEdit = ({ titlename, title, content, message, tags, series, csrfToken,
 
                 <>
                     <h3>預覽</h3>
-                    <div className={`${postStyle.preview} border mb-3`}>
-                        <Markdown>{content}</Markdown>
+                    <div className={`${postStyle.preview} border mb-3 w-100 `}>
+                        {titlename === "編輯" && !changedImage ?
+                            (coverImage && (
+                                <div className={`w-100 d-flex justify-content-center align-items-center ${postStyle.cover}`}>
+                                    <img id="upload-img" src={coverImage} />
+                                </div>
+                            )) :
+                            (coverImage && (
+                                <div className={`w-100 d-flex justify-content-center align-items-center ${postStyle.cover}`}>
+                                    <img id="upload-img" src={URL.createObjectURL(coverImage)} />
+                                </div>
+                            ))
+                        }
+                        <div className='w-100'>
+                            <Markdown>{content}</Markdown>
+                        </div>
+
                     </div>
                 </>
             </PostEditLayout>

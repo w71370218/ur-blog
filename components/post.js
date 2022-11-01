@@ -8,6 +8,15 @@ const Post = ({ post }) => {
         <div className={`${styles['blog-post']} pointer w-100`}>
             <div className={styles['shadow']}></div>
             <div className="copy">
+                {post.cover &&
+                    <Link href={`/post/${post.id}`} >
+                        <a>
+                            <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
+                                <img src={post.cover.url} alt={post.cover.alt} />
+                            </div>
+                        </a>
+                    </Link>
+                }
                 <Link href={`/post/${post.id}`} >
                     <a>
                         <h1>{post.title}</h1>

@@ -80,7 +80,12 @@ const PostDetails = (props) => {
                 <SidebarLayout>
                     <div className={`${styles['post-list']} ${styles['post-area']} w-100`}>
                         <div className={``}>
-                            <div className='p-1 p-md-5 pt-5'>
+                            {props.post.cover &&
+                                <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
+                                    <img src={props.post.cover.url} alt={props.post.cover.alt} />
+                                </div>
+                            }
+                            <div className={`pb-5 pt-0 px-md-5 ${!props.post.cover ? ("pt-5") : ("")}`}>
                                 <h1>{props.post.title}</h1>
                                 <br />
                                 <TagGroup tags={props.post.tags} />

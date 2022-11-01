@@ -1,7 +1,7 @@
 import connect from "../../../lib/connect";
-import Posts from "../../../models/posts";
 import findRecord from "../../../lib/record/findRecord";
 import updateRecord from "../../../lib/record/updateRecord";
+import Posts from "../../../models/posts";
 import Tags from "../../../models/tags";
 import Users from "../../../models/users";
 import Series from "../../../models/series"
@@ -11,7 +11,7 @@ connect();
 
 export default async function handler(req, res) {
     try {
-        const { title, content, tags, series, author } = req.body;
+        const { title, content, tags, series, author, alt, coverImage, imgur_url, deletehash } = req.body;
         var now_time = new Date().toString();
 
         let post_series;
@@ -78,13 +78,25 @@ export default async function handler(req, res) {
             publishedTime: now_time,
             tags: post_tags,
             access: "any",
-            "series.id": post_series
-
+            "series.id": post_series,
         }
+
         const post = new Posts(
             post_q,
             { runValidators: true }
         )
+
+        if (coverImage && coverImage !== null && coverImage !== '') {
+            post.cover = {
+                url: imgur_url,
+                alt: alt,
+                deleteHash: deletehash
+            }
+            if (!alt || alt === null || alt === '') {
+                post.cover.alt = title;
+            }
+        }
+
         await post.save();
         updateRecord(postRecord)
 

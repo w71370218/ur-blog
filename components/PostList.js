@@ -52,7 +52,6 @@ const PostList = ({ query, c_allPostNum }) => {
 
     useEffect(() => {
         if (!posts) {
-
             if (query) {
                 setQuery(query)
             }
@@ -62,6 +61,12 @@ const PostList = ({ query, c_allPostNum }) => {
             fetchProduct();
         }
         else {
+            if (query) {
+                setQuery(query)
+            }
+            if (session) {
+                user = session.user
+            }
             if (posts.length < allPostNum) {
                 fetchProduct();
             }
@@ -83,10 +88,7 @@ const PostList = ({ query, c_allPostNum }) => {
             }
             {
                 isLoading ?
-                    (
-                        <Loading className="h-100 w-100 d-flex justify-content-center align-self-center" />
-                    )
-                    : (<></>)
+                    (<Loading />) : (<></>)
             }
         </div >
     )
