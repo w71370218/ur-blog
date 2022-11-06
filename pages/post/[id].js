@@ -88,8 +88,7 @@ const PostDetails = (props) => {
                             <div className={`pb-5 pt-0 px-md-5 ${!props.post.cover ? ("pt-5") : ("")}`}>
                                 <h1>{props.post.title}</h1>
                                 <br />
-                                <TagGroup tags={props.post.tags} />
-                                <br />
+                                {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> <br /> </>}
                                 <div>
                                     <p>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react"
 import { useRouter } from 'next/router'
 import PostEdit from "../../components/PostEdit"
+import onFileUpload from "../../lib/imgur"
 
 export default function NewPost({ csrfToken }) {
     const router = useRouter()

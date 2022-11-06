@@ -22,7 +22,7 @@ const Post = ({ post }) => {
                         <h1>{post.title}</h1>
                     </a>
                 </Link>
-                <TagGroup tags={post.tags} />
+                {post.tags[0] && <TagGroup tags={post.tags} />}
                 <p className="text-secondary">
                     <span>發表於 {new Date(post.publishedTime).toLocaleString()}</span>
                     <span className="blog-post-meta"> by {post.author.username}</span>
