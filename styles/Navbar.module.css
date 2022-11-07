@@ -11,3 +11,12 @@
     margin-block-end: 0;
     padding-inline-start: 0;
 }
+
+.li-item {
+    background-color: var(--bs-gray-dark);
+}
+
+.li::after,
+.li:hover {
+    background-color: var(--bs-gray);
+}

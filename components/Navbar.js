@@ -7,6 +7,7 @@ const Navbar = () => {
     const { data: session } = useSession();
     const widthRef = useRef(0);
     const [width, setWidth] = useState(0);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         setWidth(widthRef.current.offsetWidth)
@@ -90,9 +91,33 @@ const Navbar = () => {
                     </div>
                     <div className="collapse bg-dark text-center" id="navbarToggleExternalContent">
                         <ul className={`${styles.ul}`}>
-                            <li className=' border-bottom border-secondary'><Link href="/series/"><a className="nav-link m-3 link-dark text-light ">系列</a></Link></li>
-                            <li className=' border-bottom border-secondary'><a href="#" className="nav-link m-3 link-dark text-light">作品集</a></li>
-                            <li className=' border-bottom border-secondary'><a href="http://ur-want-to-go.herokuapp.com/" className="nav-link m-3 link-dark text-light">想要去玩的地點</a></li>
+                            <li className={` p-3 border-bottom border-secondary ${styles.li}`} >
+                                <div className="nav-linklink-dark text-light ">
+                                    <Link href="/series/"><a>
+                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            系列
+                                        </div>
+                                    </a></Link>
+                                </div>
+                            </li>
+                            <li className={` p-3 border-bottom border-secondary ${styles.li}`}>
+                                <div className="nav-linklink-dark text-light ">
+                                    <a href="#">
+                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            作品集
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li className={` p-3 border-bottom border-secondary ${styles.li}`}>
+                                <div className="nav-linklink-dark text-light ">
+                                    <a href="http://ur-want-to-go.herokuapp.com/">
+                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            想要去玩的地點
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
                             {
                                 session ? (
                                     <>
@@ -100,12 +125,27 @@ const Navbar = () => {
                                             <li className=''>
                                                 <a className="link-dark text-light">新增</a>
                                             </li>
-                                            <div className='rounded mt-3' >
-                                                <li className='rounded' style={{ backgroundColor: 'var(--bs-gray-dark)' }}><Link href="/post/new"><a className="m-1 nav-link link-light text-light">貼文</a></Link></li>
-                                                <li className='rounded' style={{ backgroundColor: 'var(--bs-gray-dark)' }}><Link href="/series/new"><a className="nav-link link-light text-light">系列</a></Link></li>
+                                            <div className='rounded mt-3 mx-3' >
+                                                <li className={`rounded ${styles['li-item']} ${styles.li}`}>
+                                                    <div className="m-1 nav-link link-light text-light">
+                                                        <Link href="/post/new"><a>
+                                                            <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                                貼文
+                                                            </div>
+                                                        </a></Link>
+                                                    </div>
+                                                </li>
+                                                <li className={`rounded ${styles['li-item']} ${styles.li}`}>
+                                                    <div className="m-1 nav-link link-light text-light">
+                                                        <Link href="/series/new"><a>
+                                                            <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                                系列
+                                                            </div>
+                                                        </a></Link>
+                                                    </div>
+                                                </li>
                                             </div>
                                         </div>
-
                                         <li className='d-flex justify-content-center'>
                                             <div className="nav-link">
                                                 <button type="button" className="btn btn-outline-light" onClick={() => signOut({ callbackUrl: "/" })}>
