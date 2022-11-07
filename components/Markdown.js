@@ -5,6 +5,7 @@ import { a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
 import rehypeRaw from "rehype-raw";
 import gfm from 'remark-gfm';
 import reactMarkDownStyle from '../styles/markdown-styles.module.css'
+//import Image from 'next/image';
 
 const Markdown = ({ children }) => {
     return (
@@ -30,10 +31,32 @@ const Markdown = ({ children }) => {
                             {children}
                         </code >
                     )
+                },
+                /*
+                p(props) {
+                    if (props.children[0].type === "img") {
+                        const image = props.children[0]
+                        return (image)
+                    }
+                    else {
+                        return (<p>{props.children}</p>)
+                    }
                 }
+                */
             }}>
             {children}
         </ReactMarkdown >
     )
 }
 export default Markdown
+
+/*
+const markdownImg = ({ props }) => {
+    //console.log(props)
+    return (
+        //< className='d-flex justify-content-center' >
+        <img src={props.src} />
+        //</>
+    )
+}
+*/

@@ -9,7 +9,7 @@ import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
 import Title from '../../components/Title'
 import styles from '../../styles/PostList.module.css'
-import { useSession } from "next-auth/react"
+import { useSession, getSession } from "next-auth/react"
 import Link from 'next/link'
 import Router from 'next/router';
 
@@ -48,32 +48,15 @@ const PostDetails = (props) => {
             </main>
         )
     }
-    if (session) {
-        if (props.post.author.id != session.user.id && props.post.access === "self") {
-            return (<>
-                <main>
-                    <h1>此篇文章不存在或已經刪除了</h1>
-                </main>
-            </>)
-        }
-    }
-    else {
-        if (props.post.access === "self") {
-            return (<>
-                <main>
-                    <h1>此篇文章不存在或已經刪除了</h1>
-                </main>
-            </>)
-        }
-    }
     return (
         <>
             <Title title={props.post.title} />
             <Head>
                 <meta name="description" content={`${props.post.content.substring(0, 30)}...`} />
                 <meta name="Author" content={`${props.post.author.username}`} />
-                <meta name="keyword" content={props.post.tags.map(tag => (`${tag.name} `))} />
+                <meta name="keyword" content={props.post.tags.map(tag => (`${tag.name}`))} />
                 <meta property="og:description" content={`${props.post.content.substring(0, 30)}...`} />
+                {props.post.cover && <meta property='og:image' content={`${props.post.cover.url}`} />}
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
@@ -82,10 +65,10 @@ const PostDetails = (props) => {
                         <div className={``}>
                             {props.post.cover &&
                                 <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
-                                    <img src={props.post.cover.url} alt={props.post.cover.alt} />
+                                    <img className="rounded-top" src={props.post.cover.url} alt={props.post.cover.alt} />
                                 </div>
                             }
-                            <div className={`pb-5 pt-0 px-md-5 ${!props.post.cover ? ("pt-5") : ("")}`}>
+                            <div className={`pb-5 px-md-5 ${!props.post.cover ? ("pt-5") : ("pt-3")}`}>
                                 <h1>{props.post.title}</h1>
                                 <br />
                                 {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> <br /> </>}
@@ -165,6 +148,9 @@ const PostDetails = (props) => {
 }
 
 export async function getServerSideProps(context) {
+    const { req } = context;
+    const session = await getSession({ req })
+
     connect();
     const post = await Posts.findOne({ id: context.query.id }).lean();
     if (post !== null) {
@@ -173,6 +159,19 @@ export async function getServerSideProps(context) {
         const author = await Users.findOne({ _id: post.author }).select("id username").lean();
         author._id = author._id.toString()
         post.author = author;
+
+        //access 
+        if (session) {
+            if (post.author.id != session.user.id && post.access === "self") {
+                return { props: { message: "此篇文章不存在或已經刪除了" } }
+            }
+        }
+        else {
+            if (post.access === "self") {
+                return { props: { message: "此篇文章不存在或已經刪除了" } }
+            }
+        }
+
         //tags
         for (let i = 0; i < post.tags.length; i++) {
             const tag = await Tags.findOne({ _id: post.tags[i] }).select("id name").lean();

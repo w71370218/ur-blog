@@ -4,9 +4,11 @@
 }
 
 .reactMarkDown img {
-    min-width: 100%;
     max-width: 100%;
+    min-height: 100%;
+    max-height: 50vh;
     margin: 0.1em;
+    object-fit: contain;
 }
 
 .reactMarkDown table,
@@ -18,9 +20,13 @@
 }
 
 .reactMarkDown iframe,
-.reactMarkDown pre,
-.reactMarkDown code,
 .reactMarkDown video {
+    max-width: 100%;
+    margin: 0 !important;
+}
+
+.reactMarkDown pre,
+.reactMarkDown code {
     max-width: 100%;
     margin: 0 !important;
     background-color: #f4f4f4;
@@ -42,6 +48,9 @@
 }
 
 .reactMarkDown a {
+    min-width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
     color: var(--bs-info);
 }
 
@@ -79,4 +88,10 @@
 
 .reactMarkDown h4 {
     font-size: 1em;
+}
+
+.reactMarkDown blockquote {
+    padding: 0 1em;
+    color: #777;
+    border-left: 0.25em solid #ddd;
 }

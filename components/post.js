@@ -11,8 +11,8 @@ const Post = ({ post }) => {
                 {post.cover &&
                     <Link href={`/post/${post.id}`} >
                         <a>
-                            <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
-                                <img src={post.cover.url} alt={post.cover.alt} />
+                            <div className={`w-100 d-flex justify-content-center align-items-center mb-2 ${styles.cover}`}>
+                                <img className="rounded-top" src={post.cover.url} alt={post.cover.alt} />
                             </div>
                         </a>
                     </Link>
