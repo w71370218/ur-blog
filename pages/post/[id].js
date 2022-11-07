@@ -68,11 +68,10 @@ const PostDetails = (props) => {
                                     <img className="rounded-top" src={props.post.cover.url} alt={props.post.cover.alt} />
                                 </div>
                             }
-                            <div className={`pb-5 px-md-5 ${!props.post.cover ? ("pt-5") : ("pt-3")}`}>
-                                <h1>{props.post.title}</h1>
-                                <br />
-                                {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> <br /> </>}
-                                <div>
+                            <div className={`pb-5 px-md-5 px-3 ${!props.post.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
+                                <h1 className="mb-3">{props.post.title}</h1>
+                                {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> </>}
+                                <div className="mb-3">
                                     <p>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
                                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
@@ -80,7 +79,7 @@ const PostDetails = (props) => {
                                         <span> {props.post.author.username}</span>
                                     </p>
                                 </div>
-                                <div className="date">
+                                <div className="date mb-3">
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock" viewBox="0 0 16 16">
                                             <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />

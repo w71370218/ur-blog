@@ -44,3 +44,9 @@
     height: 100%;
     object-fit: cover;
 }
+
+@media only screen and (max-width: 720px) {
+    .cover {
+        height: 30vh;
+    }
+}

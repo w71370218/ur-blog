@@ -4,10 +4,10 @@ import Link from 'next/link'
 
 const TagGroup = ({ tags }) => {
     return (
-        <div className={styles['tag-group']}>
+        <div className={`${styles['tag-group']} mb-3`}>
             {tags.map(tag => (
                 <Link href='#' key={tag._id}>
-                    <a >
+                    <a className='me-1'>
                         <span className={`${tagStyle.tag} badge badge-secondary`}>
                             {tag.name}
                         </span>
