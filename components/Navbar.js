@@ -14,7 +14,7 @@ const Navbar = () => {
     return (
         <>
             <nav ref={widthRef} className={`${styles.nav} bg-dark navbar-dark`} width={width}>
-                <div className="p-3 mb-3 ">
+                <div className="p-2 p-md-3 mb-3 ">
                     <div className="container">
                         <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start">
                             <Link href="/"><a className="d-flex align-items-center mb-2 mb-lg-0 text-light text-decoration-none ">
@@ -86,7 +86,6 @@ const Navbar = () => {
                                     </>
                                 )
                             }
-
                         </div>
                     </div>
                     <div className="collapse bg-dark text-center" id="navbarToggleExternalContent">
@@ -97,7 +96,6 @@ const Navbar = () => {
                             {
                                 session ? (
                                     <>
-
                                         <div className='py-3'>
                                             <li className=''>
                                                 <a className="link-dark text-light">新增</a>
@@ -107,8 +105,6 @@ const Navbar = () => {
                                                 <li className='rounded' style={{ backgroundColor: 'var(--bs-gray-dark)' }}><Link href="/series/new"><a className="nav-link link-light text-light">系列</a></Link></li>
                                             </div>
                                         </div>
-
-
 
                                         <li className='d-flex justify-content-center'>
                                             <div className="nav-link">

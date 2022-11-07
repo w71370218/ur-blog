@@ -49,4 +49,8 @@
     .cover {
         height: 30vh;
     }
+
+    .blog-post {
+        padding: 1em;
+    }
 }
