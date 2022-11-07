@@ -34,7 +34,7 @@ export default async function handler(req, res) { //user, query
 
         let postsQ = await Posts.find(r_query)
             .skip(skip_postNum)
-            //.limit(3)
+            .limit(3)
             .sort({ 'id': -1 })
             .lean();
 
@@ -93,7 +93,7 @@ export default async function handler(req, res) { //user, query
             }
 
 
-            if (Object.keys(r_query).length === 0 && posts.length == 2) {
+            if (Object.keys(r_query).length === 0 && posts.length == 3) {
                 break;
             }
 
