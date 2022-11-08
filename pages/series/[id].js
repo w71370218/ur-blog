@@ -56,7 +56,7 @@ const SeriesDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <SidebarLayout series={props.series.name}>
+                <SidebarLayout id={props.series.name}>
                     <div className={`${styles['post-list']} px-md-5 w-100`}>
                         {
                             props.series.cover ?

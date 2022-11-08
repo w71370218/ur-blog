@@ -31,20 +31,20 @@ const Project = ({ project }) => {
                 <div className='w-100 d-flex btn-group' role="group" aria-label="Basic checkbox toggle button group">
                     {
                         project.link &&
-                        (<button className='w-100 btn btn-outline-secondary' type="button">
-                            <Link href={project.link} >
-                                <a>線上觀看連結</a>
-                            </Link>
-                        </button>)
+                        (<Link href={project.link}>
+                            <a target='_blank' className='btn btn-outline-secondary'>
+                                線上觀看連結
+                            </a>
+                        </Link>)
                     }
 
                     {
                         project.code &&
-                        (<button className='w-100 btn btn-outline-secondary' type="button">
-                            <Link href={project.code} >
-                                <a>原始碼</a>
-                            </Link>
-                        </button>)
+                        (<Link href={project.code}>
+                            <a target='_blank' className='btn btn-outline-secondary'>
+                                原始碼
+                            </a>
+                        </Link>)
                     }
                 </div>
 

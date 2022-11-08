@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import path_text from '../public/path_text.js'
 import Link from 'next/link.js'
 
-export default function Breadcrumb({ post, series }) {
+export default function Breadcrumb({ id }) {
     const router = useRouter();
 
     function generateBreadcrumbs(router) {
@@ -17,11 +17,8 @@ export default function Breadcrumb({ post, series }) {
                 text = path_text[subpath];
             }
 
-            if (post && /^-?\d+$/.test(asPathNestedRoutes[idx])) {
-                text = post;
-            }
-            if (series && /^-?\d+$/.test(asPathNestedRoutes[idx])) {
-                text = series;
+            if (id && /^-?\d+$/.test(asPathNestedRoutes[idx])) {
+                text = id;
             }
             return { href, text };
         })

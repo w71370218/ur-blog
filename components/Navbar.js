@@ -29,7 +29,6 @@ const Navbar = () => {
                                             <li><Link href="#"><a className="nav-link link-dark text-light">圖文</a></Link></li>
                                             <li><Link href="/series/"><a className="nav-link link-dark text-light">系列</a></Link></li>
                                             <li><Link href="/project/"><a className="nav-link link-dark text-light">作品集</a></Link></li>
-                                            <li><a href="http://ur-want-to-go.herokuapp.com/" className="nav-link link-dark text-light">想要去玩的地點</a></li>
                                             <li><a href="#" className="nav-link link-secondary">
                                                 敬請期待</a></li>
                                         </ul>
@@ -88,7 +87,7 @@ const Navbar = () => {
                         <ul className={`${styles.ul}`}>
                             <li className={` p-3 border-bottom border-secondary ${styles.li}`} >
                                 <div className="nav-linklink-dark text-light ">
-                                    <Link href="#"><a>
+                                    <Link href="/post/"><a>
                                         <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                                             文章
                                         </div>
@@ -115,20 +114,12 @@ const Navbar = () => {
                             </li>
                             <li className={` p-3 border-bottom border-secondary ${styles.li}`}>
                                 <div className="nav-linklink-dark text-light ">
-                                    <a href="#">
-                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                                            作品集
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <li className={` p-3 border-bottom border-secondary ${styles.li}`}>
-                                <div className="nav-linklink-dark text-light ">
-                                    <a href="http://ur-want-to-go.herokuapp.com/">
-                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                                            想要去玩的地點
-                                        </div>
-                                    </a>
+                                    <Link href="/project/">
+                                        <a href="#">
+                                            <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                作品集
+                                            </div>
+                                        </a></Link>
                                 </div>
                             </li>
                             {

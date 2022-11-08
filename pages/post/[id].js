@@ -8,7 +8,6 @@ import SidebarLayout from '../../components/layout/SidebarLayout'
 import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
 import Title from '../../components/Title'
-import Breadcrumb from '../../components/Breadcrumbs';
 import styles from '../../styles/PostList.module.css'
 import { useSession, getSession } from "next-auth/react"
 import Link from 'next/link'
@@ -61,7 +60,7 @@ const PostDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <SidebarLayout post={props.post.title}>
+                <SidebarLayout id={props.post.title}>
                     <div className={`${styles['post-list']} ${styles['post-area']} w-100`}>
                         <div className={``}>
                             {props.post.cover &&

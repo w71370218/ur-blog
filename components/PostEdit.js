@@ -118,7 +118,7 @@ const PostEdit = ({ titlename, title, content, message, tags, series, alt, cover
             </Head>
             <PostEditLayout titlename={titlename}>
                 <>
-                    <Breadcrumb post={title} />
+                    <Breadcrumb id={title} />
                     <h3>{`${titlename}貼文`}</h3>
                     <form method="POST" className="post-form mb-3" encType="multipart/form-data" onKeyDown={e => { { functions.dontSubmit(e) } }}>
                         <p style={{ color: 'red' }}>{message}</p>
