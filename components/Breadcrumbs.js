@@ -2,12 +2,10 @@ import { useRouter } from 'next/router';
 import path_text from '../public/path_text.js'
 import Link from 'next/link.js'
 
-export default function Breadcrumb({ post, series }) {
-    const breadcrumbs = generateBreadcrumbs();
-
-    function generateBreadcrumbs() {
+const Breadcrumb = ({ post, series }) => {
+    const generateBreadcrumbs = () => {
         const router = useRouter();
-        const asPathWithoutQuery = router.asPath.split("?")[0];
+        const asPathWithoutQuery = router.asPath.split("?")[0].split("#")[0];
         const asPathNestedRoutes = asPathWithoutQuery.split("/")
             .filter(v => v.length > 0);
 
@@ -28,6 +26,8 @@ export default function Breadcrumb({ post, series }) {
         })
         return [{ href: "/", text: "首頁" }, ...crumblist];
     }
+
+    const breadcrumbs = generateBreadcrumbs();
 
     return (
         <>
@@ -62,3 +62,5 @@ export default function Breadcrumb({ post, series }) {
         </>
     )
 }
+
+export default Breadcrumb 

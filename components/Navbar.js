@@ -25,10 +25,10 @@ const Navbar = () => {
                                 (
                                     <>
                                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                            <li><a href="#" className="nav-link link-dark text-light">文章</a></li>
-                                            <li><a href="#" className="nav-link link-dark text-light">圖文</a></li>
+                                            <li><Link href="/post/"><a className="nav-link link-dark text-light">文章</a></Link></li>
+                                            <li><Link href="#"><a className="nav-link link-dark text-light">圖文</a></Link></li>
                                             <li><Link href="/series/"><a className="nav-link link-dark text-light">系列</a></Link></li>
-                                            <li><a href="#" className="nav-link link-dark text-light">作品集</a></li>
+                                            <li><Link href="/project/"><a className="nav-link link-dark text-light">作品集</a></Link></li>
                                             <li><a href="http://ur-want-to-go.herokuapp.com/" className="nav-link link-dark text-light">想要去玩的地點</a></li>
                                             <li><a href="#" className="nav-link link-secondary">
                                                 敬請期待</a></li>

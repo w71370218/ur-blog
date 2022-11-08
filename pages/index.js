@@ -18,16 +18,16 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className={styles.title}>
-          <Welcome />
-        </h1>
-        <SidebarLayout>
+      <SidebarLayout>
+        <>
+          <h1 className={styles.title}>
+            <Welcome />
+          </h1>
           <div className="px-md-5">
             <PostList c_allPostNum={props.allPostNum} />
           </div>
-        </SidebarLayout>
-      </main>
+        </>
+      </SidebarLayout>
     </>
   )
 }
