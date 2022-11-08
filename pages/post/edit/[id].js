@@ -8,6 +8,7 @@ import Tags from '../../../models/tags'
 import Series from '../../../models/series'
 import PostEdit from "../../../components/PostEdit"
 import onFileUpload from "../../../lib/imgur"
+import deleteImgurImage from "../../../lib/deleteImgurImage"
 
 export default function EditPost({ csrfToken, post }) {
     const { data: session } = useSession({ required: true });
@@ -46,10 +47,20 @@ export default function EditPost({ csrfToken, post }) {
 
         let imgur_url;
         let deletehash;
-        if (coverImage && coverImage !== null && coverImage !== '') {
+        if (changedImage && coverImage && coverImage !== null && coverImage !== '') {
+            if (post.cover && post.cover !== null) {
+                if (post.cover.hasOwnProperty("url") && post.cover.hasOwnProperty("deleteHash")) {
+                    if (post.cover.url !== "" && post.cover.url !== null) {
+                        await deleteImgurImage(post.cover.deleteHash)
+                    }
+                }
+            }
             const response = await onFileUpload(coverImage)
             imgur_url = response.data.link
             deletehash = response.data.deletehash
+        }
+        else if (changedImage && (!coverImage || coverImage === null || coverImage === '')) {
+            await deleteImgurImage(post.cover.deleteHash)
         }
 
         const res = await fetch('/api/post/update', {

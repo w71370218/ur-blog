@@ -73,11 +73,6 @@ const Navbar = () => {
                                 : (
                                     <>
                                         <ul className="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                            <li><a href="#" className="nav-link link-dark text-light">文章</a></li>
-                                            <li><a href="#" className="nav-link link-dark text-light">圖文</a></li>
-                                            <li>
-
-                                            </li>
                                         </ul>
                                         <div className="text-end">
                                             <button className="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,6 +86,24 @@ const Navbar = () => {
                     </div>
                     <div className="collapse bg-dark text-center" id="navbarToggleExternalContent">
                         <ul className={`${styles.ul}`}>
+                            <li className={` p-3 border-bottom border-secondary ${styles.li}`} >
+                                <div className="nav-linklink-dark text-light ">
+                                    <Link href="#"><a>
+                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            文章
+                                        </div>
+                                    </a></Link>
+                                </div>
+                            </li>
+                            <li className={` p-3 border-bottom border-secondary ${styles.li}`} >
+                                <div className="nav-linklink-dark text-light ">
+                                    <Link href="#"><a>
+                                        <div data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            圖文
+                                        </div>
+                                    </a></Link>
+                                </div>
+                            </li>
                             <li className={` p-3 border-bottom border-secondary ${styles.li}`} >
                                 <div className="nav-linklink-dark text-light ">
                                     <Link href="/series/"><a>

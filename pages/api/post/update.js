@@ -6,7 +6,6 @@ import Tags from "../../../models/tags";
 import Users from "../../../models/users";
 import Series from "../../../models/series";
 import mongoose from "mongoose";
-import deleteImgurImage from "../../../lib/deleteImgurImage"
 
 connect();
 
@@ -81,7 +80,6 @@ export default async function handler(req, res) {
             "series.id": post_series,
         }, { setDefaultsOnInsert: true });
 
-
         if (changedImage && coverImage && coverImage !== null && coverImage !== '') {
             post.cover = {
                 url: imgur_url,
@@ -93,8 +91,7 @@ export default async function handler(req, res) {
             }
         }
         else if (changedImage && (!coverImage || coverImage === null || coverImage === '')) {
-            deleteImgurImage(post.cover.deleteHash)
-            delete post.cover
+            post.cover = undefined;
         }
         else if (!changedImage && (alt && alt !== null && alt !== '')) {
             post.cover.alt = alt;
