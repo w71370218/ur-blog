@@ -11,7 +11,7 @@ const SeriesEdit = ({ titlename, name, description, message, csrfToken, set, fun
             <Head>
                 <meta name="description" description="UR的施鹽小天地" />
             </Head>
-            <SeriesEditLayout titlename={titlename}>
+            <SeriesEditLayout titlename={titlename} series={name}>
                 <form method="POST" className="post-form mb-3" encType="multipart/form-data" onKeyDown={e => { { functions.dontSubmit(e) } }}>
                     <p style={{ color: 'red' }}>{message}</p>
                     <input name="csrfToken" type="hidden" defaultValue={csrfToken} />

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useState, useRef, useEffect } from "react";
 import Markdown from './Markdown';
 import PostEditLayout from './layout/PostEditLayout'
+import Breadcrumb from './Breadcrumbs';
 import Title from './Title';
 import style from '../styles/TagInput.module.css'
 import postStyle from '../styles/Post_edit.module.css'
@@ -116,57 +117,77 @@ const PostEdit = ({ titlename, title, content, message, tags, series, alt, cover
                 <meta name="description" content="UR的施鹽小天地" />
             </Head>
             <PostEditLayout titlename={titlename}>
-                <form method="POST" className="post-form mb-3" encType="multipart/form-data" onKeyDown={e => { { functions.dontSubmit(e) } }}>
-                    <p style={{ color: 'red' }}>{message}</p>
-                    <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-                    <div>
-                        <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>封面圖片</label>
-                        <div className="input-group mb-1 my-1">
-                            {coverImage && coverImage !== null && <button className="btn border" type="button" id="inputGroupFile" onClick={e => cleancoverImage()}>X</button>}
-                            <input type="file" className="form-control" id="inputGroupFile" accept="image/png, image/jpeg" ref={imageInput} onChange={e => { uploadcoverImage(e.target.files); }} />
-                            <div className="mb-3 w-100 ">
-                                <label className='border bg-light w-100 text-center py-1'>圖片替代文字</label>
-                                <input id="floatingAlt" className={`form-control w-100 border rounded-bottom my-1`} name="alt" type="text"
-                                    value={alt} onChange={e => { set.setAlt(e.target.value) }} />
+                <>
+                    <Breadcrumb post={title} />
+                    <h3>{`${titlename}貼文`}</h3>
+                    <form method="POST" className="post-form mb-3" encType="multipart/form-data" onKeyDown={e => { { functions.dontSubmit(e) } }}>
+                        <p style={{ color: 'red' }}>{message}</p>
+                        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                        <div>
+                            <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>封面圖片</label>
+                            <div className="input-group mb-1 my-1">
+                                {coverImage && coverImage !== null && <button className="btn border" type="button" id="inputGroupFile" onClick={e => cleancoverImage()}>X</button>}
+                                <input type="file" className="form-control" id="inputGroupFile" accept="image/png, image/jpeg" ref={imageInput} onChange={e => { uploadcoverImage(e.target.files); }} />
+                                <div className="mb-3 w-100 ">
+                                    <label className='border bg-light w-100 text-center py-1'>圖片替代文字</label>
+                                    <input id="floatingAlt" className={`form-control w-100 border rounded-bottom my-1`} name="alt" type="text"
+                                        value={alt} onChange={e => { set.setAlt(e.target.value) }} />
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="form-floating mb-3 w-100">
-                        <input id="floatingTitle" className={`form-control `} name="title" type="text"
-                            value={title} onChange={e => { set.setTitle(e.target.value) }} required />
-                        <label className="form-label" for="floatingTitle">標題</label>
-                    </div>
-                    <div className="form-floating mb-3 w-100">
-                        <textarea id="content" className={`form-control `}
-                            name="content" style={{ height: '50vh' }}
-                            value={content} onChange={e => { set.setContent(e.target.value) }} required></textarea>
-                        <label className="form-label" for="content">內文</label>
-                    </div>
-                    <div>
-                        <ul id={style["tags"]}>
-                            {tags.map((tag, index) => (
-                                <li key={index} className={style["tag"]}>
-                                    <span className={style['tag-title']}>{tag}</span>
-                                    <span className={style['tag-close-icon']}
-                                        onClick={() => removeTags(index)}
-                                    >
-                                        x
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
                         <div className="form-floating mb-3 w-100">
-                            <input className={`form-control`} type="text" id="tags"
-                                onKeyUp={(e) => { if (e.key === "Enter") { addTags(e) } }}
-                                placeholder="以 Enter 新增標籤"
-                                onChange={(e) => { predictSearch("tags", e.target.value) }} value={tag_input}
-                            />
-                            <label className="form-label" for="tags">標籤</label>
-                            {tag_predict_data ?
+                            <input id="floatingTitle" className={`form-control `} name="title" type="text"
+                                value={title} onChange={e => { set.setTitle(e.target.value) }} required />
+                            <label className="form-label" for="floatingTitle">標題</label>
+                        </div>
+                        <div className="form-floating mb-3 w-100">
+                            <textarea id="content" className={`form-control `}
+                                name="content" style={{ height: '50vh' }}
+                                value={content} onChange={e => { set.setContent(e.target.value) }} required></textarea>
+                            <label className="form-label" for="content">內文</label>
+                        </div>
+                        <div>
+                            <ul id={style["tags"]}>
+                                {tags.map((tag, index) => (
+                                    <li key={index} className={style["tag"]}>
+                                        <span className={style['tag-title']}>{tag}</span>
+                                        <span className={style['tag-close-icon']}
+                                            onClick={() => removeTags(index)}
+                                        >
+                                            x
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="form-floating mb-3 w-100">
+                                <input className={`form-control`} type="text" id="tags"
+                                    onKeyUp={(e) => { if (e.key === "Enter") { addTags(e) } }}
+                                    placeholder="以 Enter 新增標籤"
+                                    onChange={(e) => { predictSearch("tags", e.target.value) }} value={tag_input}
+                                />
+                                <label className="form-label" for="tags">標籤</label>
+                                {tag_predict_data ?
+                                    (<ul className={`${postStyle['words-menu']} ${postStyle['show']}`}>
+                                        {tag_predict_data.map((tag_p, index) => (
+                                            <li key={index} onClick={(e) => predictAddTags(e)} className={`${postStyle['words-item']}`} ><span>{tag_p.name}</span></li>
+                                        ))
+                                        }
+                                    </ul>
+                                    )
+                                    : (<></>)
+                                }
+                            </div>
+                        </div>
+
+                        <div className="form-floating mb-3 w-100">
+                            <input className={`form-control`} name="series" type="text" id="series"
+                                value={series} onChange={e => { set.setSeries(e.target.value); predictSearch("series", e.target.value) }} />
+                            <label className="form-label" for="series">系列</label>
+                            {series_predict_data ?
                                 (<ul className={`${postStyle['words-menu']} ${postStyle['show']}`}>
-                                    {tag_predict_data.map((tag_p, index) => (
-                                        <li key={index} onClick={(e) => predictAddTags(e)} className={`${postStyle['words-item']}`} ><span>{tag_p.name}</span></li>
+                                    {series_predict_data.map((series_p, index) => (
+                                        <li key={index} onClick={(e) => predictAddSeries(e)} className={`${postStyle['words-item']}`} ><span>{series_p.name}</span></li>
                                     ))
                                     }
                                 </ul>
@@ -174,32 +195,15 @@ const PostEdit = ({ titlename, title, content, message, tags, series, alt, cover
                                 : (<></>)
                             }
                         </div>
-                    </div>
 
-                    <div className="form-floating mb-3 w-100">
-                        <input className={`form-control`} name="series" type="text" id="series"
-                            value={series} onChange={e => { set.setSeries(e.target.value); predictSearch("series", e.target.value) }} />
-                        <label className="form-label" for="series">系列</label>
-                        {series_predict_data ?
-                            (<ul className={`${postStyle['words-menu']} ${postStyle['show']}`}>
-                                {series_predict_data.map((series_p, index) => (
-                                    <li key={index} onClick={(e) => predictAddSeries(e)} className={`${postStyle['words-item']}`} ><span>{series_p.name}</span></li>
-                                ))
-                                }
-                            </ul>
-                            )
-                            : (<></>)
+                        <p style={{ color: 'red' }}>{message}</p>
+                        {titlename === "新增" ?
+                            (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.publishPost(e) } }}>新增</button>)
+                            : (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.updatePost(e) } }}>編輯</button>)
                         }
-                    </div>
 
-                    <p style={{ color: 'red' }}>{message}</p>
-                    {titlename === "新增" ?
-                        (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.publishPost(e) } }}>新增</button>)
-                        : (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.updatePost(e) } }}>編輯</button>)
-                    }
-
-                </form>
-
+                    </form>
+                </>
                 <>
                     <h3>預覽</h3>
                     <div className={`${postStyle.preview} border mb-3 w-100 `}>

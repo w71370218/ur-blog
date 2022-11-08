@@ -56,7 +56,7 @@ const SeriesDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <SidebarLayout>
+                <SidebarLayout series={props.series.name}>
                     <div className={`${styles['post-list']} px-md-5 w-100`}>
                         {
                             props.series.cover ?
@@ -72,7 +72,7 @@ const SeriesDetails = (props) => {
                         </div>
                         {session ?
                             (<div>
-                                <Link href={`/series/edit/${props.series.id}`}><a>編輯</a></Link>
+                                <Link href={`/series/${props.series.id}/edit`}><a>編輯</a></Link>
                                 <a href="" onClick={e => { deleteSeries(e) }}>刪除</a>
                             </div>)
                             : (<></>)

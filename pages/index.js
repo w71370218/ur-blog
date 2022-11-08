@@ -18,7 +18,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
+      <main>
         <h1 className={styles.title}>
           <Welcome />
         </h1>
