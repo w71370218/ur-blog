@@ -24,6 +24,10 @@ const PostList = ({ query, c_allPostNum }) => {
             req.postNum = 0
         }
         else {
+            if (query) {
+                setQuery(query)
+                req.query = new_query
+            }
             req.postNum = posts.length
         }
         req.allPostNum = allPostNum

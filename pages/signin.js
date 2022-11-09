@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import styles from '../styles/Login.module.css'
-import { getCsrfToken, signIn, getSession, getProviders } from "next-auth/react";
+import { getCsrfToken, signIn, getSession } from "next-auth/react";
 import { useState } from "react";
 import Router from 'next/router';
 import Title from '../components/Title';
 
-export default function SignIn({ csrfToken, providers }) {
+export default function SignIn({ csrfToken }) {
     const [authmode, setAuthmode] = useState(1);
 
     const [username, setUsername] = useState('');
@@ -40,7 +40,7 @@ export default function SignIn({ csrfToken, providers }) {
         }
         if (data.message == "註冊成功") {
             let options = { redirect: false, username: username, password: password }
-            const res = await signIn('credentials', options)
+            await signIn('credentials', options)
             return Router.push("/")
         }
     }
@@ -109,10 +109,9 @@ export async function getServerSideProps(context) {
         }
     }
     const csrfToken = await getCsrfToken(context);
-    const providers = await getProviders();
 
     return {
-        props: { csrfToken: csrfToken, providers: providers },
+        props: { csrfToken: csrfToken },
 
     }
 }

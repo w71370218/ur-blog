@@ -5,6 +5,7 @@ const Title = ({ title }) => {
         <Head>
             <title>{`${title} | UR's Blog`}</title>
             <meta property="og:title" content={`${title} | UR's Blog`} />
+            <meta property="og:site_name" content={`UR's Blog`} />
         </Head>
     )
 }

@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import connect from "../../../lib/connect";
-import clientPromise from "../../../lib/mongodb";
 import Users from "../../../models/users";
 import bcrypt from "bcrypt";
 
@@ -38,7 +37,6 @@ export default NextAuth({
     database: process.env.MONGODB_URI,
     callbacks: {
         jwt: async ({ token, user }) => {
-            //console.log(token, user, "123456")
             if (user) {
                 token.username = user.username
                 token.id = user.id
@@ -57,7 +55,6 @@ export default NextAuth({
                 session.user.lastLoginTime = token.lastLoginTime,
                     session.user.createdTime = token.createdTime
             }
-            //console.log(session, token, "end")
             return session;
         },
     },
@@ -84,6 +81,5 @@ const signInUser = async ({ password, user }) => {
         createdTime: user.createdTime
     }
 
-    //console.log(logedInUser)
     return logedInUser
 }
