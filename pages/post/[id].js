@@ -8,12 +8,26 @@ import SidebarLayout from '../../components/layout/SidebarLayout'
 import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
 import Title from '../../components/Title'
+import TOC from '../../components/TableOfContents';
 import styles from '../../styles/PostList.module.css'
 import { useSession, getSession } from "next-auth/react"
 import Link from 'next/link'
 import Router from 'next/router';
+import { useRef, useEffect, useState } from 'react';
 
 const PostDetails = (props) => {
+    const ref = useRef();
+    const markdown_ref = useRef();
+    const left_ref = useRef();
+    const [markdown_content, setMarkdownContent] = useState(null);
+    const [height, setHeight] = useState(0);
+    const [left, setLeft] = useState(0);
+    useEffect(() => {
+        setHeight(ref.current.parentNode.getElementsByTagName("nav")[0].offsetHeight)
+        setMarkdownContent(markdown_ref.current)
+        setLeft(left_ref.current.offsetLeft)
+    }, [ref.current, markdown_ref.current, left_ref.current])
+
     const { data: session } = useSession();
     const deletePost = async (e) => {
         if (confirm("是否要刪除這篇文章?")) {
@@ -35,7 +49,6 @@ const PostDetails = (props) => {
             else {
                 if (data.message) {
                     alert(data.message)
-
                 }
             }
         }
@@ -59,9 +72,10 @@ const PostDetails = (props) => {
                 {props.post.cover && <meta property='og:image' content={`${props.post.cover.url}`} />}
                 <meta name="referrer" content="no-referrer" />
             </Head>
-            <main>
+            <TOC top={height} left={left} content={markdown_content} />
+            <main ref={ref}>
                 <SidebarLayout id={props.post.title}>
-                    <div className={`${styles['post-list']} ${styles['post-area']} w-100`}>
+                    <div ref={left_ref} className={`${styles['post-list']} ${styles['post-area']} w-100`}>
                         <div className={``}>
                             {props.post.cover &&
                                 <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
@@ -104,8 +118,8 @@ const PostDetails = (props) => {
                                         : (<></>)) : (<></>)
                                 }
                                 <hr />
-                                <div className={styles['content']}>
-                                    <Markdown>{props.post.content}</Markdown>
+                                <div ref={markdown_ref} className={styles['content']}>
+                                    <Markdown top={height}>{props.post.content}</Markdown>
                                 </div>
                             </div>
                         </div>

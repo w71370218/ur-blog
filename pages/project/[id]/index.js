@@ -83,7 +83,6 @@ const Project = (props) => {
 export default Project
 
 export async function getServerSideProps(context) {
-    console.log(project_list[context.query.id - 1])
     if (project_list[context.query.id - 1]) {
         return { props: { project: project_list[context.query.id - 1] } }
     }

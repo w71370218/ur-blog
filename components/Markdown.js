@@ -7,7 +7,12 @@ import gfm from 'remark-gfm';
 import reactMarkDownStyle from '../styles/markdown-styles.module.css'
 //import Image from 'next/image';
 
-const Markdown = ({ children }) => {
+const Markdown = ({ children, top }) => {
+    let h1 = 0;
+    let h2 = 0;
+    let h3 = 0;
+    let h4 = 0;
+    let h5 = 0;
     return (
         <ReactMarkdown className={reactMarkDownStyle.reactMarkDown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
             components={{
@@ -31,6 +36,26 @@ const Markdown = ({ children }) => {
                             {children}
                         </code >
                     )
+                },
+                h1(props) {
+                    h1++;
+                    return (<h1 onClick={(e) => { window.scrollTo(0, (e.target.offsetTop - top)) }}><a href={`#${props.children}`} style={{ color: "#000" }}>{props.children}</a></h1>)
+                },
+                h2(props) {
+                    h2++;
+                    return (<h2 onClick={(e) => { window.scrollTo(0, (e.target.offsetTop - top)) }}><a href={`#${props.children}`} style={{ color: "#000" }}>{props.children}</a></h2>)
+                },
+                h3(props) {
+                    h3++;
+                    return (<h3 onClick={(e) => { window.scrollTo(0, (e.target.offsetTop - top)) }}><a href={`#${props.children}`} style={{ color: "#000" }}>{props.children}</a></h3>)
+                },
+                h4(props) {
+                    h4++;
+                    return (<h4 onClick={(e) => { window.scrollTo(0, (e.target.offsetTop - top)) }}><a href={`#${props.children}`} style={{ color: "#000" }}>{props.children}</a></h4>)
+                },
+                h5(props) {
+                    h5++;
+                    return (<h5 onClick={(e) => { window.scrollTo(0, (e.target.offsetTop - top)) }}><a href={`#${props.children}`} style={{ color: "#000" }}>{props.children}</a></h5>)
                 },
                 /*
                 p(props) {

@@ -1,0 +1,9 @@
+.toc {
+    position: fixed;
+    left: 10px;
+    z-index: 99;
+}
+
+.toc-block {
+    font-size: 8px;
+}
