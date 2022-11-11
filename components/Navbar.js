@@ -1,27 +1,23 @@
 import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
 import styles from '../styles/Navbar.module.css'
-import { useRef, useEffect, useState } from 'react'
+import useRWD from './useRWD'
+import getSVG from './getSVG'
 
 const Navbar = () => {
+    const device = useRWD();
     const { data: session } = useSession();
-    const widthRef = useRef(0);
-    const [width, setWidth] = useState(0);
-    const [show, setShow] = useState(false);
 
-    useEffect(() => {
-        setWidth(widthRef.current.offsetWidth)
-    }, [widthRef.current.offsetWidth])
     return (
         <>
-            <nav ref={widthRef} className={`${styles.nav} bg-dark navbar-dark`} width={width}>
+            <nav className={`${styles.nav} bg-dark navbar-dark`}>
                 <div className="p-2 p-md-3 mb-3 ">
                     <div className="container">
                         <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start">
                             <Link href="/"><a className="d-flex align-items-center mb-2 mb-lg-0 text-light text-decoration-none ">
                                 UR&#39;s Blog
                             </a></Link>
-                            {width >= 720 ?
+                            {device === "PC" ?
                                 (
                                     <>
                                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -75,7 +71,7 @@ const Navbar = () => {
                                         </ul>
                                         <div className="text-end">
                                             <button className="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                                                <span className="navbar-toggler-icon nav-link px-2"></span>
+                                                {getSVG('menu')}
                                             </button>
                                         </div>
                                     </>

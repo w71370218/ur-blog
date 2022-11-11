@@ -9,6 +9,7 @@ import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
 import Title from '../../components/Title'
 import TOC from '../../components/TableOfContents';
+import getSVG from '../../components/getSVG';
 import styles from '../../styles/PostList.module.css'
 import { useSession, getSession } from "next-auth/react"
 import Link from 'next/link'
@@ -87,25 +88,17 @@ const PostDetails = (props) => {
                                 {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> </>}
                                 <div className="mb-3">
                                     <p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
-                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                        </svg>
+                                        {getSVG('person')}
                                         <span> {props.post.author.username}</span>
                                     </p>
                                 </div>
                                 <div className="date mb-3">
                                     <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock" viewBox="0 0 16 16">
-                                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                                        </svg>
+                                        {getSVG('clock')}
                                         <span> 發佈時間:  {new Date(props.post.publishedTime).toLocaleString()}</span>
                                     </div>
                                     <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-clock" viewBox="0 0 16 16">
-                                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                                        </svg>
+                                        {getSVG('clock')}
                                         <span> 最後編輯時間:  {new Date(props.post.updatedTime).toLocaleString()}</span>
                                     </div>
                                 </div>

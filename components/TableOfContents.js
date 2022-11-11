@@ -1,7 +1,11 @@
 import styles from '../styles/TableOfContents.module.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import useRWD from './useRWD';
+import getSVG from './getSVG'
 
 const TOC = ({ content, top, left }) => {
+    const device = useRWD();
+
     const headings = ['H1', 'H2', 'H3', 'H4', 'H5']
     let toc_arr = []
     let h1_arr = []
@@ -72,7 +76,6 @@ const TOC = ({ content, top, left }) => {
     }
     */
 
-    const [width, setWidth] = useState(0);
     const [display, setDisplay] = useState("none");
 
     const displaytoggle = () => {
@@ -84,27 +87,28 @@ const TOC = ({ content, top, left }) => {
         }
     }
 
-    useEffect(() => {
-        setWidth(window.innerWidth)
-    }, [])
-    const toc_content = (<div className={`text-secondary ${styles['toc-block']}`} style={{ display: display, width: left }}><ol>{toc_arr.map((content, index) => (<div key={index}>{content}</div>))}</ol></div>)
-    const toc = (<div>
-        <div className='bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
-            <span>目錄</span>
-        </div>
-        {toc_content}
-    </div>)
+    const toc_content = (<div className={`text-secondary ${styles['toc-block']}`} style={{ display: display, width: left, height: '100%' }}><ol>{toc_arr.map((content, index) => (<div key={index}>{content}</div>))}</ol></div>)
 
     return (
         <>
             {
-                width >= 720 ?
+                device === "PC" ?
                     (<div className={`${styles.toc}`} style={{ top: top + 10 }}>
-                        {toc}
+                        <div>
+                            <div className='bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
+                                <span>{getSVG('menu')} 目錄</span>
+                            </div>
+                            {toc_content}
+                        </div>
                     </div>)
                     :
                     (<div className={`${styles.toc}`} style={{ bottom: 10 }}>
-                        {toc}
+                        <div>
+                            {toc_content}
+                            <div className='bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
+                                <span>{getSVG('menu')} 目錄</span>
+                            </div>
+                        </div>
                     </div>)
             }
         </>

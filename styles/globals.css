@@ -24,3 +24,7 @@ a:hover {
 .pointer:hover {
   cursor: pointer;
 }
+
+svg {
+  fill: currentColor;
+}
