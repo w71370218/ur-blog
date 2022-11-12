@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         }
         const filter = { id: id };
         let series = await Series.findOne(filter)
-        await Posts.updateOne(filter, series_q, { setDefaultsOnInsert: true })
+        await Series.updateOne(filter, series_q, { setDefaultsOnInsert: true })
 
         await series.save();
 

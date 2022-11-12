@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import styles from '../../styles/PostList.module.css'
+import Markdown from '../Markdown';
 
 const Series = ({ series }) => {
     return (
@@ -22,7 +23,7 @@ const Series = ({ series }) => {
                     (<>
                         <hr />
                         <div className={styles['blog-post-content']}>
-                            {series.description}
+                            <Markdown>{series.description}</Markdown>
                         </div>
                     </>)
                 }

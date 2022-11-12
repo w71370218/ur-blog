@@ -2,6 +2,7 @@ import Head from 'next/head'
 import SidebarLayout from '../../components/layout/SidebarLayout'
 import PostList from '../../components/PostList'
 import Title from '../../components/Title'
+import Markdown from '../../components/Markdown';
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
 import { getSession } from "next-auth/react";
@@ -68,7 +69,7 @@ const SeriesDetails = (props) => {
                             <span>{new Date(props.series.createdTime).toLocaleString()}</span>
                         </p>
                         <div className={styles['content']}>
-                            {props.series.description}
+                            <Markdown>{props.series.description}</Markdown>
                         </div>
                         {session ?
                             (<div>
