@@ -37,11 +37,15 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-
-
   connect();
+
   let allPostNum = await Posts.countDocuments({});
   const posts = [];
+
+  setTimeout(() => {
+    return { props: { allPostNum: allPostNum, firstPost: posts } }
+  }, 9000)
+
   let skip_postNum = 0
   const { req } = context;
   const session = await getSession({ req });
@@ -106,9 +110,6 @@ export async function getServerSideProps(context) {
 
 
 
-  setTimeout(() => {
-    return { props: { allPostNum: allPostNum, firstPost: posts } }
-  }, 9000)
 
   return { props: { allPostNum: allPostNum, firstPost: posts } }
 
