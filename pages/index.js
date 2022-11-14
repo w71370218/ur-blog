@@ -94,6 +94,7 @@ export async function getServerSideProps(context) {
           postsQ[i].series._id = postsQ[i].series._id.toString();
         }
       }
+      break;
     }
     skip_postNum++;
 
