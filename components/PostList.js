@@ -4,7 +4,7 @@ import styles from '../styles/PostList.module.css'
 import Loading from './Loading'
 import Post from "./post"
 
-const PostList = ({ query, c_allPostNum }) => {
+const PostList = ({ query, c_allPostNum, firstPost }) => {
     const { data: session } = useSession();
     const [posts, setData] = useState(null)
     const [new_query, setQuery] = useState(query)
@@ -80,6 +80,11 @@ const PostList = ({ query, c_allPostNum }) => {
 
     return (
         <div className={`${styles['post-list']} `} >
+            {firstPost &&
+                <div >
+                    <Post post={firstPost[0]} />
+                </div>
+            }
             {
                 posts ?
                     (

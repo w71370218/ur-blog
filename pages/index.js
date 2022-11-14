@@ -6,6 +6,10 @@ import SidebarLayout from '../components/layout/SidebarLayout';
 import Title from '../components/Title';
 import connect from '../lib/connect';
 import Posts from '../models/posts'
+import Users from '../models/users'
+import Tags from '../models/tags'
+import Series from '../models/series';
+import { getSession } from 'next-auth/react';
 
 export default function Home(props) {
   return (
@@ -24,7 +28,7 @@ export default function Home(props) {
             <Welcome />
           </h1>
           <div className="px-md-5">
-            <PostList c_allPostNum={props.allPostNum} />
+            <PostList c_allPostNum={props.allPostNum} firstPost={props.firstPost} />
           </div>
         </>
       </SidebarLayout>
@@ -35,7 +39,68 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   connect();
   let allPostNum = await Posts.countDocuments({});
-  return { props: { allPostNum: allPostNum } }
+  const posts = [];
+  let skip_postNum = 0
+  const session = await getSession();
+  let user = null;
+  if (session) {
+    user = session.user;
+  }
+  while (posts.length < 1) {
+    let postsQ = await Posts.find({})
+      .skip(skip_postNum)
+      .sort({ 'id': -1 })
+      .lean();
+    for (let i = 0; i < postsQ.length; i++) {
+      //author
+      const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
+      author._id = author._id.toString();
+      postsQ[i].author = author;
+      //access
+      if (user) {
+        if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
+          posts.push(postsQ[i])
+        } else {
+          continue;
+        }
+      }
+      else {
+        if (postsQ[i].access === "any") {
+          posts.push(postsQ[i])
+        } else {
+          continue;
+        }
+      }
+
+
+      //post
+      postsQ[i]._id = postsQ[i]._id.toString();
+      postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
+        .replace(/<video.+<\/video>/g, ' ')
+        .substring(0, 300);
+
+      //tags
+      for (let j = 0; j < postsQ[i].tags.length; j++) {
+        const tag = await Tags.findOne({ _id: postsQ[i].tags[j] }).select('id name').lean();
+        tag._id = tag._id.toString()
+        postsQ[i].tags[j] = tag;
+      }
+      // series
+      if (postsQ[i].series && postsQ[i].series !== null) {
+        if (postsQ[i].series.hasOwnProperty("id")) {
+          const series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
+          postsQ[i].series = series;
+          postsQ[i].series._id = postsQ[i].series._id.toString();
+        }
+      }
+    }
+    skip_postNum++;
+
+  }
+
+  allPostNum--;
+
+  return { props: { allPostNum: allPostNum, firstPost: posts } }
 
 
   /*
