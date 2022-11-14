@@ -81,9 +81,13 @@ const PostList = ({ query, c_allPostNum, firstPost }) => {
     return (
         <div className={`${styles['post-list']} `} >
             {firstPost &&
-                <div >
-                    <Post post={firstPost[0]} />
-                </div>
+                (
+                    firstPost.map(post => (
+                        <div key={post.id} >
+                            <Post post={post} />
+                        </div>
+                    ))
+                )
             }
             {
                 posts ?

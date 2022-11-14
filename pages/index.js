@@ -37,6 +37,8 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
+
+
   connect();
   let allPostNum = await Posts.countDocuments({});
   const posts = [];
@@ -47,6 +49,7 @@ export async function getServerSideProps(context) {
   if (session) {
     user = session.user;
   }
+
   while (posts.length < 1) {
     let postsQ = await Posts.find({})
       .skip(skip_postNum)
@@ -57,7 +60,10 @@ export async function getServerSideProps(context) {
       const author = await Users.findOne({ _id: postsQ[i].author }).select('id username').lean();
       author._id = author._id.toString();
       postsQ[i].author = author;
+
       //access
+      skip_postNum++;
+
       if (user) {
         if ((user.id === author.id && postsQ[i].access === "self") || postsQ[i].access === "any") {
           posts.push(postsQ[i])
@@ -94,13 +100,15 @@ export async function getServerSideProps(context) {
           postsQ[i].series._id = postsQ[i].series._id.toString();
         }
       }
-      break;
+      allPostNum--;
     }
-    skip_postNum++;
-
   }
 
-  allPostNum--;
+
+
+  setTimeout(() => {
+    return { props: { allPostNum: allPostNum, firstPost: posts } }
+  }, 9000)
 
   return { props: { allPostNum: allPostNum, firstPost: posts } }
 
