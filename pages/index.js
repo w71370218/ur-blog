@@ -78,21 +78,6 @@ export async function getServerSideProps(context) {
       postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
         .replace(/<video.+<\/video>/g, ' ')
         .substring(0, 300);
-
-      //tags
-      for (let j = 0; j < postsQ[i].tags.length; j++) {
-        const tag = await Tags.findOne({ _id: postsQ[i].tags[j] }).select('id name').lean();
-        tag._id = tag._id.toString()
-        postsQ[i].tags[j] = tag;
-      }
-      // series
-      if (postsQ[i].series && postsQ[i].series !== null) {
-        if (postsQ[i].series.hasOwnProperty("id")) {
-          const series = await Series.findOne({ _id: postsQ[i].series.id }).lean();
-          postsQ[i].series = series;
-          postsQ[i].series._id = postsQ[i].series._id.toString();
-        }
-      }
     }
     skip_postNum++;
 
