@@ -63,7 +63,7 @@ export async function getServerSideProps(context) {
   for (let i = 0; i < postsQ.length; i++) {
     var end = new Date().getTime() / 1000;
     var time = end - start;
-    if (time >= 8) {
+    if (time >= 5) {
       break;
     }
     //author
