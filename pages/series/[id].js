@@ -101,11 +101,11 @@ export async function getServerSideProps(context) {
     if (session) {
         user = session.user
     }
-    const query = { "series.id": context.query.id }
 
     connect();
     const series = await Series.findOne({ id: context.query.id }).lean();
     if (series !== null) {
+        const query = { '$or': [{ "series.id": series }] }
         series._id = series._id.toString()
         const allPostNum = await Posts.countDocuments({ '$or': [{ "series.id": series }] });
         return { props: { query: query, series: series, allPostNum: allPostNum } }

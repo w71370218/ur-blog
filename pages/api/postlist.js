@@ -13,18 +13,8 @@ export default async function handler(req, res) { //user, query
         const req_allPostNum = req.body.allPostNum
 
         let allPostCount = req_allPostNum;
-        let r_query;
+        let r_query = req.body.query;
         let series;
-        if (req.body.query) {
-            const query = req.body.query
-            r_query = { $or: [] }
-            if (query.hasOwnProperty("series.id")) {
-                series = await Series.findOne({ id: query["series.id"] }).lean();
-                r_query["$or"].push({ "series.id": series });
-            }
-        } else {
-            r_query = {};
-        }
         let allPostNum;
         let skip_postNum;
 

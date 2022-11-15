@@ -55,7 +55,15 @@ const PostList = ({ query, c_allPostNum, firstPost }) => {
     }
 
     useEffect(() => {
-        if (!posts) {
+        if (query) {
+            if (query != new_query) {
+                setData(null)
+                setQuery(query)
+                setPostNum(0)
+                setallPostNum(c_allPostNum)
+            }
+        }
+        if (posts === null) {
             if (query) {
                 setQuery(query)
             }
@@ -75,7 +83,7 @@ const PostList = ({ query, c_allPostNum, firstPost }) => {
                 fetchProduct();
             }
         }
-    }, [session, postNum]);
+    }, [query, session, postNum]);
 
 
     return (
