@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             let n_tag = {}
             n_tag.name = tag.name
             n_tag.id = tag.id
-            n_tag.allPostNum = allPostNum;
+            n_tag.allPostNum = allPostNum.toString();
             tags.push(n_tag)
         }
 
