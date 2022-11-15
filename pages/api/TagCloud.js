@@ -6,12 +6,14 @@ import { ObjectId } from 'mongodb'
 
 export default async function handler(req, res) {
     try {
+        setTimeout(() => {
+            res.status(200).json({ tags: tags, unfinised: true })
+        }, 5000)
         const dbclient = await clientPromise;
         const db = dbclient.db("ur-blog");
         const posts = db.collection("posts")
 
         const q_tags = req.body.tags
-        let tags = []
 
         for (let tag of q_tags) {
             //const cb_tags = await posts.find({ '$or': [{ "tags": ObjectId(tag._id) }] }).toArray();
@@ -19,15 +21,13 @@ export default async function handler(req, res) {
             const query = { '$or': [{ "tags": ObjectId(tag._id) }] }
 
             const allPostNum = await posts.countDocuments(query);
-            let n_tag = {}
-            n_tag.name = tag.name
-            n_tag.id = tag.id
-            n_tag.allPostNum = allPostNum.toString();
-            tags.push(n_tag)
+            tag.allPostNum = allPostNum.toString();
         }
 
+        let tags;
+        tags = q_tags
         tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
-        tags = tags.slice(0, 3)
+        tags = q_tags.slice(0, 3)
 
         const q1 = tags[~~(tags.length / 3 * 1) - 1].allPostNum
         const q2 = tags[~~(tags.length / 3 * 2) - 1].allPostNum
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
                 tag.size = "6"
             }
         })
-        res.status(200).json({ tags: tags })
+        res.status(200).json({ tags: tags, unfinised: false })
     }
     catch (e) {
         console.error(e)

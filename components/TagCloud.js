@@ -20,10 +20,11 @@ const TagCloud = () => {
         if (res.ok) {
             const response = await res.json()
             const new_tags = response.tags
-            setTimeout(() => {
-                setLoading(false)
-            }, 9000)
+            const unfinised = response.unfinised
             setTags(new_tags)
+            if (unfinised) {
+                fetchTagCloud(new_tags)
+            }
             setLoading(false)
         }
         else {
