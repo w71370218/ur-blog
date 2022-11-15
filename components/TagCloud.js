@@ -26,7 +26,7 @@ const TagCloud = () => {
         else {
             const response = await res.json()
             setMessage(response.message)
-
+            setLoading(false)
         }
     }
 
@@ -53,12 +53,7 @@ const TagCloud = () => {
     }
 
     useEffect(() => {
-        try {
-            getAllTags();
-        }
-        catch (e) {
-            setLoading(false)
-        }
+        getAllTags();
 
     }, [])
 
