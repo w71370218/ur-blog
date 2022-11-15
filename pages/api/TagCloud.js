@@ -8,19 +8,19 @@ export default async function handler(req, res) {
     try {
         const q_tags = await Tags.find({}).lean();
         let tags = []
-        /*
-        for (let i = 0; i < q_tags.length; i++) {
-            const query = { '$or': [{ "tags": q_tags[i] }] }
+
+        for (let tag of q_tags) {
+            const query = { '$or': [{ "tags": tag }] }
             const allPostNum = await Posts.countDocuments(query);
-            tags[i] = {}
-            tags[i].name = q_tags[i].name
-            tags[i].id = q_tags[i].id
-            tags[i].allPostNum = allPostNum;
+            let n_tag = {}
+            n_tag.name = tag.name
+            n_tag.id = tag.id
+            n_tag.allPostNum = allPostNum;
+            tags.push(n_tag)
         }
-        */
-        //tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
-        tags = tags.slice(0, 3)
-        /*
+
+        tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
+        tags = tags.slice(0, 15)
         const q1 = tags[~~(tags.length / 3 * 1) - 1].allPostNum
         const q2 = tags[~~(tags.length / 3 * 2) - 1].allPostNum
         const q3 = tags[~~(tags.length / 3 * 3) - 1].allPostNum
@@ -35,7 +35,6 @@ export default async function handler(req, res) {
                 tag.size = "6"
             }
         })
-        */
         res.status(200).json({ tags: tags })
     }
     catch (e) {
