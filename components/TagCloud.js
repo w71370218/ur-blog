@@ -8,13 +8,14 @@ const TagCloud = () => {
     const [message, setMessage] = useState(null)
     const [isLoading, setLoading] = useState(true)
 
-    const fetchTagCloud = async () => {
+    const fetchTagCloud = async (tags) => {
         setLoading(true)
         const res = await fetch('/api/TagCloud', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 "Content-type": "application/json",
-            }
+            },
+            body: JSON.stringify({ tags: tags }),
         })
         if (res.ok) {
             const response = await res.json()
@@ -27,8 +28,30 @@ const TagCloud = () => {
             setMessage(response.message)
         }
     }
+
+    const getAllTags = async () => {
+        setLoading(true)
+        const res = await fetch('/api/getAllTags', {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+        if (res.ok) {
+            const response = await res.json()
+            const new_tags = response.tags
+            setTags(new_tags)
+            setLoading(false)
+            fetchTagCloud(new_tags)
+        }
+        else {
+            const response = await res.json()
+            setMessage(response.message)
+        }
+    }
+
     useEffect(() => {
-        fetchTagCloud();
+        getAllTags();
 
     }, [])
 
