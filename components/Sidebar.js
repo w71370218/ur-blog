@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '../styles/Sidebar.module.css'
+import TagCloud from './TagCloud';
 
 const Sidebar = () => {
     const ref = useRef(null);
@@ -70,14 +71,10 @@ const Sidebar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="me-5 pe-5">
-                    <div className="mb-5">
-                        <h5>標籤雲</h5>
-                        <div className="tagcloud">
-                            <a href="#" className="tag-cloud-link">dish</a>
-                            <a href="#" className="tag-cloud-link">menu</a>
-                            <a href="#" className="tag-cloud-link">food</a>
-                        </div>
+                <div className="mb-5">
+                    <h5>標籤雲</h5>
+                    <div className="tagcloud bg-white p-4 rounded-3 d-flex flex-wrap justify-content-center">
+                        <TagCloud />
                     </div>
                 </div>
             </div>

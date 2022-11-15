@@ -54,7 +54,6 @@ export default async function handler(req, res) { //user, query
                 }
             }
 
-
             //post
             postsQ[i]._id = postsQ[i]._id.toString();
             postsQ[i].content = postsQ[i].content.replace(/!\[](.+)/g, ' ')
@@ -91,8 +90,6 @@ export default async function handler(req, res) { //user, query
 
         let post_list = posts;
 
-
-
         //return { posts: post_list }
         res.status(200).json({ posts: post_list, allPostNum: allPostCount })
     } catch (e) {
@@ -100,5 +97,4 @@ export default async function handler(req, res) { //user, query
         //return { message: "500 伺服器內部錯誤 Server-side error occurred" }
         res.status(500).json({ message: e })
     }
-
 }
