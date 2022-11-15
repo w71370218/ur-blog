@@ -6,24 +6,21 @@ import { ObjectId } from 'mongodb'
 
 export default async function handler(req, res) {
     try {
-        setTimeout(() => {
-            res.status(200).json({ tags: tags, unfinised: true })
-        }, 5000)
         const dbclient = await clientPromise;
         const db = dbclient.db("ur-blog");
         const posts = db.collection("posts")
 
-        const q_tags = req.body.tags
+        const q_tag = req.body.tag
 
-        for (let tag of q_tags) {
-            //const cb_tags = await posts.find({ '$or': [{ "tags": ObjectId(tag._id) }] }).toArray();
-            //console.log(cb_tags)
-            const query = { '$or': [{ "tags": ObjectId(tag._id) }] }
+        let tag;
+        tag = q_tag;
 
-            const allPostNum = await posts.countDocuments(query);
-            tag.allPostNum = allPostNum.toString();
-        }
+        const query = { '$or': [{ "tags": ObjectId(tag._id) }] }
 
+        const allPostNum = await posts.countDocuments(query);
+        tag.allPostNum = allPostNum.toString();
+
+        /*
         let tags;
         tags = q_tags
         tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
@@ -43,7 +40,8 @@ export default async function handler(req, res) {
                 tag.size = "6"
             }
         })
-        res.status(200).json({ tags: tags, unfinised: false })
+        */
+        res.status(200).json({ tag: tag })
     }
     catch (e) {
         console.error(e)
