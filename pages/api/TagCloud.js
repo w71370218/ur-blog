@@ -1,17 +1,18 @@
-import connect from '../../lib/connect';
-import Posts from '../../models/posts';
-import Tags from '../../models/tags';
-
-connect();
+import clientPromise from '../../lib/mongodb'
 
 export default async function handler(req, res) {
     try {
-        const q_tags = await Tags.find({}).lean();
+        const client = await clientPromise
+        const database = client.db('ur-blog');
+        const tagsdb = database.collection('tags')
+        const postsdb = database.collection('posts')
+
+        const q_tags = await tagsdb.find({}).toArray();
         let tags = []
 
         for (let tag of q_tags) {
             const query = { '$or': [{ "tags": tag }] }
-            const allPostNum = await Posts.countDocuments(query);
+            const allPostNum = await postsdb.countDocuments(query);
             let n_tag = {}
             n_tag.name = tag.name
             n_tag.id = tag.id
