@@ -28,7 +28,7 @@ export default function Home(props) {
             <Welcome />
           </h1>
           <div className="px-md-5">
-            <PostList c_allPostNum={props.allPostNum} firstPost={props.firstPost} />
+            <PostList c_allPostNum={props.allPostNum} firstPost={props.firstPost} query={props.query} />
           </div>
         </>
       </SidebarLayout>
@@ -113,7 +113,7 @@ export async function getServerSideProps(context) {
     allPostNum--;
   }
 
-  return { props: { allPostNum: allPostNum, firstPost: posts } }
+  return { props: { allPostNum: allPostNum, firstPost: posts, query: {} } }
 
 
   /*
