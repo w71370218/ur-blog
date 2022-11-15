@@ -2,10 +2,11 @@ import connect from '../../lib/connect';
 import Posts from '../../models/posts';
 import Tags from '../../models/tags';
 
-connect();
+
 
 export default async function handler(req, res) {
     try {
+        connect();
         const q_tags = await Tags.find({}).lean();
         let tags = []
         for (let i = 0; i < q_tags.length; i++) {
