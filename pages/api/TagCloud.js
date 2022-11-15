@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
         for (let tag of q_tags) {
             const query = { '$or': [{ "tags": tag }] }
-            const allPostNum = await postsdb.countDocuments(query);
+            const allPostNum = postsdb.countDocuments(query);
             let n_tag = {}
             n_tag.name = tag.name
             n_tag.id = tag.id
