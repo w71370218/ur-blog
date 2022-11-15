@@ -7,12 +7,12 @@ export default async function handler(req, res) {
         const tagsdb = database.collection('tags')
         const postsdb = database.collection('posts')
 
-        const q_tags = await tagsdb.find({}).toArray();
+        const q_tags = tagsdb.find({}).toArray();
         let tags = []
 
-        for (let tag of q_tags) {
+        for (let tag of await q_tags) {
             const query = { '$or': [{ "tags": tag }] }
-            const allPostNum = postsdb.countDocuments(query);
+            const allPostNum = await postsdb.countDocuments(query);
             let n_tag = {}
             n_tag.name = tag.name
             n_tag.id = tag.id
