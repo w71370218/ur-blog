@@ -17,10 +17,10 @@ export default async function handler(req, res) {
             tags[i].allPostNum = allPostNum;
         }
         tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
-        tags = tags.slice(0, 30)
-        const q1 = tags[(tags.length / 3 * 1) - 1].allPostNum
-        const q2 = tags[(tags.length / 3 * 2) - 1].allPostNum
-        const q3 = tags[(tags.length / 3 * 3) - 1].allPostNum
+        tags = tags.slice(0, 20)
+        const q1 = tags[~~(tags.length / 3 * 1) - 1].allPostNum
+        const q2 = tags[~~(tags.length / 3 * 2) - 1].allPostNum
+        const q3 = tags[~~(tags.length / 3 * 3) - 1].allPostNum
         tags.forEach(tag => {
             if (tag.allPostNum >= q1) {
                 tag.size = "4"
