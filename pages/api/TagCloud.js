@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             tags[i].allPostNum = allPostNum;
         }
         tags.sort((a, b) => (a.allPostNum < b.allPostNum) ? 1 : ((b.allPostNum < a.allPostNum) ? -1 : 0))
-        tags = tags.slice(0, 6)
+        tags = tags.slice(0, 3)
         const q1 = tags[~~(tags.length / 3 * 1) - 1].allPostNum
         const q2 = tags[~~(tags.length / 3 * 2) - 1].allPostNum
         const q3 = tags[~~(tags.length / 3 * 3) - 1].allPostNum
