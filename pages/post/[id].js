@@ -24,7 +24,7 @@ const PostDetails = (props) => {
     const [height, setHeight] = useState(0);
     const [left, setLeft] = useState(0);
     useEffect(() => {
-        setHeight(ref.current.parentNode.getElementsByTagName("nav")[0].offsetHeight)
+        setHeight(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight)
         setMarkdownContent(markdown_ref.current)
         setLeft(left_ref.current.offsetLeft)
     }, [ref.current, markdown_ref.current, left_ref.current])
@@ -75,79 +75,77 @@ const PostDetails = (props) => {
             </Head>
             <TOC top={height} left={left} content={markdown_content} />
             <main ref={ref}>
-                <SidebarLayout id={props.post.title}>
-                    <div ref={left_ref} className={`${styles['post-list']} ${styles['post-area']} w-100`}>
-                        <div className={``}>
-                            {props.post.cover &&
-                                <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
-                                    <img className="rounded-top" src={props.post.cover.url} alt={props.post.cover.alt} />
+                <div ref={left_ref} className={`${styles['post-list']} ${styles['post-area']} w-100`}>
+                    <div className={``}>
+                        {props.post.cover &&
+                            <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
+                                <img className="rounded-top" src={props.post.cover.url} alt={props.post.cover.alt} />
+                            </div>
+                        }
+                        <div className={`pb-5 px-md-5 px-3 ${!props.post.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
+                            <h1 className="mb-3">{props.post.title}</h1>
+                            {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> </>}
+                            <div className="mb-3">
+                                <p>
+                                    {getSVG('person')}
+                                    <span> {props.post.author.username}</span>
+                                </p>
+                            </div>
+                            <div className="date mb-3">
+                                <div>
+                                    {getSVG('clock')}
+                                    <span> 發佈時間:  {new Date(props.post.publishedTime).toLocaleString()}</span>
                                 </div>
+                                <div>
+                                    {getSVG('clock')}
+                                    <span> 最後編輯時間:  {new Date(props.post.updatedTime).toLocaleString()}</span>
+                                </div>
+                            </div>
+                            {session ?
+                                ((session.user.id === props.post.author.id) ?
+                                    (<div>
+                                        <Link href={`/post/${props.post.id}/edit`}><a>編輯</a></Link>
+                                        <a href="" onClick={e => { deletePost(e) }}>刪除</a>
+                                    </div>)
+                                    : (<></>)) : (<></>)
                             }
-                            <div className={`pb-5 px-md-5 px-3 ${!props.post.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
-                                <h1 className="mb-3">{props.post.title}</h1>
-                                {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> </>}
-                                <div className="mb-3">
-                                    <p>
-                                        {getSVG('person')}
-                                        <span> {props.post.author.username}</span>
-                                    </p>
-                                </div>
-                                <div className="date mb-3">
-                                    <div>
-                                        {getSVG('clock')}
-                                        <span> 發佈時間:  {new Date(props.post.publishedTime).toLocaleString()}</span>
-                                    </div>
-                                    <div>
-                                        {getSVG('clock')}
-                                        <span> 最後編輯時間:  {new Date(props.post.updatedTime).toLocaleString()}</span>
-                                    </div>
-                                </div>
-                                {session ?
-                                    ((session.user.id === props.post.author.id) ?
-                                        (<div>
-                                            <Link href={`/post/${props.post.id}/edit`}><a>編輯</a></Link>
-                                            <a href="" onClick={e => { deletePost(e) }}>刪除</a>
-                                        </div>)
-                                        : (<></>)) : (<></>)
-                                }
-                                <hr />
-                                <div ref={markdown_ref} className={styles['content']}>
-                                    <Markdown top={height}>{props.post.content}</Markdown>
-                                </div>
+                            <hr />
+                            <div ref={markdown_ref} className={styles['content']}>
+                                <Markdown top={height}>{props.post.content}</Markdown>
                             </div>
                         </div>
-                        {props.post.series && props.post.series.id ?
-                            (<div className='series bg-light'>
-                                <Link href={`/series/${props.post.series.id}`}>
-                                    <div className='series-name pointer border p-4 pb-5'>
-                                        <div className='text-secondary'><h3>系列</h3></div>
-                                        <div className='mt-3 '><h4>{props.post.series.name}</h4></div>
-                                        <div className='text-secondary'>總共 {props.post.series.postCount} 篇文章</div>
-                                    </div>
-                                </Link>
-                                <div className='series-page d-flex '>
-                                    {props.post.series.prev &&
-                                        <Link href={`/post/${props.post.series.prev.id}`}>
-                                            <div className='w-100 pointer border p-4 pt-2 '>
-                                                <div className='text-secondary'>上一篇</div>
-                                                <a>{props.post.series.prev.title}</a>
-                                            </div>
-                                        </Link>
-                                    }
-                                    {props.post.series.next &&
-                                        <Link href={`/post/${props.post.series.next.id}`}>
-                                            <div className='w-100 pointer border p-4 pt-2 '>
-                                                <div className='text-secondary text-end'>下一篇</div>
-                                                <a>{props.post.series.next.title}</a>
-                                            </div>
-                                        </Link>
-                                    }
-                                </div>
-                            </div>
-                            ) : (<></>)
-                        }
                     </div>
-                </SidebarLayout >
+                    {props.post.series && props.post.series.id ?
+                        (<div className='series bg-light'>
+                            <Link href={`/series/${props.post.series.id}`}>
+                                <div className='series-name pointer border p-4 pb-5'>
+                                    <div className='text-secondary'><h3>系列</h3></div>
+                                    <div className='mt-3 '><h4>{props.post.series.name}</h4></div>
+                                    <div className='text-secondary'>總共 {props.post.series.postCount} 篇文章</div>
+                                </div>
+                            </Link>
+                            <div className='series-page d-flex '>
+                                {props.post.series.prev &&
+                                    <Link href={`/post/${props.post.series.prev.id}`}>
+                                        <div className='w-100 pointer border p-4 pt-2 '>
+                                            <div className='text-secondary'>上一篇</div>
+                                            <a>{props.post.series.prev.title}</a>
+                                        </div>
+                                    </Link>
+                                }
+                                {props.post.series.next &&
+                                    <Link href={`/post/${props.post.series.next.id}`}>
+                                        <div className='w-100 pointer border p-4 pt-2 '>
+                                            <div className='text-secondary text-end'>下一篇</div>
+                                            <a>{props.post.series.next.title}</a>
+                                        </div>
+                                    </Link>
+                                }
+                            </div>
+                        </div>
+                        ) : (<></>)
+                    }
+                </div>
             </main >
         </>
     );
@@ -207,9 +205,9 @@ export async function getServerSideProps(context) {
                 Object.assign(post.series, series);
             }
         }
-        return { props: { post: post } }
+        return { props: { post: post, SidebarLayout: true, id: post.title } }
     }
-    return { props: { message: "此篇文章不存在或已經刪除了" } }
+    return { props: { message: "此篇文章不存在或已經刪除了", SidebarLayout: true } }
 }
 
 export default PostDetails;

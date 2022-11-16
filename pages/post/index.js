@@ -17,11 +17,9 @@ export default function Home(props) {
             </Head>
 
             <main>
-                <SidebarLayout>
-                    <div className="px-md-5">
-                        <PostList c_allPostNum={props.allPostNum} query={props.query} />
-                    </div>
-                </SidebarLayout>
+                <div className="px-md-5">
+                    <PostList c_allPostNum={props.allPostNum} query={props.query} />
+                </div>
             </main>
         </>
     )
@@ -30,5 +28,5 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
     connect();
     let allPostNum = await Posts.countDocuments({});
-    return { props: { allPostNum: allPostNum, query: {} } }
+    return { props: { allPostNum: allPostNum, query: {}, SidebarLayout: true } }
 }  

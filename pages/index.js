@@ -22,16 +22,15 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SidebarLayout>
-        <>
-          <h1 className={styles.title}>
-            <Welcome />
-          </h1>
-          <div className="px-md-5">
-            <PostList c_allPostNum={props.allPostNum} firstPost={props.firstPost} query={props.query} />
-          </div>
-        </>
-      </SidebarLayout>
+
+      <>
+        <h1 className={styles.title}>
+          <Welcome />
+        </h1>
+        <div className="px-md-5">
+          <PostList c_allPostNum={props.allPostNum} firstPost={props.firstPost} query={props.query} />
+        </div>
+      </>
     </>
   )
 }
@@ -113,7 +112,7 @@ export async function getServerSideProps(context) {
     allPostNum--;
   }
 
-  return { props: { allPostNum: allPostNum, firstPost: posts, query: {} } }
+  return { props: { allPostNum: allPostNum, firstPost: posts, query: {}, SidebarLayout: true } }
 
 
   /*

@@ -57,38 +57,36 @@ const SeriesDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <SidebarLayout id={props.series.name}>
-                    <div className={`${styles['post-list']} px-md-5 w-100`}>
-                        {
-                            props.series.cover ?
-                                (<div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>)
-                                : (<></>)
-                        }
-                        <h1>{props.series.name}</h1>
-                        <p className="text-secondary">
-                            <span>{new Date(props.series.createdTime).toLocaleString()}</span>
-                        </p>
-                        <div className={styles['content']}>
-                            <Markdown>{props.series.description}</Markdown>
-                        </div>
-                        {session ?
-                            (<div>
-                                <Link href={`/series/${props.series.id}/edit`}><a>編輯</a></Link>
-                                <a href="" onClick={e => { deleteSeries(e) }}>刪除</a>
-                            </div>)
+                <div className={`${styles['post-list']} px-md-5 w-100`}>
+                    {
+                        props.series.cover ?
+                            (<div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>)
                             : (<></>)
-                        }
-                        <hr />
-                        <Link href={{ pathname: "../post/new", query: { series_name: props.series.name } }}><a>
-                            <div className={`rounded-3 border pointer w-100 mb-3`}>
-                                <div className={`copy text-center`}>
-                                    <h3>新增</h3>
-                                </div>
-                            </div >
-                        </a></Link>
-                        <PostList query={props.query} c_allPostNum={props.allPostNum} />
+                    }
+                    <h1>{props.series.name}</h1>
+                    <p className="text-secondary">
+                        <span>{new Date(props.series.createdTime).toLocaleString()}</span>
+                    </p>
+                    <div className={styles['content']}>
+                        <Markdown>{props.series.description}</Markdown>
                     </div>
-                </SidebarLayout>
+                    {session ?
+                        (<div>
+                            <Link href={`/series/${props.series.id}/edit`}><a>編輯</a></Link>
+                            <a href="" onClick={e => { deleteSeries(e) }}>刪除</a>
+                        </div>)
+                        : (<></>)
+                    }
+                    <hr />
+                    <Link href={{ pathname: "../post/new", query: { series_name: props.series.name } }}><a>
+                        <div className={`rounded-3 border pointer w-100 mb-3`}>
+                            <div className={`copy text-center`}>
+                                <h3>新增</h3>
+                            </div>
+                        </div >
+                    </a></Link>
+                    <PostList query={props.query} c_allPostNum={props.allPostNum} />
+                </div>
             </main >
         </>
     );
@@ -108,9 +106,9 @@ export async function getServerSideProps(context) {
         const query = { '$or': [{ "series.id": series }] }
         series._id = series._id.toString()
         const allPostNum = await Posts.countDocuments({ '$or': [{ "series.id": series }] });
-        return { props: { query: query, series: series, allPostNum: allPostNum } }
+        return { props: { query: query, series: series, allPostNum: allPostNum, SidebarLayout: true, id: series.name } }
     }
-    return { props: { message: "此系列不存在或已經刪除了" } }
+    return { props: { message: "此系列不存在或已經刪除了", SidebarLayout: true } }
 
     /*
     const res = await handler(user, query)

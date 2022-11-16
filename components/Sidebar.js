@@ -15,11 +15,12 @@ const Sidebar = () => {
         }
     }
     useEffect(() => {
-        setTop(ref.current.parentElement.offsetTop);
+        console.log(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight)
+        setTop(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight);
     }, [])
     return (
         <>
-            <div ref={ref} className={`sticky-topms-5 p-5 bg-light rounded `} style={{ top: top }}>
+            <div ref={ref} className={`p-5 bg-light rounded `} style={{ top: top, position: "fixed" }}>
                 <div className="me-5">
                     <h5>分類</h5>
                     <ul className="list-unstyled components mb-5">

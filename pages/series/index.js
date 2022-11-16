@@ -13,9 +13,10 @@ export default function Home() {
                 <meta name="Author" content="UR" />
                 <meta property="og:description" content="UR的施鹽小天地" />
             </Head>
-            <SidebarLayout>
-                <SeriesList className="p-1 p-md-5 pt-5"></SeriesList>
-            </SidebarLayout>
+            <SeriesList className="p-1 p-md-5 pt-5"></SeriesList>
         </>
     )
+}
+export async function getServerSideProps(context) {
+    return { props: { SidebarLayout: true } }
 }

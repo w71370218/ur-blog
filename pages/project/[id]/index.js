@@ -27,56 +27,54 @@ const Project = (props) => {
             <meta name="referrer" content="no-referrer" />
         </Head>
         <main>
-            <SidebarLayout id={props.project.name}>
-                <div className={`${styles['post-list']} ${styles['post-area']} w-100`}>
-                    <div className={``}>
-                        {props.project.cover &&
-                            <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
-                                <img className="rounded-top" src={props.project.cover.url} alt={props.project.cover.alt} />
-                            </div>
-                        }
-                        <div className={`pb-5 px-md-5 px-3 ${!props.project.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
+            <div className={`${styles['post-list']} ${styles['post-area']} w-100`}>
+                <div className={``}>
+                    {props.project.cover &&
+                        <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
+                            <img className="rounded-top" src={props.project.cover.url} alt={props.project.cover.alt} />
+                        </div>
+                    }
+                    <div className={`pb-5 px-md-5 px-3 ${!props.project.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
 
-                            <h1 className="mb-3">{props.project.name}</h1>
-                            <div className="mb-3">
-                                <p>
-                                    <Image src={person_svg.src} width={person_svg.width} height={person_svg.height} />
-                                    <span> UR</span>
-                                </p>
+                        <h1 className="mb-3">{props.project.name}</h1>
+                        <div className="mb-3">
+                            <p>
+                                <Image src={person_svg.src} width={person_svg.width} height={person_svg.height} />
+                                <span> UR</span>
+                            </p>
+                        </div>
+                        <div className="date mb-3">
+                            <div>
+                                <Image src={clock_svg.src} width={clock_svg.width} height={clock_svg.height} />
+                                <span> {props.project.time}</span>
                             </div>
-                            <div className="date mb-3">
-                                <div>
-                                    <Image src={clock_svg.src} width={clock_svg.width} height={clock_svg.height} />
-                                    <span> {props.project.time}</span>
-                                </div>
-                            </div>
-                            <hr />
-                            <div className={styles['content']}>
-                                <Markdown>{props.project.description}</Markdown>
-                            </div>
-                            <div className='w-100 d-flex btn-group' role="group" aria-label="Basic checkbox toggle button group">
-                                {
-                                    props.project.link &&
-                                    (<Link href={props.project.link}>
-                                        <a target='_blank' className='btn btn-outline-secondary'>
-                                            線上觀看連結
-                                        </a>
-                                    </Link>)
-                                }
+                        </div>
+                        <hr />
+                        <div className={styles['content']}>
+                            <Markdown>{props.project.description}</Markdown>
+                        </div>
+                        <div className='w-100 d-flex btn-group' role="group" aria-label="Basic checkbox toggle button group">
+                            {
+                                props.project.link &&
+                                (<Link href={props.project.link}>
+                                    <a target='_blank' className='btn btn-outline-secondary'>
+                                        線上觀看連結
+                                    </a>
+                                </Link>)
+                            }
 
-                                {
-                                    props.project.code &&
-                                    (<Link href={props.project.code}>
-                                        <a target='_blank' className='btn btn-outline-secondary'>
-                                            原始碼
-                                        </a>
-                                    </Link>)
-                                }
-                            </div>
+                            {
+                                props.project.code &&
+                                (<Link href={props.project.code}>
+                                    <a target='_blank' className='btn btn-outline-secondary'>
+                                        原始碼
+                                    </a>
+                                </Link>)
+                            }
                         </div>
                     </div>
                 </div>
-            </SidebarLayout>
+            </div>
         </main>
     </>)
 }
@@ -84,7 +82,7 @@ export default Project
 
 export async function getServerSideProps(context) {
     if (project_list[context.query.id - 1]) {
-        return { props: { project: project_list[context.query.id - 1] } }
+        return { props: { project: project_list[context.query.id - 1], SidebarLayout: true, id: project_list[context.query.id - 1].name } }
     }
-    return { props: { message: "此作品集不存在或已經刪除了" } }
+    return { props: { message: "此作品集不存在或已經刪除了", SidebarLayout: true } }
 }

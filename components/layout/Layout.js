@@ -1,6 +1,7 @@
 import Navbar from "../Navbar"
 import Footer from "../Footer"
 import BackToTop from "../BackToTop"
+import SidebarLayout from "./SidebarLayout"
 import { useState, useEffect } from "react"
 
 const Layout = ({ children }) => {
@@ -13,11 +14,15 @@ const Layout = ({ children }) => {
             setscrollY(window.scrollY)
         })
     }, [])
-
     return (
         <>
             <Navbar />
-            {children}
+            {children.props.SidebarLayout ?
+                (<SidebarLayout>
+                    {children}
+                </SidebarLayout>) :
+                (<>{children}</>)
+            }
             <Footer />
             {scrollY > height && <BackToTop height={height} />}
         </>

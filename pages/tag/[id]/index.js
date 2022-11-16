@@ -28,28 +28,26 @@ const TagDetails = (props) => {
                 <meta name="referrer" content="no-referrer" />
             </Head>
             <main>
-                <SidebarLayout id={props.tags.name}>
-                    <div className={`${styles['post-list']} px-md-5 w-100`}>
-                        {
-                            props.tags.cover ?
-                                (<div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>)
-                                : (<></>)
-                        }
-                        <h1>{`標籤：${props.tags.name}`}</h1>
-                        <p className="text-secondary">
-                            <span>{new Date(props.tags.createdTime).toLocaleString()}</span>
-                        </p>
-                        {session ?
-                            (<div>
-                                <Link href={`/tags/${props.tags.id}/edit`}><a>編輯</a></Link>
-                                <a href="" onClick={e => { deleteTag(e) }}>刪除</a>
-                            </div>)
+                <div className={`${styles['post-list']} px-md-5 w-100`}>
+                    {
+                        props.tags.cover ?
+                            (<div className='w-100 mb-3' style={{ height: '30vh', background: '#000' }}></div>)
                             : (<></>)
-                        }
-                        <hr />
-                        <PostList query={props.query} c_allPostNum={props.allPostNum} />
-                    </div>
-                </SidebarLayout>
+                    }
+                    <h1>{`標籤：${props.tags.name}`}</h1>
+                    <p className="text-secondary">
+                        <span>{new Date(props.tags.createdTime).toLocaleString()}</span>
+                    </p>
+                    {session ?
+                        (<div>
+                            <Link href={`/tags/${props.tags.id}/edit`}><a>編輯</a></Link>
+                            <a href="" onClick={e => { deleteTag(e) }}>刪除</a>
+                        </div>)
+                        : (<></>)
+                    }
+                    <hr />
+                    <PostList query={props.query} c_allPostNum={props.allPostNum} />
+                </div>
             </main >
         </>
     );
@@ -69,9 +67,9 @@ export async function getServerSideProps(context) {
         const query = { '$or': [{ "tags": tags }] }
         tags._id = tags._id.toString()
         const allPostNum = await Posts.countDocuments({ '$or': [{ "tags": tags }] });
-        return { props: { query: query, tags: tags, allPostNum: allPostNum } }
+        return { props: { query: query, tags: tags, allPostNum: allPostNum, SidebarLayout: true } }
     }
-    return { props: { message: "此系列不存在或已經刪除了" } }
+    return { props: { message: "此系列不存在或已經刪除了", SidebarLayout: true } }
 }
 
 export default TagDetails
