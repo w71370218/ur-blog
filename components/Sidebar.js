@@ -15,7 +15,6 @@ const Sidebar = () => {
         }
     }
     useEffect(() => {
-        console.log(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight)
         setTop(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight);
     }, [])
     return (

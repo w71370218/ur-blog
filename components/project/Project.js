@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import Image from 'next/image';
+import getSVG from '../../components/getSVG'
 import styles from '../../styles/PostList.module.css'
 
 const Project = ({ project }) => {
@@ -6,6 +8,17 @@ const Project = ({ project }) => {
         <div className={styles['blog-post']}>
             <div className={styles['shadow']}></div>
             <div className="copy">
+                {project.cover &&
+                    <Link href={`/project/${project.id}`} >
+                        <a>
+                            <div className={`w-100 d-flex justify-content-center align-items-center mb-2 ${styles.cover}`}>
+                                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                    <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/img/project/cover/${project.cover.url}`} alt={project.cover.alt} />
+                                </div>
+                            </div>
+                        </a>
+                    </Link>
+                }
                 <Link href={`project/${project.id}`} >
                     <a>
                         <h1>{project.name}</h1>
@@ -33,7 +46,7 @@ const Project = ({ project }) => {
                         project.link &&
                         (<Link href={project.link}>
                             <a target='_blank' className='btn btn-outline-secondary'>
-                                線上觀看連結
+                                {getSVG('Link 45deg')} 線上觀看連結
                             </a>
                         </Link>)
                     }
@@ -42,7 +55,7 @@ const Project = ({ project }) => {
                         project.code &&
                         (<Link href={project.code}>
                             <a target='_blank' className='btn btn-outline-secondary'>
-                                原始碼
+                                {getSVG('code')} 原始碼
                             </a>
                         </Link>)
                     }

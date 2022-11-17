@@ -7,6 +7,7 @@ const TagCloud = () => {
     const [tags, setTags] = useState(null)
     const [message, setMessage] = useState(null)
     const [isLoading, setLoading] = useState(true)
+    const colors = [];
 
     const sortTags = (tags) => {
 
@@ -26,9 +27,13 @@ const TagCloud = () => {
             else {
                 tag.size = "6"
             }
+            let color = `rgb(40, ${Math.floor(Math.random() * (120 - 80 + 1)) + 80}, ${Math.floor(Math.random() * (225 - 150 + 1)) + 150})`
+            colors.push(color)
         })
         let tagslist = tags
         setTags(tagslist)
+
+
     }
 
     const fetchTagCloud = async (tag) => {
@@ -87,13 +92,14 @@ const TagCloud = () => {
     if (message) {
         return (<><h1>{message}</h1></>)
     }
+
     return (<>
 
-        {tags && tags.map(tag => (
+        {tags && tags.map((tag, index) => (
             <Link href={`/tag/${tag.id}`} key={tag.id}>
                 <a className={`me-3 fs-${tag.size} text-nowrap`}>
-                    <span className={`tag`} style={{ color: `rgb(40, ${Math.floor(Math.random() * (120 - 80 + 1)) + 80}, ${Math.floor(Math.random() * (225 - 150 + 1)) + 150})` }}>
-                        {tag.name}
+                    <span className={`tag`} style={{ color: colors[index] }}>
+                        {tag.name} {colors[index]}
                     </span>
                 </a>
             </Link>

@@ -3,6 +3,20 @@
     outline: none;
 }
 
+.reactMarkDown_big {
+    box-sizing: border-box;
+    outline: none;
+    font-size: 150%;
+}
+
+.reactMarkDown_small {
+    box-sizing: border-box;
+    outline: none;
+    font-size: 100%;
+}
+
+.reactMarkDown_small p img,
+.reactMarkDown_big p img,
 .reactMarkDown img,
 .reactMarkDown video {
     max-width: 100%;

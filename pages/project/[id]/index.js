@@ -3,11 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import project_list from "../../../public/project_list"
 import Title from '../../../components/Title'
-import SidebarLayout from '../../../components/layout/SidebarLayout'
 import Markdown from '../../../components/Markdown';
 import styles from '../../../styles/PostList.module.css'
-import clock_svg from '../../../public/static/svg/clock.svg'
-import person_svg from '../../../public/static/svg/person.svg'
+import getSVG from '../../../components/getSVG'
 
 const Project = (props) => {
     if (props.message) {
@@ -31,7 +29,9 @@ const Project = (props) => {
                 <div className={``}>
                     {props.project.cover &&
                         <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
-                            <img className="rounded-top" src={props.project.cover.url} alt={props.project.cover.alt} />
+                            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/img/project/cover/${props.project.cover.url}`} alt={props.project.cover.alt} />
+                            </div>
                         </div>
                     }
                     <div className={`pb-5 px-md-5 px-3 ${!props.project.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
@@ -39,13 +39,13 @@ const Project = (props) => {
                         <h1 className="mb-3">{props.project.name}</h1>
                         <div className="mb-3">
                             <p>
-                                <Image src={person_svg.src} width={person_svg.width} height={person_svg.height} />
+                                {getSVG('person')}
                                 <span> UR</span>
                             </p>
                         </div>
                         <div className="date mb-3">
                             <div>
-                                <Image src={clock_svg.src} width={clock_svg.width} height={clock_svg.height} />
+                                {getSVG('clock')}
                                 <span> {props.project.time}</span>
                             </div>
                         </div>
@@ -53,12 +53,12 @@ const Project = (props) => {
                         <div className={styles['content']}>
                             <Markdown>{props.project.description}</Markdown>
                         </div>
-                        <div className='w-100 d-flex btn-group' role="group" aria-label="Basic checkbox toggle button group">
+                        <div className='w-100 d-flex btn-group mt-5' role="group" aria-label="Basic checkbox toggle button group">
                             {
                                 props.project.link &&
                                 (<Link href={props.project.link}>
                                     <a target='_blank' className='btn btn-outline-secondary'>
-                                        線上觀看連結
+                                        {getSVG('Link 45deg')} 線上觀看連結
                                     </a>
                                 </Link>)
                             }
@@ -67,7 +67,7 @@ const Project = (props) => {
                                 props.project.code &&
                                 (<Link href={props.project.code}>
                                     <a target='_blank' className='btn btn-outline-secondary'>
-                                        原始碼
+                                        {getSVG('code')} 原始碼
                                     </a>
                                 </Link>)
                             }
