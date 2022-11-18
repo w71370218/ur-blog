@@ -7,15 +7,16 @@ const SidebarLayout = ({ children }) => {
     const device = useRWD();
     return (
         <div className='container'>
-            <div className='mt-md-5'>
-                <Breadcrumb id={children.props.id} />
-            </div>
+
             <div className={`${postStyles.container} row mb-5`}>
                 <div className='col-sm-8'>
+                    <div className='mt-md-5'>
+                        <Breadcrumb id={children.props.id} />
+                    </div>
                     {children}
                 </div>
                 {device === "PC" &&
-                    <div className='col-sm-4'>
+                    <div className='col-sm-4 border-start border-white'>
                         <Sidebar />
                     </div>
                 }

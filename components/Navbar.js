@@ -14,7 +14,6 @@ const Navbar = () => {
 
     const modeToggle = () => {
         let ele = document.getElementsByTagName("body")[0];
-        console.log(ele.className, themeMode)
         switch (ele.className) {
             case "dark-mode":
                 sessionStorage.setItem("theme-mode", "light-mode");
@@ -29,10 +28,10 @@ const Navbar = () => {
     useEffect(() => {
         if (window) {
             themeMode = sessionStorage.getItem("theme-mode");
+            let ele = document.getElementsByTagName("body")[0];
             if (!themeMode) {
                 sessionStorage.setItem("theme-mode", "light-mode");
             }
-            let ele = document.getElementsByTagName("body")[0];
             ele.className = themeMode;
             setload(false)
         }

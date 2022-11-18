@@ -19,7 +19,7 @@ const Sidebar = () => {
     }, [])
     return (
         <>
-            <div ref={ref} className={` border-start border-white p-5 bg-light rounded `} style={{ top: top, position: "fixed" }}>
+            <div ref={ref} className={` p-5 bg-light rounded `} style={{ top: top, position: "fixed" }}>
                 <div className="me-5">
                     <h5>分類</h5>
                     <ul className="list-unstyled components mb-5">
