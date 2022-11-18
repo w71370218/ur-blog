@@ -10,7 +10,7 @@ const Navbar = () => {
     const { data: session } = useSession();
     const [loading, setload] = useState(true)
 
-    let themeMode;
+    let themeMode = "light-mode";
 
     const modeToggle = () => {
         let ele = document.getElementsByTagName("body")[0];

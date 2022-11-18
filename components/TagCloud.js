@@ -80,7 +80,6 @@ const TagCloud = () => {
             Promise.allSettled(promise_tags_list)
                 .then(
                     value => {
-                        console.log(value)
                         sortTags(tags_list)
                         setLoading(false)
                     }
