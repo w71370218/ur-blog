@@ -13,7 +13,7 @@ const Project = ({ project }) => {
                         <a>
                             <div className={`w-100 d-flex justify-content-center align-items-center mb-2 ${styles.cover}`}>
                                 <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                    <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/img/project/cover/${project.cover.url}`} alt={project.cover.alt} />
+                                    <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/media/img/project/cover/${project.cover.url}`} alt={project.cover.alt} />
                                 </div>
                             </div>
                         </a>

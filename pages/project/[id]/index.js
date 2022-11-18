@@ -30,7 +30,7 @@ const Project = (props) => {
                     {props.project.cover &&
                         <div className={`w-100 d-flex justify-content-center align-items-center ${styles.cover}`}>
                             <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/img/project/cover/${props.project.cover.url}`} alt={props.project.cover.alt} />
+                                <Image layout='fill' objectFit='contain' className="rounded-top" src={`/static/media/img/project/cover/${props.project.cover.url}`} alt={props.project.cover.alt} />
                             </div>
                         </div>
                     }

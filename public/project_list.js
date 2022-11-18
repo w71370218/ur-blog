@@ -4,7 +4,7 @@ const project_list = [
         name: "想去玩的地點",
         description: '\
         \n 這是為了我自己記錄想去的地方而誕生的網頁  \n \
-        \n <img src="/static/img/project/description/1-1.png"/>  \n   \
+        \n <img src="/static/media/img/project/description/1-1.png"/>  \n   \
         \n 主要分成三種類型：景點、餐廳、住宿  \n \
         \n ### 地圖工具： Folium  \
         \n Folium是一套Python上的地圖視覺化工具  \
