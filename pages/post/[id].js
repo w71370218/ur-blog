@@ -4,7 +4,7 @@ import Posts from "../../models/posts"
 import Tags from "../../models/tags";
 import Users from "../../models/users";
 import Series from '../../models/series'
-import SidebarLayout from '../../components/layout/SidebarLayout'
+import FontResize from '../../components/FontResize';
 import Markdown from '../../components/Markdown';
 import TagGroup from '../../components/TagGroup';
 import Title from '../../components/Title'
@@ -84,7 +84,7 @@ const PostDetails = (props) => {
                         }
                         <div className={`pb-5 px-md-5 px-3 ${!props.post.cover ? ("pt-md-5 pt-3") : ("pt-3")}`}>
                             <h1 className="mb-3">{props.post.title}</h1>
-                            {props.post.tags[0] && <><TagGroup tags={props.post.tags} /> </>}
+                            {props.post.tags[0] && <><TagGroup tags={props.post.tags} all={true} /> </>}
                             <div className="mb-3">
                                 <p>
                                     {getSVG('person')}
@@ -109,14 +109,16 @@ const PostDetails = (props) => {
                                     </div>)
                                     : (<></>)) : (<></>)
                             }
-                            <hr />
                             <div ref={markdown_ref} className={styles['content']}>
-                                <Markdown top={height}>{props.post.content}</Markdown>
+                                <FontResize>
+                                    <hr />
+                                    <Markdown top={height}>{props.post.content}</Markdown>
+                                </FontResize>
                             </div>
                         </div>
                     </div>
                     {props.post.series && props.post.series.id ?
-                        (<div className='series bg-light'>
+                        (<div className={`${styles.series}`}>
                             <Link href={`/series/${props.post.series.id}`}>
                                 <div className='series-name pointer border p-4 pb-5'>
                                     <div className='text-secondary'><h3>系列</h3></div>

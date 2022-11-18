@@ -6,6 +6,7 @@ import Title from '../../../components/Title'
 import Markdown from '../../../components/Markdown';
 import styles from '../../../styles/PostList.module.css'
 import getSVG from '../../../components/getSVG'
+import FontResize from '../../../components/FontResize';
 
 const Project = (props) => {
     if (props.message) {
@@ -49,9 +50,11 @@ const Project = (props) => {
                                 <span> {props.project.time}</span>
                             </div>
                         </div>
-                        <hr />
                         <div className={styles['content']}>
-                            <Markdown>{props.project.description}</Markdown>
+                            <FontResize>
+                                <hr />
+                                <Markdown>{props.project.description}</Markdown>
+                            </FontResize>
                         </div>
                         <div className='w-100 d-flex btn-group mt-5' role="group" aria-label="Basic checkbox toggle button group">
                             {

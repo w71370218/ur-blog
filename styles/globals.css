@@ -28,3 +28,49 @@ a:hover {
 svg {
   fill: currentColor;
 }
+
+.dark-mode,
+.dark-mode>div div,
+.dark-mode~div {
+  background-color: var(--bs-dark) !important;
+  color: var(--bs-light) !important;
+}
+
+.dark-mode>div:not(pre) {
+  background-color: var(--bs-dark) !important;
+  color: var(--bs-light) !important;
+}
+
+.dark-mode>div code {
+  background-color: var(--bs-gray-dark) !important;
+}
+
+.dark-mode h2 *,
+.dark-mode h3 *,
+.dark-mode h4 *,
+.dark-mode h5 * {
+  color: var(--bs-light) !important;
+}
+
+.dark-mode blockquote {
+  color: var(--bs-light) !important;
+  background-color: var(--bs-gray-dark) !important;
+}
+
+.dark-mode .backtotop,
+.dark-mode .backtotop>*,
+.dark-mode .backtotop * {
+  background-color: var(--bs-gray) !important;
+  color: var(--bs-light) !important;
+}
+
+.dark-mode .tag.badge {
+  background-color: var(--bs-gray) !important;
+}
+
+.dark-mode .toc,
+.dark-mode .toc>*,
+.dark-mode .toc * {
+  background-color: var(--bs-gray) !important;
+  color: var(--bs-light) !important;
+}

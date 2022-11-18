@@ -8,6 +8,7 @@ const TagCloud = () => {
     const [message, setMessage] = useState(null)
     const [isLoading, setLoading] = useState(true)
     const colors = [];
+    let tags_list = []
 
     const sortTags = (tags) => {
 
@@ -52,6 +53,11 @@ const TagCloud = () => {
         }
     }
 
+    const getTagCcount = async (tag) => {
+        tag = await fetchTagCloud(tag)
+        tags_list.push(tag)
+    }
+
     const getAllTags = async () => {
         setLoading(true)
         const res = await fetch('/api/getAllTags', {
@@ -66,13 +72,21 @@ const TagCloud = () => {
             setTags(new_tags)
             setLoading(false)
 
-            let tags_list = []
+            let promise_tags_list = []
             for (let tag of new_tags) {
-                tag = await fetchTagCloud(tag)
-                tags_list.push(tag)
+                promise_tags_list.push(getTagCcount(tag))
             }
-            sortTags(tags_list)
-            setLoading(false)
+
+            Promise.allSettled(promise_tags_list)
+                .then(
+                    value => {
+                        console.log(value)
+                        sortTags(tags_list)
+                        setLoading(false)
+                    }
+                )
+                .catch(err => console.log(err))
+
         }
         else {
             const response = await res.json()

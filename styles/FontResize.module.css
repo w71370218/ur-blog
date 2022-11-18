@@ -1,0 +1,17 @@
+.big>* {
+    box-sizing: border-box;
+    outline: none;
+    font-size: 150% !important;
+}
+
+.small>* {
+    box-sizing: border-box;
+    outline: none;
+    font-size: 90% !important;
+}
+
+.click:hover,
+.click::after {
+    color: var(--bs-light);
+    background-color: var(--bs-secondary);
+}

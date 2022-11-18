@@ -4,3 +4,7 @@
     align-items: center;
     overflow: hidden;
 }
+
+.tag-group.all {
+    max-height: 100%;
+}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { useSession, signIn, signOut } from "next-auth/react"
+import { useEffect, useState } from 'react'
 import styles from '../styles/Navbar.module.css'
 import useRWD from './useRWD'
 import getSVG from './getSVG'
@@ -7,11 +8,44 @@ import getSVG from './getSVG'
 const Navbar = () => {
     const device = useRWD();
     const { data: session } = useSession();
+    const [loading, setload] = useState(true)
 
+    let themeMode;
+
+    const modeToggle = () => {
+        let ele = document.getElementsByTagName("body")[0];
+        console.log(ele.className, themeMode)
+        switch (ele.className) {
+            case "dark-mode":
+                sessionStorage.setItem("theme-mode", "light-mode");
+                break;
+            case "light-mode":
+                sessionStorage.setItem("theme-mode", "dark-mode");
+                break;
+        }
+        ele.className = sessionStorage.getItem("theme-mode");
+    }
+
+    useEffect(() => {
+        if (window) {
+            themeMode = sessionStorage.getItem("theme-mode");
+            if (!themeMode) {
+                sessionStorage.setItem("theme-mode", "light-mode");
+            }
+            let ele = document.getElementsByTagName("body")[0];
+            ele.className = themeMode;
+            setload(false)
+        }
+    }, []);
+
+    if (loading) {
+        return (<nav className={`${styles.nav} bg-dark navbar-dark  border-bottom border-white`}>
+            <div className="p-2 p-md-3 mb-1 "></div></nav>)
+    }
     return (
         <>
-            <nav className={`${styles.nav} bg-dark navbar-dark`}>
-                <div className="p-2 p-md-3 mb-3 ">
+            <nav className={`${styles.nav} bg-dark navbar-dark  border-bottom border-white`}>
+                <div className="p-2 p-md-3 mb-1 ">
                     <div className="container">
                         <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start">
                             <Link href="/"><a className="d-flex align-items-center mb-2 mb-lg-0 text-light text-decoration-none ">
@@ -29,12 +63,11 @@ const Navbar = () => {
                                                 敬請期待</a></li>
                                         </ul>
                                         <div className="text-end">
-
                                             {
                                                 session ? (
                                                     <>
                                                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-
+                                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
                                                             <li className='d-flex justify-content-center align-self-center me-3'>
                                                                 <a href="/post/new" className="nav-link link-dark text-light">新增</a>
 
@@ -55,10 +88,12 @@ const Navbar = () => {
                                                     </>
                                                 )
                                                     : (
-
-                                                        <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signIn()}>
-                                                            <a>登入</a>
-                                                        </button>
+                                                        <>
+                                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
+                                                            <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signIn()}>
+                                                                <a>登入</a>
+                                                            </button>
+                                                        </>
                                                     )
                                             }
 
@@ -68,6 +103,7 @@ const Navbar = () => {
                                 : (
                                     <>
                                         <ul className="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
                                         </ul>
                                         <div className="text-end">
                                             <button className="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -95,7 +95,7 @@ const TOC = ({ content, top, left }) => {
                 device === "PC" ?
                     (<div className={`${styles.toc}`} style={{ top: top + 10 }}>
                         <div>
-                            <div className='bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
+                            <div className='toc bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
                                 <span>{getSVG('menu')} 目錄</span>
                             </div>
                             {toc_content}
@@ -105,7 +105,7 @@ const TOC = ({ content, top, left }) => {
                     (<div className={`${styles.toc}`} style={{ bottom: 10 }}>
                         <div>
                             {toc_content}
-                            <div className='bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
+                            <div className='toc bg-secondary text-light p-2 rounded-3 pointer' onClick={() => displaytoggle()}>
                                 <span>{getSVG('menu')} 目錄</span>
                             </div>
                         </div>

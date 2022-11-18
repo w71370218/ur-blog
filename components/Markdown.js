@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ReactMarkdown from 'react-markdown'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs'
@@ -8,39 +7,14 @@ import reactMarkDownStyle from '../styles/markdown-styles.module.css'
 //import Image from 'next/image';
 
 const Markdown = ({ children, top }) => {
-    const [fontSize, setFontSize] = useState(reactMarkDownStyle.reactMarkDown)
-    let fontControllerColor = ["", "bg-dark text-light", ""]
     let h1 = 0;
     let h2 = 0;
     let h3 = 0;
     let h4 = 0;
     let h5 = 0;
-    switch (fontSize) {
-        case reactMarkDownStyle.reactMarkDown_big:
-            fontControllerColor[0] = 'bg-dark text-light'
-            fontControllerColor[1] = ''
-            fontControllerColor[2] = ''
-            break;
-        case reactMarkDownStyle.reactMarkDown:
-            fontControllerColor[1] = 'bg-dark text-light'
-            fontControllerColor[0] = ''
-            fontControllerColor[2] = ''
-            break;
-        case reactMarkDownStyle.reactMarkDown_small:
-            fontControllerColor[2] = 'bg-dark text-light'
-            fontControllerColor[0] = ''
-            fontControllerColor[1] = ''
-            break;
-    }
     return (
         <>
-            <div className='d-flex justify-content-end pb-3'>
-                <span className={`p-1 `}>字體大小　</span>
-                <span className={`p-1 ${fontControllerColor[0]}`} onClick={() => setFontSize(reactMarkDownStyle.reactMarkDown_big)}>大</span>
-                <span className={`p-1 ${fontControllerColor[1]}`} onClick={() => setFontSize(reactMarkDownStyle.reactMarkDown)}>中</span>
-                <span className={`p-1 ${fontControllerColor[2]}`} onClick={() => setFontSize(reactMarkDownStyle.reactMarkDown_small)}>小</span>
-            </div>
-            <ReactMarkdown className={fontSize} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
+            <ReactMarkdown className={reactMarkDownStyle.reactMarkDown} rehypePlugins={[rehypeRaw]} remarkPlugins={[gfm]}
                 components={{
                     code({ node, inline, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || '')
