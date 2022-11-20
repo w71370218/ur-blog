@@ -8,7 +8,6 @@ const TagCloud = () => {
     const [message, setMessage] = useState(null)
     const [isLoading, setLoading] = useState(true)
     const colors = [];
-    let tags_list = []
 
     const sortTags = (tags) => {
 
@@ -53,10 +52,7 @@ const TagCloud = () => {
         }
     }
 
-    const getTagCcount = async (tag) => {
-        tag = await fetchTagCloud(tag)
-        tags_list.push(tag)
-    }
+
 
     const getAllTags = async () => {
         setLoading(true)
@@ -73,6 +69,12 @@ const TagCloud = () => {
             setLoading(false)
 
             let promise_tags_list = []
+            let tags_list = []
+            const getTagCcount = async (tag) => {
+                tag = await fetchTagCloud(tag)
+                tags_list.push(tag)
+            }
+
             for (let tag of new_tags) {
                 promise_tags_list.push(getTagCcount(tag))
             }
@@ -100,7 +102,7 @@ const TagCloud = () => {
     }, [])
 
     if (isLoading) {
-        return (<><Loading /></>)
+        return (<div className='m-5'><Loading /></div>)
     }
     if (message) {
         return (<><h1>{message}</h1></>)
@@ -110,7 +112,7 @@ const TagCloud = () => {
 
         {tags && tags.map((tag, index) => (
             <Link href={`/tag/${tag.id}`} key={tag.id}>
-                <a className={`me-3 fs-${tag.size} text-nowrap`}>
+                <a className={`  btn btn-outline-secondary me-3 mb-1 fs-${tag.size} text-nowrap`}>
                     <span className={`tag`} style={{ color: colors[index] }}>
                         {tag.name} {colors[index]}
                     </span>

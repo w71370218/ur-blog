@@ -19,7 +19,21 @@ const Sidebar = () => {
     }, [])
     return (
         <>
-            <div ref={ref} className={` p-5 bg-light rounded `} style={{ top: top, position: "fixed" }}>
+            <div ref={ref} className={`ps-5 pt-5 bg-light rounded `} style={{ top: top, position: "fixed", overflowY: "auto", width: "fit-content" }}>
+                <div className="">
+                    <h5>標籤雲</h5>
+                    <div className="tagcloud bg-white p-4 rounded-3 d-flex flex-wrap justify-content-center">
+                        <TagCloud />
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default Sidebar
+
+/*
                 <div className="me-5">
                     <h5>分類</h5>
                     <ul className="list-unstyled components mb-5">
@@ -71,15 +85,4 @@ const Sidebar = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="mb-5">
-                    <h5>標籤雲</h5>
-                    <div className="tagcloud bg-white p-4 rounded-3 d-flex flex-wrap justify-content-center">
-                        <TagCloud />
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
-
-export default Sidebar
+                */

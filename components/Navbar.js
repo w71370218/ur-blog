@@ -88,10 +88,14 @@ const Navbar = () => {
                                                 )
                                                     : (
                                                         <>
-                                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
-                                                            <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signIn()}>
-                                                                <a>登入</a>
-                                                            </button>
+                                                            <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                                                <li className={`nav-link text-light pointer me-3`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
+                                                                <li>
+                                                                    <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signIn()}>
+                                                                        <a>登入</a>
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
                                                         </>
                                                     )
                                             }
