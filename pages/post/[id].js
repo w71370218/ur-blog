@@ -137,8 +137,8 @@ const PostDetails = (props) => {
                                 }
                                 {props.post.series.next &&
                                     <Link href={`/post/${props.post.series.next.id}`}>
-                                        <div className='w-100 pointer border p-4 pt-2 '>
-                                            <div className='text-secondary text-end'>下一篇</div>
+                                        <div className='w-100 pointer border p-4 pt-2 text-end '>
+                                            <div className='text-secondary'>下一篇</div>
                                             <a>{props.post.series.next.title}</a>
                                         </div>
                                     </Link>

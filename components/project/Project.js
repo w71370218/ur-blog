@@ -35,7 +35,7 @@ const Project = ({ project }) => {
                             {project.description.replace(/!\[](.+)/g, ' ').replace(/<video.+<\/video>/g, ' ').substring(0, 300)}
                         </div>
                         <Link href={`project/${project.id}`} >
-                            <a>查看完整介紹</a>
+                            <a className='link'>查看完整介紹</a>
                         </Link>
                     </>)
                 }

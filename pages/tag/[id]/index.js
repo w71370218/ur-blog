@@ -67,7 +67,7 @@ export async function getServerSideProps(context) {
         const query = { '$or': [{ "tags": tags }] }
         tags._id = tags._id.toString()
         const allPostNum = await Posts.countDocuments({ '$or': [{ "tags": tags }] });
-        return { props: { query: query, tags: tags, allPostNum: allPostNum, SidebarLayout: true } }
+        return { props: { query: query, tags: tags, allPostNum: allPostNum, SidebarLayout: true, id: tags.name } }
     }
     return { props: { message: "此系列不存在或已經刪除了", SidebarLayout: true } }
 }

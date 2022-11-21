@@ -21,6 +21,16 @@ a:hover {
   box-sizing: border-box;
 }
 
+.link {
+  color: var(--bs-info);
+}
+
+.link:hover,
+.link::after {
+  color: var(--bs-primary);
+  cursor: pointer;
+}
+
 .pointer:hover {
   cursor: pointer;
 }
