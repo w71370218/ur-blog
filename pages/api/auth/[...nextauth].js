@@ -9,12 +9,7 @@ connect();
 export default NextAuth({
     providers: [
         CredentialProvider({
-            id: 'credentials',
             name: 'credentials',
-            credentials: {
-                username: { label: "Username", type: "text" },
-                password: { label: "Password", type: "password" }
-            },
             async authorize(credentials, req) {
                 const username = credentials.username;
                 const password = credentials.password;
@@ -34,7 +29,6 @@ export default NextAuth({
         signIn: '/signin',
     },
     secret: 'secrect',
-    database: process.env.MONGODB_URI,
     callbacks: {
         jwt: async ({ token, user }) => {
             if (user) {
@@ -61,7 +55,7 @@ export default NextAuth({
 });
 
 const signInUser = async ({ password, user }) => {
-    if (!user.password) {
+    if (!password || password === '') {
         throw new Error("請輸入密碼")
     }
     const isMacth = await bcrypt.compare(password, user.password);

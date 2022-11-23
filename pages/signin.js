@@ -22,7 +22,6 @@ export default function SignIn({ csrfToken }) {
         else {
             return Router.push("/")
         }
-
     }
     const signupUser = async (e) => {
         e.preventDefault();
@@ -53,7 +52,7 @@ export default function SignIn({ csrfToken }) {
 
             <div className={`text-center ${styles.loginPage}`}>
                 <main className={`${styles.formSignin} w-100 h-100 ${styles.mAuto}`}>
-                    <h1>{authmode ? (`Login`) : (`Sign Up`)}</h1>
+                    <h1>{authmode ? (`登入`) : (`註冊`)}</h1>
                     <br /><br />
                     <p style={{ color: 'red' }}>{message}</p>
                     <form method="post">
@@ -80,7 +79,7 @@ export default function SignIn({ csrfToken }) {
                                 <>
                                     <input type="submit" className="w-100 btn btn-lg btn-primary" value="登入"
                                         onClick={(e) => signinUser(e)} />
-                                    <a className="dropdown-item" /*onClick={e => setAuthmode(0)}*/>註冊</a>
+                                    <a className="dropdown-item" onClick={e => setAuthmode(0)}>註冊</a>
                                 </>//目前不開放註冊
                             ) : (
                                 <>
