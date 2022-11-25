@@ -22,12 +22,12 @@ a:hover {
 }
 
 .link {
-  color: var(--bs-info);
+  color: var(--bs-cyan);
 }
 
 .link:hover,
 .link::after {
-  color: var(--bs-primary);
+  color: var(--bs-blue);
   cursor: pointer;
 }
 
@@ -37,6 +37,18 @@ a:hover {
 
 svg {
   fill: currentColor;
+}
+
+.dark-mode label {
+  color: var(--bs-light);
+}
+
+.dark-mode input,
+.dark-mode input:focus,
+.dark-mode textarea,
+.dark-mode textarea:focus {
+  color: var(--bs-light);
+  background-color: var(--bs-gray-dark);
 }
 
 .dark-mode,
@@ -83,4 +95,8 @@ svg {
 .dark-mode .toc * {
   background-color: var(--bs-gray) !important;
   color: var(--bs-light) !important;
+}
+
+.dark-mode .dropdown-item:active {
+  background-color: var(--bs-gray) !important;
 }

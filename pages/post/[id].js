@@ -104,8 +104,8 @@ const PostDetails = (props) => {
                             {session ?
                                 ((session.user.id === props.post.author.id) ?
                                     (<div>
-                                        <Link href={`/post/${props.post.id}/edit`}><a>編輯</a></Link>
-                                        <a href="" onClick={e => { deletePost(e) }}>刪除</a>
+                                        <Link href={`/post/${props.post.id}/edit`}><a className='link me-2'>{getSVG('Pencil square')} 編輯 </a></Link>
+                                        <a href="" className='link' onClick={e => { deletePost(e) }}>{getSVG('Trash fill')} 刪除</a>
                                     </div>)
                                     : (<></>)) : (<></>)
                             }

@@ -4,6 +4,7 @@ import Markdown from './Markdown';
 import PostEditLayout from './layout/PostEditLayout'
 import Breadcrumb from './Breadcrumbs';
 import Title from './Title';
+import getSVG from './getSVG';
 import style from '../styles/TagInput.module.css'
 import postStyle from '../styles/Post_edit.module.css'
 
@@ -124,12 +125,12 @@ const PostEdit = ({ titlename, title, content, message, tags, series, alt, cover
                         <p style={{ color: 'red' }}>{message}</p>
                         <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
                         <div>
-                            <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>封面圖片</label>
+                            <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>{getSVG('Image')} 封面圖片</label>
                             <div className="input-group mb-1 my-1">
                                 {coverImage && coverImage !== null && <button className="btn border" type="button" id="inputGroupFile" onClick={e => cleancoverImage()}>X</button>}
                                 <input type="file" className="form-control" id="inputGroupFile" accept="image/png, image/jpeg" ref={imageInput} onChange={e => { uploadcoverImage(e.target.files); }} />
                                 <div className="mb-3 w-100 ">
-                                    <label className='border bg-light w-100 text-center py-1'>圖片替代文字</label>
+                                    <label className='border w-100 text-center py-1'>圖片替代文字</label>
                                     <input id="floatingAlt" className={`form-control w-100 border rounded-bottom my-1`} name="alt" type="text"
                                         value={alt} onChange={e => { set.setAlt(e.target.value) }} />
 
@@ -198,8 +199,8 @@ const PostEdit = ({ titlename, title, content, message, tags, series, alt, cover
 
                         <p style={{ color: 'red' }}>{message}</p>
                         {titlename === "新增" ?
-                            (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.publishPost(e) } }}>新增</button>)
-                            : (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.updatePost(e) } }}>編輯</button>)
+                            (<button type="submit" className="save btn btn-dark btn-outline-light" onClick={(e) => { { functions.publishPost(e) } }}>新增</button>)
+                            : (<button type="submit" className="save btn btn-dark btn-outline-light" onClick={(e) => { { functions.updatePost(e) } }}>編輯</button>)
                         }
 
                     </form>

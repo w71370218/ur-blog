@@ -3,6 +3,7 @@ import SidebarLayout from '../../components/layout/SidebarLayout'
 import PostList from '../../components/PostList'
 import Title from '../../components/Title'
 import Markdown from '../../components/Markdown';
+import getSVG from '../../components/getSVG';
 import styles from '../../styles/PostList.module.css'
 import { useSession } from "next-auth/react"
 import { getSession } from "next-auth/react";
@@ -72,8 +73,8 @@ const SeriesDetails = (props) => {
                     </div>
                     {session ?
                         (<div>
-                            <Link href={`/series/${props.series.id}/edit`}><a>編輯</a></Link>
-                            <a href="" onClick={e => { deleteSeries(e) }}>刪除</a>
+                            <Link href={`/series/${props.series.id}/edit`}><a className='link me-2'>{getSVG('Pencil square')} 編輯 </a></Link>
+                            <a href="" className='link me-2' onClick={e => { deleteSeries(e) }}>{getSVG('Trash fill')} 刪除</a>
                         </div>)
                         : (<></>)
                     }

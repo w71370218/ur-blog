@@ -9,6 +9,7 @@ const Navbar = () => {
     const device = useRWD();
     const { data: session } = useSession();
     const [loading, setload] = useState(true)
+    const [mode, setMode] = useState(0)
 
     let themeMode = "light-mode";
 
@@ -17,9 +18,11 @@ const Navbar = () => {
         switch (ele.className) {
             case "dark-mode":
                 sessionStorage.setItem("theme-mode", "light-mode");
+                setMode(0)
                 break;
             case "light-mode":
                 sessionStorage.setItem("theme-mode", "dark-mode");
+                setMode(1)
                 break;
         }
         ele.className = sessionStorage.getItem("theme-mode");
@@ -31,7 +34,17 @@ const Navbar = () => {
             let ele = document.getElementsByTagName("body")[0];
             if (!themeMode) {
                 sessionStorage.setItem("theme-mode", "light-mode");
+                setMode(0)
             }
+            else {
+                if (themeMode === "light-mode") {
+                    setMode(0)
+                }
+                else {
+                    setMode(1)
+                }
+            }
+
             ele.className = themeMode;
             setload(false)
         }
@@ -39,21 +52,21 @@ const Navbar = () => {
 
     if (loading) {
         return (<nav className={`${styles.nav} bg-dark navbar-dark  border-bottom border-white`}>
-            <div className="p-2 p-md-3 mb-1 "></div></nav>)
+            <div className="mb-2 mb-md-3 pt-2 pt-md-3 px-2 px-md-3"></div></nav>)
     }
     return (
         <>
             <nav className={`${styles.nav} bg-dark navbar-dark  border-bottom border-white`}>
-                <div className="p-2 p-md-3 mb-1 ">
+                <div className="mb-2 mb-md-3 pt-2 pt-md-3 px-2 px-md-3">
                     <div className="container">
                         <div className="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-start">
-                            <Link href="/"><a className="d-flex align-items-center mb-2 mb-lg-0 text-light text-decoration-none ">
+                            <Link href="/"><a className="d-flex align-items-center mb-2 mb-lg-0 text-light text-decoration-none">
                                 UR&#39;s Blog
                             </a></Link>
                             {device === "PC" ?
                                 (
                                     <>
-                                        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                                        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0">
                                             <li><Link href="/post/"><a className="nav-link link-dark text-light">文章</a></Link></li>
                                             <li><Link href="#"><a className="nav-link link-dark text-light">圖文</a></Link></li>
                                             <li><Link href="/series/"><a className="nav-link link-dark text-light">系列</a></Link></li>
@@ -62,51 +75,58 @@ const Navbar = () => {
                                                 敬請期待</a></li>
                                         </ul>
                                         <div className="text-end">
-                                            {
-                                                session ? (
-                                                    <>
-                                                        <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
-                                                            <li className='d-flex justify-content-center align-self-center me-3'>
+                                            <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0">
+                                                <li className={`nav-link text-light`}>
+                                                    {mode ?
+                                                        (<><span className='me-2'>{getSVG('Moon stars fill', 24)}</span>  <span className='pointer' onClick={e => modeToggle()}>{getSVG('Toggle off', 32)}</span></>)
+                                                        : (<><span className='me-2'>{(getSVG('Sun fill', 24))}</span>   <span className='pointer' onClick={e => modeToggle()}>{getSVG('Toggle on', 32)}</span></>)
+                                                    }
+                                                </li>
+                                                {
+                                                    session ? (
+                                                        <>
+
+                                                            <li className='d-flex justify-content-center align-self-center'>
                                                                 <a href="/post/new" className="nav-link link-dark text-light">新增</a>
 
                                                                 <a className="pointer text-light dropdown-toggle d-flex justify-content-center align-self-center" id="dropdownMenuReference" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
                                                                 </a>
                                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                                                                    <li><Link href="/post/new"><a className="dropdown-item">新增貼文</a></Link></li>
-                                                                    <li><Link href="/series/new"><a className="dropdown-item">新增系列</a></Link></li>
+                                                                    <li><Link href="/post/new"><a className="dropdown-item">{getSVG("File earmark plus")} 新增貼文</a></Link></li>
+                                                                    <li><Link href="/series/new"><a className="dropdown-item">{getSVG("Journal plus")} 新增系列</a></Link></li>
                                                                 </ul>
                                                             </li>
 
                                                             <li>
-                                                                <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signOut({ callbackUrl: "/" })}>
+                                                                <button type="button" className="nav-link btn btn-outline-light me-2 ms-4" onClick={() => signOut({ callbackUrl: "/" })}>
                                                                     <a>登出</a>
                                                                 </button>
                                                             </li>
-                                                        </ul>
-                                                    </>
-                                                )
-                                                    : (
-                                                        <>
-                                                            <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                                                <li className={`nav-link text-light pointer me-3`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
+                                                        </>
+                                                    )
+                                                        : (
+                                                            <>
                                                                 <li>
-                                                                    <button type="button" className="nav-link btn btn-outline-light me-2" onClick={() => signIn()}>
+                                                                    <button type="button" className="nav-link btn btn-outline-light me-2 ms-4" onClick={() => signIn()}>
                                                                         <a>登入</a>
                                                                     </button>
                                                                 </li>
-                                                            </ul>
-                                                        </>
-                                                    )
-                                            }
-
+                                                            </>
+                                                        )
+                                                }
+                                            </ul>
                                         </div>
                                     </>
                                 )
                                 : (
                                     <>
-                                        <ul className="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                                            <li className={`nav-link text-light pointer`} onClick={e => modeToggle()}>{getSVG('Circle half fill', 20)}</li>
+                                        <ul className="nav col-lg-auto me-lg-auto mb-2 justify-content-center align-items-center mb-md-0">
+                                            <li className={`nav-link text-light`}>
+                                                {mode ?
+                                                    (<><span className='me-2'>{getSVG('Moon stars fill', 24)}</span>  <span className='pointer' onClick={e => modeToggle()}>{getSVG('Toggle off', 32)}</span></>)
+                                                    : (<><span className='me-2'>{(getSVG('Sun fill', 24))}</span>   <span className='pointer' onClick={e => modeToggle()}>{getSVG('Toggle on', 32)}</span></>)
+                                                }
+                                            </li>
                                         </ul>
                                         <div className="text-end">
                                             <button className="navbar-toggler mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">

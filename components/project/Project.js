@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image';
-import getSVG from '../../components/getSVG'
+import getSVG from '../getSVG'
+import Markdown from '../Markdown'
 import styles from '../../styles/PostList.module.css'
 
 const Project = ({ project }) => {
@@ -32,7 +33,9 @@ const Project = ({ project }) => {
                     (<>
                         <hr />
                         <div className={styles['blog-post-content']}>
-                            {project.description.replace(/!\[](.+)/g, ' ').replace(/<video.+<\/video>/g, ' ').substring(0, 300)}
+                            <Markdown>
+                                {project.description.replace(/!\[](.+)/g, ' ').replace(/<video.+<\/video>/g, ' ').substring(0, 300)}
+                            </Markdown>
                         </div>
                         <Link href={`project/${project.id}`} >
                             <a className='link'>查看完整介紹</a>

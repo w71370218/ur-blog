@@ -26,6 +26,7 @@ export default function NewPost({ csrfToken }) {
     const dontSubmit = (event) => {
         if (event.key === "Enter" && event.target.id !== "content") {
             event.preventDefault();
+            console.log(event.target)
         }
     }
 

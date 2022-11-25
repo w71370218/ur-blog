@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import path_text from '../public/path_text.js'
 import Link from 'next/link.js'
+import getSVG from './getSVG'
 
 export default function Breadcrumb({ id }) {
     const router = useRouter();
@@ -26,12 +27,12 @@ export default function Breadcrumb({ id }) {
     }
 
     const breadcrumbs = generateBreadcrumbs(router);
-
     return (
         <>
             <nav className="mb-3">
                 <div>
                     <span className='mx-2 text-secondary'>:::</span>
+                    <span >{getSVG('House door fill')} </span>
                     {
                         breadcrumbs.map((breadcrumb, index) => (
                             <span key={index}>

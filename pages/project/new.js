@@ -2,53 +2,30 @@ import { getSession, getCsrfToken } from "next-auth/react";
 import Router from 'next/router';
 import { useState } from "react";
 import { useSession } from "next-auth/react"
-import SeriesEdit from "../../components/series/SeriesEdit"
+import EditForm from '../../components/EditForm'
 
 export default function NewSeries({ csrfToken }) {
     const { data: session } = useSession({ required: true });
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [field, setField] = useState({
+        csrfToken: csrfToken,
+        name: "",
+        description: "",
+        time: "",
+        link: "", code: "",
+        cover: {
+            url: "",
+            alt: ""
+        }
+    })
     const [message, setMessage] = useState(null);
-
-    const dontSubmit = (event) => {
-        if (event.key === "Enter" && event.target.id !== "description") {
-            event.preventDefault();
-        }
-    }
-
-    const publishSeries = async (e) => {
-        e.preventDefault();
-        setMessage(null)
-        const req = { name: name, description: description };
-        const res = await fetch('/api/series/new', {
-            method: 'POST',
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(req),
-        })
-        let data = await res.json()
-        if (data.message) {
-            setMessage(data.message)
-        }
-        if (data.message == "succeed") {
-            return Router.push({
-                pathname: '/series/[id]',
-                query: { id: data.id },
-            })
-        }
-    }
-    const functions = {
-        dontSubmit: dontSubmit,
-        publishSeries: publishSeries
-    }
 
     if (session) {
         return (
             <>
-                <SeriesEdit titlename="新增" name={name} description={description} message={message} csrfToken={csrfToken}
-                    set={{ setName: setName, setDescription: setDescription }}
-                    functions={functions} />
+                <EditForm titlename="新增作品集" submit='project/new'>
+                    <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+                    <label className='rounded-top bg-secondary text-light w-100 text-center py-2'>封面圖片</label>
+                </EditForm>
             </>
         )
     }

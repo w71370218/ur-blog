@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import SeriesEditLayout from '../layout/SeriesEditLayout'
 import Title from '../Title';
-import postStyle from '../../styles/Post_edit.module.css'
 
 const SeriesEdit = ({ titlename, name, description, message, csrfToken, set, functions }) => {
 
@@ -29,8 +28,8 @@ const SeriesEdit = ({ titlename, name, description, message, csrfToken, set, fun
 
                     <p style={{ color: 'red' }}>{message}</p>
                     {titlename === "新增" ?
-                        (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.publishSeries(e) } }}>新增</button>)
-                        : (<button type="submit" className="save btn btn-dark" onClick={(e) => { { functions.updateSeries(e) } }}>編輯</button>)
+                        (<button type="submit" className="save btn btn-dark btn-outline-light" onClick={(e) => { { functions.publishSeries(e) } }}>新增</button>)
+                        : (<button type="submit" className="save btn btn-dark btn-outline-light" onClick={(e) => { { functions.updateSeries(e) } }}>編輯</button>)
                     }
 
                 </form>

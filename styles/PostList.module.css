@@ -10,6 +10,7 @@
     box-shadow: 0px 10px 10px 0px rgb(200, 200, 200);
     animation: blog-post-animation 1.5s;
     margin-bottom: 1.5em;
+    border: #dadadafc 1px solid;
 }
 
 @keyframes blog-post-animation {
@@ -38,6 +39,21 @@
 .content {
     width: 100%;
 }
+
+
+.content p:not(:first-child) {
+    line-height: 32px;
+    margin-top: 2em;
+}
+
+.content .big p:not(:first-child) {
+    line-height: 48px;
+}
+
+.content .small p:not(:first-child) {
+    line-height: 24px;
+}
+
 
 .container {
     display: flex;

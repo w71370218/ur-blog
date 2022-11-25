@@ -5,6 +5,7 @@ import TagCloud from './TagCloud';
 const Sidebar = () => {
     const ref = useRef(null);
     const [top, setTop] = useState(0);
+    const [bottom, setBottom] = useState(0);
 
     const collapseToggle = (className) => {
         if (className === "dropdown") {
@@ -16,10 +17,21 @@ const Sidebar = () => {
     }
     useEffect(() => {
         setTop(ref.current.getRootNode().getElementsByTagName("nav")[0].offsetHeight);
+
+        if (window) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY >= document.getElementById('__next').offsetHeight - window.innerHeight - document.getElementsByTagName("footer")[0].offsetHeight) {
+                    setBottom((document.getElementsByTagName("footer")[0].offsetHeight + 1) + (window.scrollY - (document.getElementById('__next').offsetHeight - window.innerHeight)))
+                }
+                else {
+                    setBottom(0)
+                }
+            })
+        }
     }, [])
     return (
         <>
-            <div ref={ref} className={`ps-5 pt-5 bg-light rounded `} style={{ top: top, position: "fixed", overflowY: "auto", width: "fit-content" }}>
+            <div ref={ref} className={`ps-5 pt-5 bg-light rounded `} style={{ top: top, bottom: bottom, position: "fixed", overflowY: "auto", width: "fit-content" }}>
                 <div className="">
                     <h5>標籤雲</h5>
                     <div className="tagcloud bg-white p-4 rounded-3 d-flex flex-wrap justify-content-center">
